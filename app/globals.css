@@ -1,26 +1,50 @@
-@import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code&display=swap');
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #000;
+  transition: background 0.3s ease;
+}
+
+#arterii-license {
+  position: fixed; 
+  bottom: 20px; 
+  left: 20px; 
+  font-family: 'Fira Code', monospace; 
+  color: white;
+  text-align: left; 
+  z-index: 1000; 
+  font-size: 13px;
+  opacity: 1;
+  animation: fadeIn 1s ease-out forwards;
+  line-height: 1.9;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Стили для кнопки полноэкранного режима */
+.fullscreen-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 3px 8px;
+  border: 1px solid white;
+  border-radius: 1.5px;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+
+.fullscreen-btn:hover {
+  background: rgba(255,255,255,0.2);
+  box-shadow: 0 0 8px rgba(255,255,255,0.5);
 }
