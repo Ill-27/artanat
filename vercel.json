@@ -19,7 +19,8 @@
         "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
         "Access-Control-Allow-Headers": "Content-Type, Authorization",
         "X-XSS-Protection": "1; mode=block",
-        "X-DNS-Prefetch-Control": "off"
+        "X-DNS-Prefetch-Control": "off",
+        "X-Permitted-Cross-Domain-Policies": "none"
       }
     }
   ]
