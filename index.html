@@ -4,20 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ARTERRII</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" nonce="3a7f">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' fill='white'>A</text></svg>">
     <style nonce="3a7f">
-        body { 
+        html, body { 
             margin: 0; 
+            padding: 0;
             overflow: hidden; 
             background: black; 
             cursor: none;
-            touch-action: manipulation;
+            touch-action: none;
+            -ms-touch-action: none;
             font-family: 'Fira Code', monospace;
             -webkit-tap-highlight-color: transparent;
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
             user-select: none;
+            width: 100%;
+            height: 100%;
         }
         #logo-container {
             position: fixed;
@@ -144,24 +151,40 @@
     <script nonce="3a7f" src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
     <script nonce="3a7f">
         document.addEventListener('DOMContentLoaded', () => {
+            // Проверка поддержки WebGL
+            if (!window.WebGLRenderingContext || !document.createElement('canvas').getContext('webgl')) {
+                alert('Ваш браузер не поддерживает WebGL. Пожалуйста, обновите браузер.');
+                return;
+            }
+
             // Инициализация Three.js
             const scene = new THREE.Scene();
             const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
-            const renderer = new THREE.WebGLRenderer({ 
-                antialias: true,
-                canvas: document.getElementById('logo-canvas'),
-                alpha: true
-            });
+            let renderer;
+            
+            try {
+                renderer = new THREE.WebGLRenderer({ 
+                    antialias: true,
+                    canvas: document.getElementById('logo-canvas'),
+                    alpha: true,
+                    powerPreference: "high-performance"
+                });
+            } catch (e) {
+                console.error("WebGL initialization error:", e);
+                return;
+            }
+            
             renderer.setSize(210, 210);
-            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
             camera.position.z = 8;
 
             // Цвета и объекты
             const colors = ['#7F00FF', '#0000FF', '#00BFFF', '#00FF80', '#FFFF00', '#FF6000', '#FF0000'];
             let centerBall, logoGroup, smallBalls = [], textMaterial;
             let whiteOverlayActive = false;
-            const touchDuration = 1000; // Увеличенное время для активации белого экрана (1 секунда)
+            const touchDuration = 1000;
             let touchTimer = null;
+            let animationId = null;
 
             // Загрузка шрифта
             const fontLoader = new THREE.FontLoader();
@@ -200,7 +223,7 @@
                 });
                 scene.add(logoGroup);
 
-                // Центральный шар (будет использоваться как курсор)
+                // Центральный шар
                 centerBall = new THREE.Mesh(
                     new THREE.SphereGeometry(0.7, 32, 32),
                     new THREE.MeshPhongMaterial({
@@ -243,10 +266,11 @@
                 const cursorRenderer = new THREE.WebGLRenderer({ 
                     antialias: true,
                     canvas: document.getElementById('cursor-canvas'),
-                    alpha: true
+                    alpha: true,
+                    powerPreference: "high-performance"
                 });
                 cursorRenderer.setSize(70, 70);
-                cursorRenderer.setPixelRatio(window.devicePixelRatio);
+                cursorRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
                 const cursorScene = new THREE.Scene();
                 const cursorCamera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
                 cursorCamera.position.z = 8;
@@ -267,7 +291,9 @@
 
                 // Анимация
                 function animate() {
-                    requestAnimationFrame(animate);
+                    if (document.hidden) return;
+                    
+                    animationId = requestAnimationFrame(animate);
                     logoGroup.rotation.z += 0.005;
                     
                     const time = Date.now() * 0.001;
@@ -286,7 +312,7 @@
                     
                     renderer.render(scene, camera);
                     
-                    // Анимация курсора (пульсация)
+                    // Анимация курсора
                     cursorBall.scale.setScalar(0.8 + Math.sin(time * 3) * 0.2);
                     cursorBall.material.emissiveIntensity = 1 + Math.sin(time * 2) * 1;
                     cursorRenderer.render(cursorScene, cursorCamera);
@@ -295,8 +321,9 @@
 
                 // Позиционирование курсора
                 function updateCursorPosition(x, y) {
-                    document.getElementById('cursor-container').style.left = `${x}px`;
-                    document.getElementById('cursor-container').style.top = `${y}px`;
+                    const cursor = document.getElementById('cursor-container');
+                    cursor.style.left = `${Math.max(35, Math.min(window.innerWidth - 35, x))}px`;
+                    cursor.style.top = `${Math.max(35, Math.min(window.innerHeight - 35, y))}px`;
                 }
 
                 // Обработчики событий мыши
@@ -361,11 +388,26 @@
                     window.open('https://t.me/arterrii_ru', '_blank');
                 });
 
-                // Отключаем выделение при долгом нажатии
+                // Отключаем выделение
                 document.addEventListener('selectstart', (e) => {
                     if (e.target.id !== 'telegram-link' && e.target.id !== 'fullscreen-toggle') {
                         e.preventDefault();
                         return false;
+                    }
+                });
+
+                // Обработка изменения размера окна
+                window.addEventListener('resize', () => {
+                    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+                    cursorRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+                });
+
+                // Очистка при скрытии страницы
+                document.addEventListener('visibilitychange', () => {
+                    if (document.hidden) {
+                        cancelAnimationFrame(animationId);
+                    } else {
+                        animate();
                     }
                 });
 
