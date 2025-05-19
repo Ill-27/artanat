@@ -15,7 +15,7 @@
         "Cross-Origin-Opener-Policy": "same-origin",
         "Cross-Origin-Resource-Policy": "same-origin",
         "Strict-Transport-Security": "max-age=63072000; includeSubDomains; preload",
-        "Access-Control-Allow-Origin": "https://arterrii.vercel.app",  // Лучше динамически!
+        "Access-Control-Allow-Origin": "https://arterrii.vercel.app",
         "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
         "Access-Control-Allow-Headers": "Content-Type, Authorization",
         "X-XSS-Protection": "1; mode=block",
