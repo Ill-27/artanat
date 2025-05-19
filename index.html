@@ -15,16 +15,109 @@
             touch-action: manipulation;
             font-family: 'Fira Code', monospace;
         }
-        /* Все ваши стили остаются без изменений */
-        #logo-container { position: fixed; top: 0; left: 0; width: 120px; height: 120px; z-index: 1000; }
-        /* ...остальные стили... */
+        #logo-container {
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            width: 120px;
+            height: 120px;
+            z-index: 1000;
+        }
+        #cursor-container {
+            position: fixed;
+            width: 70px;
+            height: 70px;
+            pointer-events: none;
+            z-index: 1001;
+            transform: translate(-50%, -50%);
+            display: none;
+        }
+        #white-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            z-index: 9999;
+            display: none;
+        }
+        canvas { 
+            display: block; 
+            width: 100%;
+            height: 100%;
+        }
+        #arterii-license {
+            position: fixed; 
+            bottom: 20px; 
+            left: 20px; 
+            color: white;
+            text-align: left; 
+            z-index: 1002; 
+            font-size: 13px;
+            opacity: 1;
+            animation: fadeIn 1s ease-out forwards;
+            line-height: 1.9;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .fullscreen-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            padding: 3px 8px;
+            border: 1px solid white;
+            border-radius: 0px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            z-index: 1002;
+        }
+        .fullscreen-btn:hover {
+            background: rgba(255,255,255,0.2);
+            box-shadow: 0 0 8px rgba(255,255,255,0.5);
+        }
+        .telegram-btn {
+            position: fixed;
+            bottom: 60px;
+            right: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            padding: 3px 8px;
+            border: 1px solid white;
+            border-radius: 0px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: center;
+            z-index: 1002;
+        }
+        .telegram-btn:hover {
+            background: rgba(255,255,255,0.2);
+            box-shadow: 0 0 8px rgba(255,255,255,0.5);
+        }
     </style>
 </head>
 <body>
-    <!-- Ваш HTML остаётся без изменений -->
     <div id="white-overlay"></div>
-    <div id="logo-container"><canvas id="logo-canvas"></canvas></div>
-    <div id="cursor-container"><canvas id="cursor-canvas"></canvas></div>
+    <div id="logo-container">
+        <canvas id="logo-canvas"></canvas>
+    </div>
+    <div id="cursor-container">
+        <canvas id="cursor-canvas"></canvas>
+    </div>
 
     <div id="arterii-license">
         <div>© 2025 ARTERRII. Все права защищены</div>
@@ -35,7 +128,6 @@
     <span class="telegram-btn" id="telegram-link" title="Telegram"></span>
     <span class="fullscreen-btn" id="fullscreen-toggle">↘</span>
 
-    <!-- Вынесенные скрипты -->
     <script nonce="3a7f" src="/js/three.min.js"></script>
     <script nonce="3a7f" src="/js/main.js"></script>
 </body>
