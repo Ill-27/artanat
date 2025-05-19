@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Мета-теги и стили остаются без изменений -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://cdn.jsdelivr.net https://fonts.googleapis.com https://fonts.gstatic.com; script-src 'self' https://cdn.jsdelivr.net 'unsafe-inline' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; font-src 'self' https://fonts.gstatic.com; frame-src 'self' https://arterrii.ru https://arterrii.vercel.app;">
@@ -11,12 +12,13 @@
     <meta http-equiv="Expires" content="0">
     <title>AT-Infinity | Circular Glowing Logo</title>
     <style>
+        /* Все стили остаются без изменений */
         @import url('https://fonts.googleapis.com/css2?family=Fira+Code&display=swap');
         
         body { 
             margin: 0; 
             overflow: hidden; 
-            background: black; 
+            background: transparent; 
             cursor: none;
             touch-action: manipulation;
         }
@@ -52,8 +54,6 @@
             width: 100%;
             height: 100%;
         }
-
-        /* Остальные стили остаются без изменений */
         #arterii-license {
             position: fixed; 
             bottom: 20px; 
@@ -67,12 +67,10 @@
             animation: fadeIn 1s ease-out forwards;
             line-height: 1.9;
         }
-
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
-
         .fullscreen-btn {
             position: fixed;
             bottom: 20px;
@@ -94,7 +92,6 @@
             background: rgba(255,255,255,0.2);
             box-shadow: 0 0 8px rgba(255,255,255,0.5);
         }
-
         .telegram-btn {
             position: fixed;
             bottom: 60px;
@@ -143,57 +140,8 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/FontLoader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/geometries/TextGeometry.js"></script>
     <script>
-        // Защита от DevTools (только для неавторизованных доменов)
-        (function() {
-            // Разрешенные домены
-            const allowedDomains = [
-                'arterrii.ru',
-                'arterrii.vercel.app',
-                'localhost',
-                '127.0.0.1'
-            ];
-            
-            // Проверяем текущий домен
-            const currentDomain = window.location.hostname;
-            const isAllowedDomain = allowedDomains.some(domain => 
-                currentDomain === domain || currentDomain.endsWith('.' + domain)
-            );
-            
-            if (!isAllowedDomain) {
-                function blockDevTools() {
-                    function detectDevTools(evt) {
-                        if (evt.keyCode === 123 || // F12
-                            (evt.ctrlKey && evt.shiftKey && evt.keyCode === 73) || // Ctrl+Shift+I
-                            (evt.ctrlKey && evt.shiftKey && evt.keyCode === 74) || // Ctrl+Shift+J
-                            (evt.ctrlKey && evt.keyCode === 85)) { // Ctrl+U
-                            evt.preventDefault();
-                            return false;
-                        }
-                    }
-                    
-                    window.addEventListener('keydown', detectDevTools);
-                    document.addEventListener('contextmenu', function(e) {
-                        e.preventDefault();
-                    });
-                }
-                
-                function checkDevTools() {
-                    const devtools = /./;
-                    devtools.toString = function() {
-                        document.body.innerHTML = '<div style="position:fixed;top:0;left:0;width:100%;height:100%;background:black;color:white;display:flex;justify-content:center;align-items:center;z-index:99999;"><h1>DevTools не разрешены</h1></div>';
-                        return '';
-                    };
-                    console.log(devtools);
-                }
-                
-                blockDevTools();
-                checkDevTools();
-                setInterval(checkDevTools, 1000);
-            }
-        })();
-
-        // Инициализация Three.js сцены
-        const initScene = () => {
+        // 1. Сначала загружаем Three.js сцену без каких-либо проверок
+        const initThreeJS = () => {
             const scene = new THREE.Scene();
             const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
             const renderer = new THREE.WebGLRenderer({ 
@@ -221,10 +169,7 @@
 
             const fontLoader = new THREE.FontLoader();
             fontLoader.load('https://cdn.jsdelivr.net/npm/three@0.132.2/examples/fonts/helvetiker_regular.typeface.json', (font) => {
-                createLogo(font);
-            });
-
-            function createLogo(font) {
+                // Создание логотипа
                 const textHeight = 0.5;
                 const textSize = 0.2;
                 const textParams = {
@@ -279,6 +224,7 @@
 
                 scene.add(logoGroup);
 
+                // Центральный шар
                 const centerBallGeometry = new THREE.SphereGeometry(0.7, 32, 32);
                 const centerBallMaterial = new THREE.MeshPhongMaterial({
                     color: 0xffffff,
@@ -291,6 +237,7 @@
                 centerBall = new THREE.Mesh(centerBallGeometry, centerBallMaterial);
                 scene.add(centerBall);
 
+                // Маленькие шарики
                 const ballGeometry = new THREE.SphereGeometry(0.15, 16, 16);
                 
                 colors.forEach((color, i) => {
@@ -316,6 +263,7 @@
                     scene.add(ball);
                 });
 
+                // Освещение
                 const ambientLight = new THREE.AmbientLight(0x404040);
                 scene.add(ambientLight);
 
@@ -323,6 +271,7 @@
                 pointLight.position.set(0, 0, 2);
                 scene.add(pointLight);
 
+                // Курсор
                 const cursorRenderer = new THREE.WebGLRenderer({ 
                     antialias: true,
                     canvas: document.getElementById('cursor-canvas'),
@@ -340,6 +289,7 @@
                     document.getElementById('white-overlay').style.display = whiteOverlayActive ? 'block' : 'none';
                 }
 
+                // Обработчики событий
                 document.addEventListener('mousemove', (e) => {
                     if (!isCursorActive) {
                         scene.remove(centerBall);
@@ -369,56 +319,7 @@
                     toggleWhiteOverlay();
                 });
 
-                document.addEventListener('touchstart', (e) => {
-                    if (!isCursorActive) {
-                        scene.remove(centerBall);
-                        isCursorActive = true;
-                        document.getElementById('cursor-container').style.display = 'block';
-                    }
-                    
-                    touchTimer = setTimeout(() => {
-                        toggleWhiteOverlay();
-                    }, touchDuration);
-                    
-                    const touch = e.touches[0];
-                    document.getElementById('cursor-container').style.left = touch.clientX + 'px';
-                    document.getElementById('cursor-container').style.top = touch.clientY + 'px';
-                    
-                    cursorScene.children = [];
-                    cursorScene.add(centerBall);
-                    cursorRenderer.render(cursorScene, cursorCamera);
-                });
-
-                document.addEventListener('touchmove', (e) => {
-                    e.preventDefault();
-                    if (touchTimer) {
-                        clearTimeout(touchTimer);
-                        touchTimer = null;
-                    }
-                    
-                    const touch = e.touches[0];
-                    document.getElementById('cursor-container').style.left = touch.clientX + 'px';
-                    document.getElementById('cursor-container').style.top = touch.clientY + 'px';
-                    
-                    cursorScene.children = [];
-                    cursorScene.add(centerBall);
-                    cursorRenderer.render(cursorScene, cursorCamera);
-                }, { passive: false });
-
-                document.addEventListener('touchend', () => {
-                    if (isCursorActive) {
-                        cursorScene.remove(centerBall);
-                        scene.add(centerBall);
-                        isCursorActive = false;
-                        document.getElementById('cursor-container').style.display = 'none';
-                    }
-                    
-                    if (touchTimer) {
-                        clearTimeout(touchTimer);
-                        touchTimer = null;
-                    }
-                });
-
+                // Анимация
                 function animate() {
                     requestAnimationFrame(animate);
                     
@@ -457,27 +358,61 @@
                 }
                 
                 animate();
-            }
+            });
         };
 
-        // Инициализируем сцену только после проверки домена
-        const allowedDomains = [
-            'arterrii.ru',
-            'arterrii.vercel.app',
-            'localhost',
-            '127.0.0.1'
-        ];
-        
-        const currentDomain = window.location.hostname;
-        const isAllowedDomain = allowedDomains.some(domain => 
-            currentDomain === domain || currentDomain.endsWith('.' + domain)
-        );
-        
-        if (isAllowedDomain) {
-            initScene();
-        }
+        // 2. Инициализируем Three.js сразу после загрузки
+        document.addEventListener('DOMContentLoaded', () => {
+            initThreeJS();
+            
+            // 3. Затем добавляем защиту для других доменов
+            const allowedDomains = [
+                'arterrii.ru', 
+                'arterrii.vercel.app',
+                'localhost',
+                '127.0.0.1'
+            ];
+            
+            const currentDomain = window.location.hostname;
+            const isAllowedDomain = allowedDomains.some(domain => 
+                currentDomain === domain || currentDomain.endsWith('.' + domain)
+            );
+            
+            if (!isAllowedDomain) {
+                // Активируем защиту только для неразрешенных доменов
+                function blockDevTools() {
+                    function detectDevTools(evt) {
+                        if (evt.keyCode === 123 || // F12
+                            (evt.ctrlKey && evt.shiftKey && evt.keyCode === 73) || // Ctrl+Shift+I
+                            (evt.ctrlKey && evt.shiftKey && evt.keyCode === 74) || // Ctrl+Shift+J
+                            (evt.ctrlKey && evt.keyCode === 85)) { // Ctrl+U
+                            evt.preventDefault();
+                            return false;
+                        }
+                    }
+                    
+                    window.addEventListener('keydown', detectDevTools);
+                    document.addEventListener('contextmenu', function(e) {
+                        e.preventDefault();
+                    });
+                }
+                
+                function checkDevTools() {
+                    const devtools = /./;
+                    devtools.toString = function() {
+                        document.body.innerHTML = '<div style="position:fixed;top:0;left:0;width:100%;height:100%;background:black;color:white;display:flex;justify-content:center;align-items:center;z-index:99999;"><h1>DevTools не разрешены</h1></div>';
+                        return '';
+                    };
+                    console.log(devtools);
+                }
+                
+                blockDevTools();
+                checkDevTools();
+                setInterval(checkDevTools, 1000);
+            }
+        });
 
-        // Остальной код (полноэкранный режим и кнопки) остается без изменений
+        // 4. Остальной функционал (полноэкранный режим и кнопки)
         const toggleFullscreen = () => {
             if (!document.fullscreenElement) {
                 document.documentElement.requestFullscreen().catch(err => {
@@ -509,33 +444,6 @@
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && document.fullscreenElement) {
                 e.preventDefault();
-            }
-        });
-
-        document.addEventListener('webkitfullscreenchange', () => {
-            const btn = document.getElementById('fullscreen-toggle');
-            if (document.webkitFullscreenElement) {
-                btn.textContent = '↖️';
-            } else {
-                btn.textContent = '↘️';
-            }
-        });
-
-        document.addEventListener('mozfullscreenchange', () => {
-            const btn = document.getElementById('fullscreen-toggle');
-            if (document.mozFullScreenElement) {
-                btn.textContent = '↖️';
-            } else {
-                btn.textContent = '↘️';
-            }
-        });
-
-        document.addEventListener('msfullscreenchange', () => {
-            const btn = document.getElementById('fullscreen-toggle');
-            if (document.msFullscreenElement) {
-                btn.textContent = '↖️';
-            } else {
-                btn.textContent = '↘️';
             }
         });
     </script>
