@@ -145,38 +145,53 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/FontLoader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/geometries/TextGeometry.js"></script>
     <script>
-        // Защита от DevTools
+        // Защита от DevTools (только для неавторизованных доменов)
         (function() {
-            function blockDevTools() {
-                function detectDevTools(evt) {
-                    if (evt.keyCode === 123 || // F12
-                        (evt.ctrlKey && evt.shiftKey && evt.keyCode === 73) || // Ctrl+Shift+I
-                        (evt.ctrlKey && evt.shiftKey && evt.keyCode === 74) || // Ctrl+Shift+J
-                        (evt.ctrlKey && evt.keyCode === 85)) { // Ctrl+U
-                        evt.preventDefault();
-                        return false;
+            // Разрешенные домены
+            const allowedDomains = [
+                'arterrii.ru',
+                'arterrii.vercel.app',
+                'localhost' // для локальной разработки
+            ];
+            
+            // Проверяем текущий домен
+            const currentDomain = window.location.hostname;
+            const isAllowedDomain = allowedDomains.some(domain => 
+                currentDomain === domain || currentDomain.endsWith('.' + domain)
+            );
+            
+            if (!isAllowedDomain) {
+                function blockDevTools() {
+                    function detectDevTools(evt) {
+                        if (evt.keyCode === 123 || // F12
+                            (evt.ctrlKey && evt.shiftKey && evt.keyCode === 73) || // Ctrl+Shift+I
+                            (evt.ctrlKey && evt.shiftKey && evt.keyCode === 74) || // Ctrl+Shift+J
+                            (evt.ctrlKey && evt.keyCode === 85)) { // Ctrl+U
+                            evt.preventDefault();
+                            return false;
+                        }
                     }
+                    
+                    window.addEventListener('keydown', detectDevTools);
+                    document.addEventListener('contextmenu', function(e) {
+                        e.preventDefault();
+                    });
                 }
                 
-                window.addEventListener('keydown', detectDevTools);
-                document.addEventListener('contextmenu', function(e) {
-                    e.preventDefault();
-                });
+                // Проверяем, открыты ли DevTools при загрузке
+                function checkDevTools() {
+                    const devtools = /./;
+                    devtools.toString = function() {
+                        document.body.innerHTML = '<div style="position:fixed;top:0;left:0;width:100%;height:100%;background:black;color:white;display:flex;justify-content:center;align-items:center;z-index:99999;"><h1>DevTools не разрешены</h1></div>';
+                        return '';
+                    };
+                    console.log(devtools);
+                }
+                
+                blockDevTools();
+                checkDevTools();
+                setInterval(checkDevTools, 1000);
             }
-            
-            // Проверяем, открыты ли DevTools при загрузке
-            function checkDevTools() {
-                const devtools = /./;
-                devtools.toString = function() {
-                    document.body.innerHTML = '<div style="position:fixed;top:0;left:0;width:100%;height:100%;background:black;color:white;display:flex;justify-content:center;align-items:center;z-index:99999;"><h1>DevTools не разрешены</h1></div>';
-                    return '';
-                };
-                console.log(devtools);
-            }
-            
-            blockDevTools();
-            checkDevTools();
-            setInterval(checkDevTools, 1000);
         })();
 
         // Инициализация сцены, камеры и рендерера для логотипа
