@@ -1,6 +1,19 @@
 {
   "routes": [
     {
+      "src": "/index.html",
+      "headers": {
+        "Cache-Control": "no-store, max-age=0",
+        "Pragma": "no-cache"
+      }
+    },
+    {
+      "src": "/api/(.*)",
+      "headers": {
+        "Cache-Control": "no-store"
+      }
+    },
+    {
       "src": "/(.*)",
       "headers": {
         "X-Frame-Options": "SAMEORIGIN",
