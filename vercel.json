@@ -1,0 +1,45 @@
+{
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self' arterrii.ru arterrii.vercel.app https://fonts.googleapis.com 'unsafe-inline' 'unsafe-eval' data: blob:; frame-src 'self' arterrii.ru arterrii.vercel.app; frame-ancestors 'self' arterrii.ru arterrii.vercel.app; img-src 'self' data: blob: arterrii.ru arterrii.vercel.app; connect-src 'self' arterrii.ru arterrii.vercel.app; media-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' arterrii.ru arterrii.vercel.app https://fonts.googleapis.com data: blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "fullscreen=(self), geolocation=(), microphone=(), camera=()"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "no-store, no-cache, must-revalidate, proxy-revalidate"
+        },
+        {
+          "key": "Pragma",
+          "value": "no-cache"
+        },
+        {
+          "key": "Expires",
+          "value": "0"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "https://arterrii.ru"
+        }
+      ]
+    }
+  ]
+}
