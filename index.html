@@ -89,6 +89,7 @@
             z-index: 1002;
             color: white;
             -webkit-tap-highlight-color: transparent;
+            pointer-events: auto;
         }
         .fullscreen-btn:hover {
             background: rgba(255,255,255,0.2);
@@ -114,6 +115,7 @@
             background-position: center;
             z-index: 1002;
             -webkit-tap-highlight-color: transparent;
+            pointer-events: auto;
         }
         .telegram-btn:hover {
             background: rgba(255,255,255,0.2);
@@ -298,22 +300,28 @@
 
                 // Обработка правой кнопки мыши и долгого нажатия
                 document.addEventListener('contextmenu', (e) => {
-                    e.preventDefault();
-                    toggleWhiteOverlay();
+                    if (e.target.id !== 'telegram-link' && e.target.id !== 'fullscreen-toggle') {
+                        e.preventDefault();
+                        toggleWhiteOverlay();
+                    }
                 });
 
                 document.addEventListener('touchstart', (e) => {
-                    e.preventDefault();
-                    touchTimer = setTimeout(() => {
-                        toggleWhiteOverlay();
-                    }, touchDuration);
+                    if (e.target.id !== 'telegram-link' && e.target.id !== 'fullscreen-toggle') {
+                        e.preventDefault();
+                        touchTimer = setTimeout(() => {
+                            toggleWhiteOverlay();
+                        }, touchDuration);
+                    }
                 }, { passive: false });
 
                 document.addEventListener('touchend', (e) => {
-                    e.preventDefault();
-                    if (touchTimer) {
-                        clearTimeout(touchTimer);
-                        touchTimer = null;
+                    if (e.target.id !== 'telegram-link' && e.target.id !== 'fullscreen-toggle') {
+                        e.preventDefault();
+                        if (touchTimer) {
+                            clearTimeout(touchTimer);
+                            touchTimer = null;
+                        }
                     }
                 }, { passive: false });
 
@@ -323,9 +331,7 @@
                 }
 
                 // Полноэкранный режим
-                document.getElementById('fullscreen-toggle').addEventListener('click', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
+                document.getElementById('fullscreen-toggle').addEventListener('click', function(e) {
                     if (!document.fullscreenElement) {
                         document.documentElement.requestFullscreen().catch(err => {
                             console.error('Fullscreen error:', err);
@@ -336,16 +342,16 @@
                 });
 
                 // Telegram-кнопка
-                document.getElementById('telegram-link').addEventListener('click', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
+                document.getElementById('telegram-link').addEventListener('click', function(e) {
                     window.open('https://t.me/arterrii_ru', '_blank');
                 });
 
                 // Отключаем выделение при долгом нажатии
                 document.addEventListener('selectstart', (e) => {
-                    e.preventDefault();
-                    return false;
+                    if (e.target.id !== 'telegram-link' && e.target.id !== 'fullscreen-toggle') {
+                        e.preventDefault();
+                        return false;
+                    }
                 });
             }
         });
