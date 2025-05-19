@@ -13,6 +13,11 @@
             cursor: none;
             touch-action: manipulation;
             font-family: 'Fira Code', monospace;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
         #logo-container {
             position: fixed;
@@ -21,6 +26,7 @@
             width: 120px;
             height: 120px;
             z-index: 1000;
+            -webkit-tap-highlight-color: transparent;
         }
         #cursor-container {
             position: fixed;
@@ -30,6 +36,7 @@
             z-index: 1001;
             transform: translate(-50%, -50%);
             display: none;
+            -webkit-tap-highlight-color: transparent;
         }
         #white-overlay {
             position: fixed;
@@ -45,6 +52,7 @@
             display: block; 
             width: 100%;
             height: 100%;
+            -webkit-tap-highlight-color: transparent;
         }
         #arterii-license {
             position: fixed; 
@@ -57,6 +65,7 @@
             opacity: 1;
             animation: fadeIn 1s ease-out forwards;
             line-height: 1.9;
+            -webkit-tap-highlight-color: transparent;
         }
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -79,6 +88,7 @@
             height: 24px;
             z-index: 1002;
             color: white;
+            -webkit-tap-highlight-color: transparent;
         }
         .fullscreen-btn:hover {
             background: rgba(255,255,255,0.2);
@@ -103,6 +113,7 @@
             background-repeat: no-repeat;
             background-position: center;
             z-index: 1002;
+            -webkit-tap-highlight-color: transparent;
         }
         .telegram-btn:hover {
             background: rgba(255,255,255,0.2);
@@ -146,8 +157,9 @@
             // Цвета и объекты
             const colors = ['#7F00FF', '#0000FF', '#00BFFF', '#00FF80', '#FFFF00', '#FF6000', '#FF0000'];
             let centerBall, logoGroup, smallBalls = [], textMaterial;
-            let isCursorActive = false, whiteOverlayActive = false, touchTimer = null;
+            let isCursorActive = false, whiteOverlayActive = false;
             const touchDuration = 500;
+            let touchTimer = null;
 
             // Загрузка шрифта
             const fontLoader = new THREE.FontLoader();
@@ -284,14 +296,36 @@
                     }
                 });
 
+                // Обработка правой кнопки мыши и долгого нажатия
                 document.addEventListener('contextmenu', (e) => {
                     e.preventDefault();
-                    whiteOverlayActive = !whiteOverlayActive;
-                    document.getElementById('white-overlay').style.display = whiteOverlayActive ? 'block' : 'none';
+                    toggleWhiteOverlay();
                 });
 
+                document.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    touchTimer = setTimeout(() => {
+                        toggleWhiteOverlay();
+                    }, touchDuration);
+                }, { passive: false });
+
+                document.addEventListener('touchend', (e) => {
+                    e.preventDefault();
+                    if (touchTimer) {
+                        clearTimeout(touchTimer);
+                        touchTimer = null;
+                    }
+                }, { passive: false });
+
+                function toggleWhiteOverlay() {
+                    whiteOverlayActive = !whiteOverlayActive;
+                    document.getElementById('white-overlay').style.display = whiteOverlayActive ? 'block' : 'none';
+                }
+
                 // Полноэкранный режим
-                document.getElementById('fullscreen-toggle').addEventListener('click', () => {
+                document.getElementById('fullscreen-toggle').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
                     if (!document.fullscreenElement) {
                         document.documentElement.requestFullscreen().catch(err => {
                             console.error('Fullscreen error:', err);
@@ -302,8 +336,16 @@
                 });
 
                 // Telegram-кнопка
-                document.getElementById('telegram-link').addEventListener('click', () => {
+                document.getElementById('telegram-link').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
                     window.open('https://t.me/arterrii_ru', '_blank');
+                });
+
+                // Отключаем выделение при долгом нажатии
+                document.addEventListener('selectstart', (e) => {
+                    e.preventDefault();
+                    return false;
                 });
             }
         });
