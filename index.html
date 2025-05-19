@@ -3,34 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="
-        default-src 'self' arterrii.ru arterrii.vercel.app https://*.vercel.app https://cdn.jsdelivr.net https://fonts.googleapis.com;
-        script-src 'self' 'unsafe-eval' https://cdn.jsdelivr.net;
-        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-        img-src 'self' data: https:;
-        font-src 'self' https://fonts.gstatic.com;
-        connect-src 'self' https://cdn.jsdelivr.net https://fonts.googleapis.com;
-        frame-src 'none';
-        frame-ancestors 'none';
-    ">
-    <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta http-equiv="X-Frame-Options" content="DENY">
-    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-    <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin-allow-popups">
-    <meta http-equiv="Cross-Origin-Resource-Policy" content="cross-origin">
-    <meta http-equiv="Cross-Origin-Embedder-Policy" content="unsafe-none">
-    <title>AT-Infinity | Circular Glowing Logo</title>
+    <!-- Безопасность -->
+<meta http-equiv="Content-Security-Policy" content="
+  default-src 'self' arterrii.ru https://arterrii.vercel.app;
+  script-src 'self' https://cdn.jsdelivr.net 'unsafe-inline';
+  style-src 'self' https://fonts.googleapis.com 'unsafe-inline';
+  font-src https://fonts.gstatic.com;
+  img-src 'self' data: blob:;
+  connect-src 'self';
+  frame-ancestors 'none';
+  base-uri 'self';
+">
+<meta http-equiv="X-Frame-Options" content="DENY">
+<meta http-equiv="Referrer-Policy" content="no-referrer">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+    <title>ARTERRII</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fira+Code&display=swap');
         
         body { 
             margin: 0; 
             overflow: hidden; 
-            background: transparent; 
+            background: black; 
             cursor: none;
-            touch-action: manipulation;
+            touch-action: manipulation; /* Для лучшей работы сенсорных устройств */
         }
         #logo-container {
             position: fixed;
@@ -111,7 +109,7 @@
         /* Стили для кнопки Telegram */
         .telegram-btn {
             position: fixed;
-            bottom: 60px;
+            bottom: 60px; /* Располагаем выше кнопки полноэкранного режима */
             right: 20px;
             cursor: pointer;
             font-size: 14px;
@@ -185,9 +183,9 @@
         let isCursorActive = false;
         let whiteOverlayActive = false;
         let touchTimer = null;
-        const touchDuration = 500;
+        const touchDuration = 500; // Длительность долгого нажатия в мс
 
-        // 1. Загрузка шрифта для букв
+        // 1. Загрузка шрифта для букв (встроенный шрифт Three.js)
         const fontLoader = new THREE.FontLoader();
         fontLoader.load('https://cdn.jsdelivr.net/npm/three@0.132.2/examples/fonts/helvetiker_regular.typeface.json', (font) => {
             createLogo(font);
@@ -205,7 +203,7 @@
                 bevelEnabled: false
             };
 
-            // Материал для букв
+            // Материал для букв (свечение)
             textMaterial = new THREE.MeshPhongMaterial({
                 color: 0xffffff,
                 emissive: 0xffffff,
@@ -228,10 +226,11 @@
                 return textMesh;
             }
 
-            // Сборка логотипа
-            const radius = 2;
+            // Сборка логотипа (буквы по окружности)
+            const radius = 2; // Радиус окружности
             logoGroup = new THREE.Group();
 
+            // Буквы: A (0°), T (90°), A (180°), T (270°)
             const letters = [
                 { char: 'A', angle: 0 },
                 { char: 'T', angle: Math.PI / 2 },
@@ -246,13 +245,14 @@
                     Math.sin(letter.angle) * radius,
                     0
                 );
+                // Поворот букв "наружу" от центра
                 text.rotation.z = letter.angle + Math.PI / 2;
                 logoGroup.add(text);
             });
 
             scene.add(logoGroup);
 
-            // 2. Центральный светящийся шар
+            // 2. Центральный светящийся шар (с пульсацией и свечением)
             const centerBallGeometry = new THREE.SphereGeometry(0.7, 32, 32);
             const centerBallMaterial = new THREE.MeshPhongMaterial({
                 color: 0xffffff,
@@ -265,7 +265,7 @@
             centerBall = new THREE.Mesh(centerBallGeometry, centerBallMaterial);
             scene.add(centerBall);
 
-            // 3. 7 маленьких шариков
+            // 3. 7 маленьких шариков (цветные + свечение)
             const ballGeometry = new THREE.SphereGeometry(0.15, 16, 16);
             
             colors.forEach((color, i) => {
@@ -280,7 +280,7 @@
                 const ball = new THREE.Mesh(ballGeometry, ballMaterial);
                 
                 const angle = (i / colors.length) * Math.PI * 2;
-                const distance = 4.5;
+                const distance = 4.5; // Шарики дальше букв
                 ball.position.set(
                     Math.cos(angle) * distance,
                     Math.sin(angle) * distance,
@@ -299,7 +299,7 @@
             pointLight.position.set(0, 0, 2);
             scene.add(pointLight);
 
-            // Настройка курсора
+            // Настройка курсора (используем тот же шар)
             const cursorRenderer = new THREE.WebGLRenderer({ 
                 antialias: true,
                 canvas: document.getElementById('cursor-canvas'),
@@ -321,21 +321,25 @@
             // Обработчики событий мыши
             document.addEventListener('mousemove', (e) => {
                 if (!isCursorActive) {
+                    // Удаляем шар из логотипа при первом движении мыши
                     scene.remove(centerBall);
                     isCursorActive = true;
                     document.getElementById('cursor-container').style.display = 'block';
                 }
                 
+                // Обновляем позицию курсора
                 document.getElementById('cursor-container').style.left = e.clientX + 'px';
                 document.getElementById('cursor-container').style.top = e.clientY + 'px';
                 
-                cursorScene.children = [];
-                cursorScene.add(centerBall);
+                // Рендерим шар в позиции курсора
+                cursorScene.children = []; // Очищаем сцену
+                cursorScene.add(centerBall); // Добавляем наш шар
                 cursorRenderer.render(cursorScene, cursorCamera);
             });
 
             document.addEventListener('mouseout', () => {
                 if (isCursorActive) {
+                    // Возвращаем шар в логотип
                     cursorScene.remove(centerBall);
                     scene.add(centerBall);
                     isCursorActive = false;
@@ -357,10 +361,12 @@
                     document.getElementById('cursor-container').style.display = 'block';
                 }
                 
+                // Запускаем таймер для долгого нажатия
                 touchTimer = setTimeout(() => {
                     toggleWhiteOverlay();
                 }, touchDuration);
                 
+                // Обновляем позицию курсора
                 const touch = e.touches[0];
                 document.getElementById('cursor-container').style.left = touch.clientX + 'px';
                 document.getElementById('cursor-container').style.top = touch.clientY + 'px';
@@ -372,6 +378,7 @@
 
             document.addEventListener('touchmove', (e) => {
                 e.preventDefault();
+                // Отменяем долгое нажатие при движении
                 if (touchTimer) {
                     clearTimeout(touchTimer);
                     touchTimer = null;
@@ -394,6 +401,7 @@
                     document.getElementById('cursor-container').style.display = 'none';
                 }
                 
+                // Отменяем таймер долгого нажатия
                 if (touchTimer) {
                     clearTimeout(touchTimer);
                     touchTimer = null;
@@ -404,16 +412,20 @@
             function animate() {
                 requestAnimationFrame(animate);
                 
+                // Вращение логотипа
                 logoGroup.rotation.z += 0.005;
                 
+                // Пульсация центрального шара (если он в логотипе)
                 if (!isCursorActive) {
                     const pulse = 1 + Math.sin(Date.now() * 0.001) * 0.15;
                     centerBall.scale.setScalar(pulse);
                     centerBall.material.emissiveIntensity = 1 + Math.sin(Date.now() * 0.001) * 1;
                 }
                 
+                // Пульсация букв
                 textMaterial.emissiveIntensity = 0.8 + Math.sin(Date.now() * 0.0015) * 0.5;
                 
+                // Движение и пульсация шариков
                 smallBalls.forEach((ball, i) => {
                     const ballPulse = 0.8 + Math.sin(Date.now() * 0.001 + i) * 0.3;
                     ball.scale.setScalar(ballPulse);
@@ -430,6 +442,7 @@
                 
                 renderer.render(scene, camera);
                 
+                // Анимация шара-курсора
                 if (isCursorActive) {
                     const pulse = 1 + Math.sin(Date.now() * 0.001) * 0.15;
                     centerBall.scale.setScalar(pulse);
@@ -444,10 +457,12 @@
         // Функция для переключения полноэкранного режима
         const toggleFullscreen = () => {
             if (!document.fullscreenElement) {
+                // Вход в полноэкранный режим
                 document.documentElement.requestFullscreen().catch(err => {
                     console.error(`Ошибка при включении полноэкранного режима: ${err.message}`);
                 });
             } else {
+                // Выход из полноэкранного режима
                 if (document.exitFullscreen) {
                     document.exitFullscreen();
                 }
@@ -456,7 +471,7 @@
 
         // Обработчик для кнопки Telegram
         document.getElementById('telegram-link').addEventListener('click', () => {
-            window.open('https://t.me/arterrii_ru', '_blank', 'noopener,noreferrer');
+            window.open('https://t.me/arterrii_ru', '_blank');
         });
 
         // Обработчик изменения полноэкранного режима
@@ -464,7 +479,7 @@
             const btn = document.getElementById('fullscreen-toggle');
             if (document.fullscreenElement) {
                 btn.textContent = '↖️';
-                document.body.style.background = '#000';
+                document.body.style.background = '#000'; // Сохраняем черный фон
             } else {
                 btn.textContent = '↘️';
             }
@@ -473,10 +488,10 @@
         // Назначение обработчика клика
         document.getElementById('fullscreen-toggle').addEventListener('click', toggleFullscreen);
 
-        // Защита от случайного выхода
+        // Защита от случайного выхода (кроме клика по нашей кнопке)
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && document.fullscreenElement) {
-                e.preventDefault();
+                e.preventDefault(); // Блокируем выход по Escape
             }
         });
 
