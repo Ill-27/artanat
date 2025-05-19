@@ -4,15 +4,14 @@
       "src": "/(.*)",
       "headers": {
         "X-Frame-Options": "SAMEORIGIN",
-        "Content-Security-Policy": "default-src 'self'; script-src 'self' 'nonce-3a7f' https://cdn.jsdelivr.net; style-src 'self' 'nonce-3a7f' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://cdn.jsdelivr.net https://fonts.googleapis.com; frame-src 'self' https://t.me; worker-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self';",
+        "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-eval' 'nonce-3a7f' https://cdn.jsdelivr.net; style-src 'self' 'nonce-3a7f' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net; img-src 'self' data: blob:; connect-src 'self' https://cdn.jsdelivr.net https://fonts.googleapis.com; frame-src 'self' https://t.me; worker-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self';",
         "X-Content-Type-Options": "nosniff",
         "Referrer-Policy": "strict-origin-when-cross-origin",
         "Permissions-Policy": "fullscreen=(self), geolocation=(), microphone=(), camera=(), display-capture=()",
         "Cross-Origin-Embedder-Policy": "require-corp",
         "Cross-Origin-Opener-Policy": "same-origin",
         "Cross-Origin-Resource-Policy": "same-origin",
-        "Strict-Transport-Security": "max-age=63072000; includeSubDomains; preload",
-        "Access-Control-Allow-Origin": "'self'"
+        "Strict-Transport-Security": "max-age=63072000; includeSubDomains; preload"
       }
     }
   ]
