@@ -11,7 +11,10 @@
         "Cross-Origin-Embedder-Policy": "unsafe-none",
         "Cross-Origin-Opener-Policy": "same-origin-allow-popups",
         "Cross-Origin-Resource-Policy": "cross-origin",
-        "Strict-Transport-Security": "max-age=63072000; includeSubDomains; preload"
+        "Strict-Transport-Security": "max-age=63072000; includeSubDomains; preload",
+        "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+        "Pragma": "no-cache",
+        "Expires": "0"
       }
     }
   ]
