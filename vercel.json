@@ -5,7 +5,8 @@
       "dest": "/api/auth.js",
       "headers": {
         "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
-        "Pragma": "no-cache"
+        "Pragma": "no-cache",
+        "X-Content-Type-Options": "nosniff"
       }
     },
     {
@@ -19,7 +20,7 @@
     {
       "src": "/(.*)",
       "headers": {
-        "Content-Security-Policy": "default-src 'self'; script-src 'self' 'nonce-3a7f' https://cdn.jsdelivr.net; style-src 'self' 'nonce-3a7f' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://fonts.googleapis.com; frame-src 'none'; object-src 'none'; base-uri 'self';",
+        "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-eval' 'nonce-3a7f'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self';",
         "X-Frame-Options": "DENY",
         "X-Content-Type-Options": "nosniff",
         "Referrer-Policy": "strict-origin-when-cross-origin",
