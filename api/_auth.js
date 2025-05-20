@@ -1,9 +1,9 @@
 const { createHmac } = require('crypto');
 
 // Генерация секретного ключа при каждом деплое
-const SECRET_KEY = createHmac('sha256', process.env.VERCEL_GIT_COMMIT_SHA || 'fallback-secret')
-                  .update(process.env.JWT_SECRET || 'arterrii-pro-max-secure-key')
-                  .digest('hex');
+const SECRET_KEY = createHmac('sha256', 'static-salt-for-museum-project')
+  .update(process.env.JWT_SECRET || 'arterrii-pro-max-secure-key')
+  .digest('hex');
 
 const TOKEN_LIFETIME = 5 * 60 * 1000; // 5 минут
 
