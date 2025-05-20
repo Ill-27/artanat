@@ -1,27 +1,33 @@
 {
   "routes": [
     {
-      "src": "/(.*)",
+      "src": "/api/auth",
+      "dest": "/api/auth.js",
       "headers": {
         "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
-        "Pragma": "no-cache",
-        "Expires": "0",
-        "X-Frame-Options": "ALLOW-FROM https://arterrii.ru, https://arterrii.vercel.app",
+        "Pragma": "no-cache"
+      }
+    },
+    {
+      "src": "/api/background1",
+      "dest": "/api/background1.js",
+      "headers": {
+        "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+        "X-Content-Type-Options": "nosniff"
+      }
+    },
+    {
+      "src": "/(.*)",
+      "headers": {
         "Content-Security-Policy": "default-src 'self'; script-src 'self' 'nonce-3a7f' https://cdn.jsdelivr.net; style-src 'self' 'nonce-3a7f' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://fonts.googleapis.com; frame-src 'none'; object-src 'none'; base-uri 'self';",
+        "X-Frame-Options": "DENY",
         "X-Content-Type-Options": "nosniff",
         "Referrer-Policy": "strict-origin-when-cross-origin",
-        "Permissions-Policy": "fullscreen=(self), geolocation=(), microphone=(), camera=(), display-capture=()",
+        "Permissions-Policy": "fullscreen=(self)",
         "Cross-Origin-Embedder-Policy": "require-corp",
         "Cross-Origin-Opener-Policy": "same-origin",
         "Cross-Origin-Resource-Policy": "same-origin",
-        "Strict-Transport-Security": "max-age=63072000; includeSubDomains; preload",
-        "Access-Control-Allow-Origin": "https://arterrii.vercel.app",
-        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type, Authorization",
-        "Access-Control-Allow-Credentials": "true",
-        "X-XSS-Protection": "1; mode=block",
-        "X-DNS-Prefetch-Control": "off",
-        "X-Permitted-Cross-Domain-Policies": "none"
+        "Strict-Transport-Security": "max-age=63072000; includeSubDomains; preload"
       }
     }
   ]
