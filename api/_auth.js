@@ -5,7 +5,7 @@ const SECRET_KEY = createHmac('sha256', 'static-salt-for-museum-project')
   .update(process.env.JWT_SECRET || 'arterrii-pro-max-secure-key')
   .digest('hex');
 
-const TOKEN_LIFETIME = 5 * 60 * 1000; // 5 минут
+const TOKEN_LIFETIME = 60 * 60 * 1000; // 5 минут
 
 function generateToken(ip, ua) {
   const header = { alg: 'HS256', typ: 'JWT', ver: 2 };
