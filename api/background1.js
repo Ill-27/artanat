@@ -5,15 +5,16 @@ module.exports = (req, res) => {
   try {
     // 1. Проверка авторизации
     const token = req.headers['x-auth-token'];
-    const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    const ip = req.headers['x-forwarded-for']?.split(',')[0]?.trim() || req.connection.remoteAddress;
     const ua = req.headers['user-agent'] || '';
     
     if (!validateToken(token, ip, ua)) {
-      return res.status(401).send('Invalid or expired token');
+      console.error('Invalid token:', { token, ip, ua });
+      return res.status(401).json({ error: 'Invalid or expired token' });
     }
 
     // 2. Генерация уникального идентификатора сессии
-    const sessionHash = createHmac('sha256', process.env.JWT_SECRET)
+    const sessionHash = createHmac('sha256', process.env.JWT_SECRET || 'arterrii-pro-max-secure-key')
       .update(ip + ua + Date.now())
       .digest('hex')
       .slice(0, 12);
@@ -21,6 +22,8 @@ module.exports = (req, res) => {
     // 3. Возвращаем защищенный код
     res.setHeader('Content-Type', 'application/javascript');
     res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    
     res.send(`
       (function() {
         // ${sessionHash} | ARTERRII PROTECTED CONTENT
@@ -180,6 +183,7 @@ module.exports = (req, res) => {
       })();
     `);
   } catch (error) {
-    res.status(500).send('Internal server error');
+    console.error('Background error:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
