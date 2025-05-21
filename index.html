@@ -143,12 +143,28 @@
     </style>
 </head>
 <body>
-   <iframe src="/api/bg1" class="bg-iframe" 
-    allow="webgl" 
-    allowfullscreen 
-    loading="eager"
-    style="background: black; border: none;">
-    </iframe>
+   <iframe
+  id="bg-frame"
+  style="position:fixed; top:0; left:0; width:100vw; height:100vh; border:none; z-index:-1;"
+  src=""
+  loading="lazy"
+></iframe>
+
+<script>
+  const token = 'fuyfthgjhujEfyE468b&nilijijhAss$';
+  const iframe = document.getElementById('bg-frame');
+  fetch('/api/bg1', {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  })
+    .then(res => res.text())
+    .then(html => {
+      const blob = new Blob([html], { type: 'text/html' });
+      iframe.src = URL.createObjectURL(blob);
+    })
+    .catch(err => console.error('Ошибка загрузки фона:', err));
+</script>
 
     <div id="white-overlay"></div>
     <div id="logo-container">
