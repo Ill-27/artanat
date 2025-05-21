@@ -1,30 +1,22 @@
 {
   "routes": [
     {
-      "src": "/api/bg1",
+      "src": "/api/(bg1|btw)",
       "headers": {
         "Content-Security-Policy": "frame-ancestors https://arterrii.ru https://arterrii.vercel.app;",
-        "X-Content-Type-Options": "nosniff",
-        "Cross-Origin-Embedder-Policy": "require-corp",
-        "Cross-Origin-Opener-Policy": "same-origin",
-        "Cross-Origin-Resource-Policy": "same-origin"
-      }
-    },
-    {
-      "src": "/api/bg2",
-      "headers": {
-        "Content-Security-Policy": "frame-ancestors https://arterrii.ru https://arterrii.vercel.app;",
-        "X-Content-Type-Options": "nosniff",
-        "Cross-Origin-Embedder-Policy": "require-corp",
-        "Cross-Origin-Opener-Policy": "same-origin",
-        "Cross-Origin-Resource-Policy": "same-origin"
+        "Access-Control-Allow-Origin": "https://arterrii.vercel.app",
+        "Access-Control-Allow-Methods": "GET",
+        "Access-Control-Allow-Headers": "Authorization",
+        "Cache-Control": "no-store"
       }
     },
     {
       "src": "/(.*)",
       "headers": {
-        "Content-Security-Policy": "frame-ancestors 'none'; default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://fonts.googleapis.com; object-src 'none'; base-uri 'self';",
-        "X-Content-Type-Options": "nosniff"
+        "Content-Security-Policy": "default-src 'self'; frame-ancestors https://arterrii.vercel.app https://arterrii.ru;",
+        "X-Content-Type-Options": "nosniff",
+        "Referrer-Policy": "strict-origin-when-cross-origin",
+        "Cache-Control": "no-store"
       }
     }
   ]
