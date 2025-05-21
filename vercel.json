@@ -3,11 +3,11 @@
   "builds": [
     {
       "src": "api/*.js",
-      "use": "@vercel/node" 
+      "use": "@vercel/node"
     },
     {
-      "src": "index.html",
-      "use": "@vercel/static"  
+      "src": "*.html",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
@@ -29,6 +29,7 @@
     },
     {
       "src": "/api/bg1",
+      "dest": "/api/bg1.js",
       "headers": {
         "Content-Security-Policy": "frame-ancestors https://arterrii.ru https://arterrii.vercel.app;",
         "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
@@ -47,6 +48,7 @@
     },
     {
       "src": "/api/bg2",
+      "dest": "/api/bg2.js",
       "headers": {
         "Content-Security-Policy": "frame-ancestors https://arterrii.ru https://arterrii.vercel.app;",
         "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
