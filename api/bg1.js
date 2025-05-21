@@ -1,5 +1,5 @@
 // api/bg1.js
-import { createHash } from 'crypto'
+const { createHash } = require('crypto')
 
 export default function handler(req, res) {
   // Проверяем реферера (откуда пришел запрос)
