@@ -13,7 +13,7 @@
             margin: 0; 
             padding: 0;
             overflow: hidden; 
-            background: transparent; 
+            background: black; 
             cursor: none;
             touch-action: none;
             -ms-touch-action: none;
@@ -128,28 +128,12 @@
             background: rgba(255,255,255,0.2);
             box-shadow: 0 0 8px rgba(255,255,255,0.5);
         }
-        .webgl-background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            border: none;
-            pointer-events: none;
-        }
-        #background1 {
-            z-index: -2;
-        }
-        #background2 {
-            z-index: -1;
-            opacity: 0.7;
-        }
     </style>
 </head>
 <body>
-    <iframe id="background1" class="webgl-background" src="background1.html"></iframe>
-    <iframe id="background2" class="webgl-background" src="background2.html"></iframe>
+    <!-- 🌌 WebGL Background iframes -->
+    <iframe src="bg1.html" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; border: none; z-index: -2; pointer-events: none;" allowfullscreen></iframe>
+    <iframe src="bg2.html" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; border: none; z-index: -1; pointer-events: none;" allowfullscreen></iframe>
     
     <div id="white-overlay"></div>
     <div id="logo-container">
