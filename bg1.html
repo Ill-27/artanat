@@ -5,24 +5,21 @@
     <title>ARTERII SECURE STARFIELD</title>
     <style>
         body { 
-        margin: 0; 
-        padding: 0;  /* Добавлено */
-        overflow: hidden; 
-        background: black;
-        width: 100vw;  /* Добавлено */
-        height: 100vh; /* Добавлено */
-        position: fixed; /* Добавлено */
-        top: 0;  /* Добавлено */
-        left: 0; /* Добавлено */
-    }
-    canvas { 
-        display: block; 
-        width: 100% !important;  /* Изменено */
-        height: 100% !important; /* Изменено */
-        position: absolute; /* Добавлено */
-        top: 0;  /* Добавлено */
-        left: 0; /* Добавлено */
-    }
+            margin: 0; 
+            overflow: hidden; 
+            background: transparent;
+            touch-action: none;
+            user-select: none;
+            font-family: 'Fira Code', monospace;
+        }
+        canvas { 
+            display: block; 
+            width: 100vw; 
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
         #watermark {
             position: fixed;
             top: 0;
