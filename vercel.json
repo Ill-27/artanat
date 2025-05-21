@@ -1,4 +1,15 @@
 {
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/*.js",
+      "use": "@vercel/node"  // Это говорит Vercel, что API-роуты — Node.js функции
+    },
+    {
+      "src": "index.html",
+      "use": "@vercel/static"  // Остальные файлы — статика
+    }
+  ],
   "routes": [
     {
       "src": "/bg1.html",
