@@ -26,6 +26,21 @@
             width: 100%;
             height: 100%;
         }
+        
+        /* Фоны */
+        .bg-iframe {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            border: none;
+            z-index: 0;
+            pointer-events: none;
+        }
+        #bg1 { z-index: 0; }
+        #bg2 { z-index: 1; }
+        
         #logo-container {
             position: fixed;
             top: 0;
@@ -131,9 +146,9 @@
     </style>
 </head>
 <body>
-    <!-- 🌌 WebGL Background iframes -->
-    <iframe src="bg1.html" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; border: none; z-index: -2; pointer-events: none;" allowfullscreen></iframe>
-    <iframe src="bg2.html" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; border: none; z-index: -1; pointer-events: none;" allowfullscreen></iframe>
+    <!-- ФОНЫ -->
+  <iframe id="bg1" class="bg-iframe" src="background1.html"></iframe>
+  <iframe id="bg2" class="bg-iframe" src="background2.html"></iframe>
     
     <div id="white-overlay"></div>
     <div id="logo-container">
