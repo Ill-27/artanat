@@ -1,7 +1,7 @@
 // api/bg1.js
 const { createHash } = require('crypto')
 
-export default function handler(req, res) {
+module.exports = function handler(req, res) {
   // Проверяем реферера (откуда пришел запрос)
   const allowedDomains = ['https://arterrii.ru', 'https://arterrii.vercel.app']
   const referer = req.headers.referer || ''
