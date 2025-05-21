@@ -2,7 +2,7 @@
 
 const jwt = require('jsonwebtoken')
 
-const SECRET = 'твоя_секретная_строка'
+const SECRET = 'ArTERRII_3D-ProT3ct!on_Key_89d2@r0Wz'
 
 module.exports = (req, res) => {
   const auth = req.headers.authorization || ''
