@@ -3,11 +3,11 @@
   "builds": [
     {
       "src": "api/*.js",
-      "use": "@vercel/node"  // Это говорит Vercel, что API-роуты — Node.js функции
+      "use": "@vercel/node" 
     },
     {
       "src": "index.html",
-      "use": "@vercel/static"  // Остальные файлы — статика
+      "use": "@vercel/static"  
     }
   ],
   "routes": [
