@@ -13,7 +13,7 @@
             margin: 0; 
             padding: 0;
             overflow: hidden; 
-            background: transparent;
+            background: black; 
             cursor: none;
             touch-action: none;
             -ms-touch-action: none;
@@ -149,42 +149,7 @@
     <span class="fullscreen-btn" id="fullscreen-toggle">↘</span>
 
     <script nonce="3a7f" src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
-    <script nonce="3a7f">// ================= ЗАЩИТНАЯ ЗАГРУЗКА ФОНОВ =================
-async function loadSecureBackground(url) {
-    try {
-        // 1. Получаем токен авторизации
-        const authResponse = await fetch('/api/auth', {
-            credentials: 'same-origin'
-        });
-        
-        if (!authResponse.ok) throw new Error('Auth failed');
-        const token = await authResponse.text();
-        
-        // 2. Загружаем защищенный фон
-        const bgResponse = await fetch(url, {
-            headers: {
-                'X-Auth-Token': token,
-                'User-Agent': navigator.userAgent
-            }
-        });
-        
-        if (bgResponse.ok) {
-            const script = document.createElement('script');
-            script.text = await bgResponse.text();
-            document.body.appendChild(script);
-        }
-    } catch (error) {
-        console.error('[ARTERRII] Background load error:', error);
-        // Fallback на случай ошибки
-        document.body.style.backgroundColor = '#000';
-    }
-}
-
-// Загружаем фоны при полной загрузке страницы
-window.addEventListener('load', () => {
-    loadSecureBackground('/api/background1');
-});
-        // ================= ОСНОВНОЙ КОД САЙТА =================
+    <script nonce="3a7f">
         document.addEventListener('DOMContentLoaded', () => {
             // Проверка поддержки WebGL
             if (!window.WebGLRenderingContext || !document.createElement('canvas').getContext('webgl')) {
