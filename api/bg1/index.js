@@ -9,9 +9,9 @@ export default function handler(req, res) {
 
   // Чтение HTML файла
   const htmlContent = `
-    <!DOCTYPE html>
-<html>
-<head>
+  <!DOCTYPE html>
+  <html>
+  <head>
     <meta charset="UTF-8">
     <title>ARTERII SECURE STARFIELD</title>
     <style>
