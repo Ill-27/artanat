@@ -132,19 +132,23 @@
     </style>
 </head>
 <body>
-    <script>
+    
+<div id="bg-container"></div>
+
+<script>
   fetch('/api/token')
     .then(res => res.json())
     .then(data => {
-      fetch('/api/bg1', {
-        headers: {
-          Authorization: 'Bearer ' + data.token
-        }
-      })
-      .then(res => res.text())
-      .then(html => {
-        document.getElementById('bg-container').innerHTML = html
-      })
+      const iframe = document.createElement('iframe')
+      iframe.src = '/api/bg1'
+      iframe.style = 'width:100vw;height:100vh;border:none'
+      iframe.loading = 'eager'
+
+      iframe.onload = () => {
+        iframe.contentWindow.postMessage({ token: data.token }, '*')
+      }
+
+      document.getElementById('bg-container').appendChild(iframe)
     })
 </script>
     
