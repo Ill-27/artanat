@@ -3,6 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "engines": {
-    "node": "18.x"  // Указываем версию Node.js (18.x стабильна в Vercel)
+    "node": "18.x" 
   }
 }
