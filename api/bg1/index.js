@@ -50,6 +50,10 @@ export default function handler(req, res) {
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/FontLoader.js"></script>
     <script>
+    if (window.location.hostname !== 'arterrii.ru' && window.location.hostname !== 'arterrii.vercel.app') {
+  document.body.innerHTML = '<h1>Unauthorized</h1>';
+  throw new Error('Unauthorized domain');
+}
     // ================= ЗАЩИТА ================= //
     document.addEventListener('contextmenu', e => e.preventDefault());
     document.addEventListener('copy', e => {
