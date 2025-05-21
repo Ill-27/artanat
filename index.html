@@ -13,7 +13,6 @@
             margin: 0; 
             padding: 0;
             overflow: hidden; 
-            position: relative;
             background: black; 
             cursor: none;
             touch-action: none;
@@ -28,8 +27,7 @@
             height: 100%;
         }
         
-        /* Фоны */
-        .bg-iframe {
+        iframe.bg-iframe {
             position: fixed;
             top: 0;
             left: 0;
@@ -38,7 +36,6 @@
             border: none;
             z-index: 0;
             pointer-events: none;
-            opacity: 1;
         }
         
         #logo-container {
@@ -146,10 +143,9 @@
     </style>
 </head>
 <body>
-    <!-- ФОНЫ -->
-    <iframe src="bg1.html" id="bg1" class="bg-iframe" loading="eager"></iframe>
-    <iframe src="bg2.html" id="bg2" class="bg-iframe" loading="eager"></iframe>
-    
+    <!-- Фон -->
+    <iframe src="bg1.html" class="bg-iframe" allowfullscreen loading="eager"></iframe>
+
     <div id="white-overlay"></div>
     <div id="logo-container">
         <canvas id="logo-canvas"></canvas>
