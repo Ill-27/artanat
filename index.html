@@ -132,24 +132,32 @@
     </style>
 </head>
 <body>
-    
-<div id="bg-container"></div>
-
-<script>
-  fetch('/api/token')
-    .then(res => res.json())
-    .then(data => {
-      const iframe = document.createElement('iframe')
-      iframe.src = '/api/bg1'
-      iframe.style = 'width:100vw;height:100vh;border:none'
-      iframe.loading = 'eager'
-
-      iframe.onload = () => {
-        iframe.contentWindow.postMessage({ token: data.token }, '*')
-      }
-
-      document.getElementById('bg-container').appendChild(iframe)
-    })
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+    fetch('/api/token')
+        .then(res => {
+            if (!res.ok) throw new Error('Token request failed');
+            return res.json();
+        })
+        .then(data => {
+            const iframe = document.createElement('iframe');
+            iframe.src = '/api/bg1';
+            iframe.style = 'position:fixed;top:0;left:0;width:100vw;height:100vh;border:none;z-index:-1';
+            iframe.loading = 'eager';
+            
+            iframe.onload = () => {
+                setTimeout(() => {
+                    iframe.contentWindow.postMessage({ token: data.token }, '*');
+                }, 500);
+            };
+            
+            document.getElementById('bg-container').appendChild(iframe);
+        })
+        .catch(err => {
+            console.error('Background loading error:', err);
+            document.getElementById('bg-container').style.backgroundColor = 'black';
+        });
+});
 </script>
     
     <div id="white-overlay"></div>
