@@ -1,7 +1,7 @@
 {
   "routes": [
     {
-      "src": "/api/(bg1|btw)",
+      "src": "/api/(bg1|bg2)",
       "headers": {
         "Content-Security-Policy": "frame-ancestors https://arterrii.ru https://arterrii.vercel.app;",
         "Access-Control-Allow-Origin": "https://arterrii.vercel.app",
