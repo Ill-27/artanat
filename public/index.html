@@ -4,6 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ARTERRII</title>
+    <script>
+    async function loadBackground(bgName, iframeId) {
+      // 1. Получаем токен
+      const tokenResponse = await fetch('/api/generate-token');
+      const { token } = await tokenResponse.json();
+      
+      // 2. Загружаем фон через API
+      const iframe = document.getElementById(iframeId);
+      iframe.src = `/api/${bgName}?token=${token}`;
+    }
+    
+    // Загружаем фоны при загрузке страницы
+    window.onload = () => {
+      loadBackground('bg1', 'background1');
+      loadBackground('bg2', 'background2');
+    };
+  </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" nonce="3a7f">
@@ -143,19 +160,8 @@
     </style>
 </head>
 <body>
-   <script>
-  async function loadBackground(name) {
-    const res = await fetch('/api/get-token');
-    const { token } = await res.json();
-
-    const iframe = document.createElement('iframe');
-    iframe.src = `/api/get-bg?name=${name}&token=${token}`;
-    iframe.style = 'position:absolute;top:0;left:0;width:100%;height:100%;border:none;pointer-events:none;';
-    document.body.appendChild(iframe);
-  }
-
-  loadBackground('bg1');
-</script>
+    <iframe id="background1" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; border: none; z-index: -1;"></iframe>
+    <iframe id="background2" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; border: none; z-index: -1; display: none;"></iframe>
 
     <div id="white-overlay"></div>
     <div id="logo-container">
