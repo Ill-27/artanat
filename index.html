@@ -132,28 +132,19 @@
     </style>
 </head>
 <body>
-   <iframe
-  id="bg-frame"
-  style="position:fixed; top:0; left:0; width:100vw; height:100vh; border:none; z-index:10000000;"
-  src=""
-  loading="lazy"
-></iframe>
-
-<script>
-  const token = 'fuyfthgjhujEfyE468b&nilijijhAss$';
-  const iframe = document.getElementById('bg-frame');
-  fetch('/pages/api/bg1', {
-    headers: {
-      'Authorization': `Bearer ${token}`
-    }
-  })
-    .then(res => res.text())
-    .then(html => {
-      const blob = new Blob([html], { type: 'text/html' });
-      iframe.src = URL.createObjectURL(blob);
-    })
-    .catch(err => console.error('Ошибка загрузки фона:', err));
-</script>
+    <script>
+    fetch('/api/fon')
+      .then(res => res.text())
+      .then(html => {
+        const container = document.createElement('div');
+        container.innerHTML = html;
+        container.style.position = "fixed";
+        container.style.top = "0"; container.style.left = "0";
+        container.style.zIndex = "-1"; container.style.width = "100%";
+        container.style.height = "100%";
+        document.body.appendChild(container);
+      });
+  </script>
 
     <div id="white-overlay"></div>
     <div id="logo-container">
