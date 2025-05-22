@@ -3,15 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>ARTERII SECURE STARFIELD</title>
-<script>
-    document.addEventListener('copy', (e) => {
-        e.preventDefault();
-        e.clipboardData.setData('text/plain', '© ARTERRII Protected Content');
-    });
-    document.addEventListener('cut', (e) => e.preventDefault());
-    document.addEventListener('contextmenu', (e) => e.preventDefault());
-    </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <style>
         body { 
             margin: 0; 
@@ -48,29 +39,12 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/FontLoader.js"></script>
     <script>
-    // ================= ЗАЩИТА ПО ДОМЕНУ ================= //
-const allowedDomains = ['arterrii.ru', 'arterrii.vercel.app'];
-if (!allowedDomains.includes(window.location.hostname)) {
-    window.location.href = 'about:blank';
-    throw new Error('Access denied: invalid domain');
-}
-    // Блокировка консоли
-    Object.defineProperty(window, 'console', {
-        value: new Proxy(console, {
-            get: (target, prop) => {
-                if (['log', 'error', 'warn', 'info'].includes(prop)) {
-                    return () => {};
-                }
-                return target[prop];
-            }
-        })
+    // ================= ЗАЩИТА ================= //
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('copy', e => {
+        e.clipboardData.setData('text/plain', '© ARTERRII Protected Content');
+        e.preventDefault();
     });
-})();
-
-// ================= ЗАЩИТА ОТ IFRAME ================= //
-if (window.top !== window.self) {
-    window.top.location.href = window.self.location.href;
-}
 
     // ================= WEBGL STARFIELD ================= //
     const canvas = document.getElementById('starfield');
@@ -519,26 +493,6 @@ if (window.top !== window.self) {
         watermarkCamera.updateProjectionMatrix();
         watermarkRenderer.setSize(window.innerWidth, window.innerHeight);
     });
-// ================= ЗАЩИТА ОТ СКРИНШОТОВ ================= //
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'PrintScreen' || (e.ctrlKey && e.key === 's')) {
-        e.preventDefault();
-        alert('Screenshots are disabled!');
-    }
-});
-
-// ================= ПРОВЕРКА ЦЕЛОСТНОСТИ КОДА ================= //
-const originalHash = 'af766ef2c625a99e5a043f5c64072a8cc97577a25599fec7bcbfcf50db28a28c'; // Замените на реальный хеш вашего скрипта
-fetch(window.location.href)
-    .then(res => res.text())
-    .then(text => {
-        const currentHash = CryptoJS.SHA256(text).toString();
-        if (currentHash !== originalHash) {
-            document.body.innerHTML = '<h1 style="color:red">Code tampering detected!</h1>';
-        }
-    })
-    .catch(() => {}); // Игнорируем ошибки (чтобы не ломать функциональность)
     </script>
 </body>
-</script>
 </html>
