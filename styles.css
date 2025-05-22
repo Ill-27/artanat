@@ -12,8 +12,8 @@ html, body {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    width: 80%;
-    height: 80%;
+    width: 180%;
+    height: 180%;
 }
 
 iframe.bg-iframe {
