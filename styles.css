@@ -42,7 +42,7 @@ iframe.bg-iframe {
     height: 0px;
     pointer-events: none;
     z-index: 1001;
-    transform: translate(0%, 0%);
+    transform: translate(100%, 100%);
     display: block;
     -webkit-tap-highlight-color: transparent;
 }
