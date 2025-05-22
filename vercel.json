@@ -1,52 +1,44 @@
-{
   "routes": [
     {
       "src": "/bg(.*)\\.html",
       "headers": {
-        "Content-Security-Policy": "default-src 'none'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self'; connect-src 'self'; frame-ancestors 'self' https://arterrii.ru https://arterrii.vercel.app; base-uri 'self'; form-action 'self'; object-src 'none'; frame-src 'none'; media-src 'none'",
+        "Content-Security-Policy": "frame-ancestors https://arterrii.ru https://arterrii.vercel.app;",
         "X-Frame-Options": "SAMEORIGIN",
         "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
         "X-Content-Type-Options": "nosniff",
         "X-DNS-Prefetch-Control": "off",
-        "Referrer-Policy": "no-referrer",
-        "Permissions-Policy": "geolocation=(), microphone=(), camera=()",
+        "Referrer-Policy": "strict-origin-when-cross-origin",
+        "Permissions-Policy": "fullscreen=(self), geolocation=(), microphone=(), camera=(), display-capture=()",
         "Cross-Origin-Embedder-Policy": "require-corp",
         "Cross-Origin-Opener-Policy": "same-origin",
         "Cross-Origin-Resource-Policy": "same-origin",
         "Strict-Transport-Security": "max-age=63072000; includeSubDomains; preload",
         "Access-Control-Allow-Origin": "https://arterrii.vercel.app",
-        "Access-Control-Allow-Methods": "GET",
-        "Access-Control-Allow-Headers": "Content-Type",
-        "Access-Control-Expose-Headers": "Content-Length",
-        "Access-Control-Max-Age": "600",
-        "X-XSS-Protection": "1; mode=block",
-        "X-Permitted-Cross-Domain-Policies": "none",
-        "Expect-CT": "max-age=86400, enforce"
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization",
+        "Access-Control-Allow-Credentials": "true",
+        "X-XSS-Protection": "1; mode=block"
       }
     },
     {
       "src": "/(.*)",
       "headers": {
-        "Content-Security-Policy": "default-src 'none'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self'; connect-src 'self' https://cdn.jsdelivr.net https://fonts.googleapis.com; object-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests; block-all-mixed-content;",
+        "Content-Security-Policy": "default-src 'self'; script-src 'self' 'nonce-3a7f' https://cdn.jsdelivr.net; style-src 'self' 'nonce-3a7f' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://fonts.googleapis.com; object-src 'none'; frame-ancestors 'none'; base-uri 'self';",
         "X-Frame-Options": "DENY",
         "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
         "X-Content-Type-Options": "nosniff",
         "X-DNS-Prefetch-Control": "off",
-        "Referrer-Policy": "no-referrer",
-        "Permissions-Policy": "geolocation=(), microphone=(), camera=()",
+        "Referrer-Policy": "strict-origin-when-cross-origin",
+        "Permissions-Policy": "fullscreen=(self), geolocation=(), microphone=(), camera=(), display-capture=()",
         "Cross-Origin-Embedder-Policy": "require-corp",
         "Cross-Origin-Opener-Policy": "same-origin",
         "Cross-Origin-Resource-Policy": "same-origin",
         "Strict-Transport-Security": "max-age=63072000; includeSubDomains; preload",
         "Access-Control-Allow-Origin": "https://arterrii.vercel.app",
-        "Access-Control-Allow-Methods": "GET",
-        "Access-Control-Allow-Headers": "Content-Type",
-        "Access-Control-Allow-Credentials": "false",
-        "Access-Control-Expose-Headers": "Content-Length",
-        "Access-Control-Max-Age": "600",
-        "X-XSS-Protection": "1; mode=block",
-        "X-Permitted-Cross-Domain-Policies": "none",
-        "Expect-CT": "max-age=86400, enforce"
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization",
+        "Access-Control-Allow-Credentials": "true",
+        "X-XSS-Protection": "1; mode=block"
       }
     }
   ]
