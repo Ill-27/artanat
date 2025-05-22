@@ -3,7 +3,7 @@
     {
       "src": "/bg(.*)\\.html",
       "headers": {
-        "Content-Security-Policy": "frame-ancestors 'self' https://arterrii.vercel.app; default-src 'none'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self';",
+        "Content-Security-Policy": "frame-ancestors https://arterrii.vercel.app; default-src 'none'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self';",
         "X-Frame-Options": "SAMEORIGIN",
         "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
         "X-Content-Type-Options": "nosniff",
