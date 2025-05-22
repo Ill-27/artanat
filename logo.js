@@ -90,4 +90,51 @@ class LogoAnimation {
                 })
             );
             const angle = (i / this.colors.length) * Math.PI * 2;
-            ball.position.set(Math.cos(angle) * 4.5, Math.sin(
+            ball.position.set(Math.cos(angle) * 4.5, Math.sin(angle) * 4.5, 0);
+            this.smallBalls.push(ball);
+            this.scene.add(ball);
+        });
+
+        // Освещение
+        this.scene.add(new THREE.AmbientLight(0x404040));
+        const pointLight = new THREE.PointLight(0xffffff, 2, 10);
+        pointLight.position.set(0, 0, 2);
+        this.scene.add(pointLight);
+
+        this.animate();
+    }
+
+    animate() {
+        if (document.hidden) return;
+        
+        this.animationId = requestAnimationFrame(() => this.animate());
+        this.logoGroup.rotation.z += 0.005;
+        
+        const time = Date.now() * 0.001;
+        const pulse = 1 + Math.sin(time) * 0.15;
+        this.centerBall.scale.setScalar(pulse);
+        this.centerBall.material.emissiveIntensity = 1 + Math.sin(time) * 1;
+        this.textMaterial.emissiveIntensity = 0.8 + Math.sin(time * 1.5) * 0.5;
+        
+        this.smallBalls.forEach((ball, i) => {
+            const ballPulse = 0.8 + Math.sin(time + i) * 0.3;
+            ball.scale.setScalar(ballPulse);
+            ball.material.emissiveIntensity = 1 + Math.sin(time + i * 2) * 0.8;
+            const angle = (i / this.colors.length) * Math.PI * 2 + time * 0.7;
+            ball.position.set(
+                Math.cos(angle) * (4.5 + Math.sin(time + i) * 0.4),
+                Math.sin(angle) * (4.5 + Math.sin(time + i) * 0.4),
+                0
+            );
+        });
+        
+        this.renderer.render(this.scene, this.camera);
+    }
+
+    stop() {
+        cancelAnimationFrame(this.animationId);
+    }
+}
+
+// Экспорт для использования в main.js
+const logoAnimation = new LogoAnimation();
