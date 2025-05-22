@@ -1,315 +1,44 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>ARTERII SECURE STARFIELD (AR Ready)</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <style>
-        body { 
-            margin: 0; 
-            overflow: hidden; 
-            background: black;
-            touch-action: none;
-            user-select: none;
-            font-family: 'Fira Code', monospace;
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-        }
-        #ar-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 99999;
-            background: rgba(0,0,0,0.7);
-            color: white;
-            border: 1px solid #555;
-            padding: 12px 20px;
-            border-radius: 8px;
-            font-family: 'Fira Code', monospace;
-            cursor: pointer;
-            font-size: 16px;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
-        #ar-button:hover {
-            background: rgba(50,50,50,0.9);
-        }
-        #ar-container {
-            display: none;
-            width: 100%;
-            height: 100vh;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1000;
-        }
-        #ar-prompt {
-            position: fixed;
-            bottom: 80px;
-            left: 0;
-            width: 100%;
-            text-align: center;
-            color: white;
-            font-size: 14px;
-            padding: 10px;
-            z-index: 1001;
-        }
-        canvas { 
-            display: block; 
-            width: 100vw; 
-            height: 100vh;
-            position: fixed;
-            top: 0;
-            left: 0;
-        }
-        #watermark {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 9999;
-            opacity: 0.7;
-        }
-    </style>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARTERRII</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" nonce="3a7f">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' fill='white'>A</text></svg>">
+    <link rel="stylesheet" href="styles.css" nonce="3a7f">
 </head>
 <body>
-    <!-- Основной контент -->
-    <canvas id="starfield"></canvas>
-    <div id="watermark"></div>
-    
-    <!-- AR Контейнер -->
-    <div id="ar-container">
-        <div id="ar-prompt">Наведите камеру на горизонтальную поверхность</div>
+   <iframe src="bg1.html" class="bg-iframe" 
+        allow="webgl" 
+        allowfullscreen 
+        loading="eager"
+        style="background: black; border: none;">
+    </iframe>
+
+    <div id="white-overlay"></div>
+    <div id="logo-container">
+        <canvas id="logo-canvas"></canvas>
     </div>
-    
-    <!-- Кнопка AR -->
-    <button id="ar-button">View in AR</button>
+    <div id="cursor-container">
+        <canvas id="cursor-canvas"></canvas>
+    </div>
 
-    <!-- Three.js и скрипты -->
-    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/FontLoader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/exporters/GLTFExporter.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/quicklook-js@1.0.2/dist/quicklook.min.js"></script>
-    
-    <script>
-    // ================= ОСНОВНЫЕ НАСТРОЙКИ ================= //
-    const STARS_COUNT = 2000; // Уменьшено для лучшей производительности в AR
-    let arSessionStarted = false;
-    
-    // ================= ЗАЩИТА ================= //
-    document.addEventListener('contextmenu', e => e.preventDefault());
-    document.addEventListener('copy', e => {
-        e.clipboardData.setData('text/plain', '© ARTERRII Protected Content');
-        e.preventDefault();
-    });
+    <div id="arterii-license">
+        <div>© 2025 ARTERRII. Все права защищены</div>
+        <div>Это цифровой арт-музей. Только для просмотра</div>
+        <div>Копирование и использование запрещено</div>
+        <a href="/dmca">DMCA Protection</a>
+    </div>
 
-    // ================= AR ФУНКЦИОНАЛ ================= //
-    function startARSession() {
-        if (arSessionStarted) return;
-        arSessionStarted = true;
-        
-        // 1. Скрываем основной контент
-        document.getElementById('starfield').style.display = 'none';
-        document.getElementById('watermark').style.display = 'none';
-        document.getElementById('ar-button').style.display = 'none';
-        
-        // 2. Показываем AR контейнер
-        const arContainer = document.getElementById('ar-container');
-        arContainer.style.display = 'block';
-        
-        // 3. Создаем AR сцену
-        const arScene = new THREE.Scene();
-        const arCamera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 1000);
-        const arRenderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-        arRenderer.setSize(window.innerWidth, window.innerHeight);
-        arRenderer.xr.enabled = true;
-        arContainer.appendChild(arRenderer.domElement);
-        
-        // 4. Добавляем звезды в AR
-        const starsGroup = new THREE.Group();
-        
-        // Создаем материал для звезд
-        const starMaterial = new THREE.PointsMaterial({
-            size: 1.5,
-            vertexColors: true,
-            transparent: true,
-            opacity: 0.8,
-            blending: THREE.AdditiveBlending,
-            sizeAttenuation: true
-        });
-        
-        // Создаем геометрию для звезд
-        const starsGeometry = new THREE.BufferGeometry();
-        const positions = new Float32Array(STARS_COUNT * 3);
-        const colors = new Float32Array(STARS_COUNT * 3);
-        const sizes = new Float32Array(STARS_COUNT);
-        
-        for (let i = 0; i < STARS_COUNT; i++) {
-            positions[i*3] = (Math.random() - 0.5) * 10;
-            positions[i*3+1] = (Math.random() - 0.5) * 10;
-            positions[i*3+2] = (Math.random() - 0.5) * 10;
-            
-            sizes[i] = 0.5 + Math.random() * 1.0;
-            
-            // Цвета как в оригинальном шейдере
-            const colorType = Math.floor(Math.random() * 7);
-            const color = [
-                [0.5, 0.0, 1.0],   // Фиолетовый
-                [0.0, 0.0, 1.0],   // Синий
-                [0.0, 0.75, 1.0],  // Голубой
-                [0.0, 1.0, 0.5],   // Зеленый
-                [1.0, 1.0, 0.0],   // Желтый
-                [1.0, 0.38, 0.0],  // Оранжевый
-                [1.0, 0.0, 0.0]    // Красный
-            ][colorType] || [0.9, 0.9, 0.9];
-            
-            colors[i*3] = color[0];
-            colors[i*3+1] = color[1];
-            colors[i*3+2] = color[2];
-        }
-        
-        starsGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-        starsGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-        starsGeometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
-        
-        const stars = new THREE.Points(starsGeometry, starMaterial);
-        starsGroup.add(stars);
-        
-        // 5. Добавляем водяные знаки в AR
-        new THREE.FontLoader().load(
-            'https://cdn.jsdelivr.net/npm/three@0.132.2/examples/fonts/helvetiker_regular.typeface.json', 
-            (font) => {
-                const watermarkGroup = new THREE.Group();
-                
-                // Создаем водяные знаки как в оригинале
-                for (let i = 0; i < 20; i++) {
-                    const text = ['Arterrrii', 'arterrii.ru', 'v.1.9.5.25'][Math.floor(Math.random() * 3)];
-                    const size = 0.1 + Math.random() * 0.1;
-                    const color = new THREE.Color(
-                        0.9 + Math.random() * 0.1,
-                        0.9 + Math.random() * 0.1,
-                        1.0
-                    );
-                    
-                    const geometry = new THREE.TextGeometry(text, {
-                        font: font,
-                        size: size,
-                        height: 0.01,
-                        curveSegments: 4
-                    });
-                    
-                    const material = new THREE.MeshBasicMaterial({
-                        color: color,
-                        transparent: true,
-                        opacity: 0.5,
-                        side: THREE.DoubleSide
-                    });
-                    
-                    const mesh = new THREE.Mesh(geometry, material);
-                    mesh.position.set(
-                        (Math.random() - 0.5) * 5,
-                        (Math.random() - 0.5) * 5,
-                        (Math.random() - 0.5) * 5
-                    );
-                    
-                    watermarkGroup.add(mesh);
-                }
-                
-                starsGroup.add(watermarkGroup);
-            }
-        );
-        
-        arScene.add(starsGroup);
-        
-        // 6. Настройка AR
-        let controller;
-        
-        function onSelect() {
-            // Действие при тапе
-        }
-        
-        function initAR() {
-            // iOS Quick Look
-            if (window.QuickLook) {
-                const exporter = new THREE.GLTFExporter();
-                exporter.parse(starsGroup, (gltf) => {
-                    const blob = new Blob([JSON.stringify(gltf)], { type: 'model/gltf+json' });
-                    const url = URL.createObjectURL(blob);
-                    
-                    Quicklook.present({
-                        file: url,
-                        allowsContentScaling: true,
-                        canonicalWebPageURL: window.location.href
-                    });
-                });
-            } 
-            // WebXR (для Android и других браузеров)
-            else if ('xr' in navigator) {
-                navigator.xr.requestSession('immersive-ar').then((session) => {
-                    arRenderer.xr.setSession(session);
-                    
-                    controller = arRenderer.xr.getController(0);
-                    controller.addEventListener('select', onSelect);
-                    arScene.add(controller);
-                    
-                    session.addEventListener('end', () => {
-                        arSessionStarted = false;
-                        document.getElementById('starfield').style.display = 'block';
-                        document.getElementById('watermark').style.display = 'block';
-                        document.getElementById('ar-button').style.display = 'block';
-                        arContainer.style.display = 'none';
-                    });
-                    
-                    animate();
-                }).catch((err) => {
-                    console.error("AR session failed:", err);
-                    alert("AR не поддерживается в вашем браузере. Попробуйте Safari на iOS.");
-                    arSessionStarted = false;
-                });
-            } else {
-                alert("AR не поддерживается в вашем браузере. Попробуйте Safari на iOS.");
-                arSessionStarted = false;
-            }
-        }
-        
-        // 7. Анимация
-        function animate() {
-            arRenderer.setAnimationLoop(() => {
-                starsGroup.rotation.y += 0.002;
-                arRenderer.render(arScene, arCamera);
-            });
-        }
-        
-        // Позиционируем сцену перед камерой
-        arCamera.position.set(0, 1.5, 0);
-        starsGroup.position.set(0, 0, -2);
-        
-        // Запускаем AR
-        initAR();
-    }
-    
-    // ================= ОРИГИНАЛЬНЫЙ КОД (звездное поле) ================= //
-    // ... [Ваш оригинальный код рендеринга звездного поля и водяных знаков] ...
-    // Вставьте сюда ВЕСЬ ваш оригинальный код из предыдущего примера,
-    // начиная с const canvas = document.getElementById('starfield');
-    // и заканчивая window.addEventListener('resize', ...);
+    <span class="telegram-btn" id="telegram-link" title="Telegram"></span>
+    <span class="fullscreen-btn" id="fullscreen-toggle">↘</span>
 
-    // ================= ИНИЦИАЛИЗАЦИЯ ================= //
-    document.getElementById('ar-button').addEventListener('click', startARSession);
-    
-    // Проверяем поддержку AR
-    function checkARSupport() {
-        if (!('QuickLook' in window) && !('xr' in navigator)) {
-            document.getElementById('ar-button').style.display = 'none';
-        }
-    }
-    
-    window.addEventListener('load', checkARSupport);
-    </script>
+    <script nonce="3a7f" src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <script nonce="3a7f" src="logo.js"></script>
+    <script nonce="3a7f" src="cursor.js"></script>
+    <script nonce="3a7f" src="main.js"></script>
 </body>
 </html>
