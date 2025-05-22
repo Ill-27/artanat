@@ -54,20 +54,6 @@ if (!allowedDomains.includes(window.location.hostname)) {
     window.location.href = 'about:blank';
     throw new Error('Access denied: invalid domain');
 }
-
-// ================= АНТИ-ДЕБАГГИНГ ================= //
-(function() {
-    const debugProtection = () => {
-        const startTime = Date.now();
-        setInterval(() => {
-            if (Date.now() - startTime > 200) {
-                document.body.innerHTML = '<h1 style="color:red">Debugging detected!</h1>';
-                window.location.reload();
-            }
-        }, 100);
-    };
-    debugProtection();
-
     // Блокировка консоли
     Object.defineProperty(window, 'console', {
         value: new Proxy(console, {
