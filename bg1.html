@@ -3,132 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <title>ARTERII SECURE STARFIELD</title>
-    <!-- Защита от SSR и клонирования -->
-    <script>
-    /*! 🔒 ARTERRII ULTRA PROTECTION v3.0 */
-    (function(){
-        // 1. Проверка домена (2 уровня)
-        const ALLOWED_DOMAINS = ['arterrii.vercel.app', 'arterrii.ru'];
-        if (!ALLOWED_DOMAINS.includes(location.hostname) {
-            document.write('<h1 style="color:red;font-size:5vw">⛔ ACCESS DENIED</h1>');
-            window.stop();
-        }
-
-        // 2. Защита от iframe (дополняет CSP)
-        if (window.self !== window.top) {
-            document.body.innerHTML = '';
-            window.top.location = self.location;
-        }
-
-        // 3. Блокировка консоли
-        Object.defineProperty(window, 'console', {
-            value: new Proxy(console, {
-                get: (t, p) => ['log','error','info'].includes(p) 
-                    ? () => {} 
-                    : t[p]
-            })
-        });
-
-        // 4. Защита водяных знаков
-        const wm = document.createElement('div');
-        wm.id = '_wm_protect';
-        wm.style.cssText = 'position:fixed;top:0;left:0;width:10px;height:10px;z-index:99999;opacity:0;';
-        document.body.prepend(wm);
-    })();
+<script>
+    document.addEventListener('copy', (e) => {
+        e.preventDefault();
+        e.clipboardData.setData('text/plain', '© ARTERRII Protected Content');
+    });
+    document.addEventListener('cut', (e) => e.preventDefault());
+    document.addEventListener('contextmenu', (e) => e.preventDefault());
     </script>
-
-    <!-- Стили с защитой от переопределения -->
-    <style id="_protected_styles">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <style>
         body { 
-            margin: 0 !important; 
-            overflow: hidden !important;
-            background: transparent !important;
-            touch-action: none !important;
-            user-select: none !important;
-            font-family: 'Fira Code', monospace !important;
+            margin: 0; 
+            overflow: hidden; 
+            background: transparent;
+            touch-action: none;
+            user-select: none;
+            font-family: 'Fira Code', monospace;
         }
         canvas { 
-            display: block !important;
-            width: 100vw !important;
-            height: 100vh !important;
-            position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
+            display: block; 
+            width: 100vw; 
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
         }
         #watermark {
-            position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
-            width: 100% !important;
-            height: 100% !important;
-            pointer-events: none !important;
-            z-index: 9999 !important;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
         }
     </style>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400&display=swap" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400&display=swap" rel="stylesheet">
 </head>
 <body>
     <canvas id="starfield"></canvas>
     <div id="watermark"></div>
 
-    <!-- Защищенные скрипты -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/FontLoader.js"></script>
     <script>
-    /*! 🔒 ARTERRII CORE PROTECTION */
-    (function(){
-        // 1. Проверка целостности DOM
+    // ================= ЗАЩИТА ПО ДОМЕНУ ================= //
+const allowedDomains = ['arterrii.ru', 'arterrii.vercel.app'];
+if (!allowedDomains.includes(window.location.hostname)) {
+    window.location.href = 'about:blank';
+    throw new Error('Access denied: invalid domain');
+}
+
+// ================= АНТИ-ДЕБАГГИНГ ================= //
+(function() {
+    const debugProtection = () => {
+        const startTime = Date.now();
         setInterval(() => {
-            if (!document.getElementById('_wm_protect') || 
-                !document.getElementById('_protected_styles')) {
-                document.body.innerHTML = '<h1 style="color:red">SYSTEM TAMPERED</h1>';
-                window.stop();
+            if (Date.now() - startTime > 200) {
+                document.body.innerHTML = '<h1 style="color:red">Debugging detected!</h1>';
+                window.location.reload();
             }
-        }, 1500);
+        }, 100);
+    };
+    debugProtection();
 
-        // 2. Защита от копирования
-        document.addEventListener('copy', e => {
-            e.clipboardData.setData('text/plain', '© ARTERRII PROTECTED CONTENT');
-            e.preventDefault();
-        });
-        document.addEventListener('contextmenu', e => e.preventDefault());
-
-        // 3. Анти-отладка
-        const devToolsCheck = () => {
-            const threshold = 160;
-            if (window.outerWidth - window.innerWidth > threshold || 
-                window.outerHeight - window.innerHeight > threshold) {
-                document.body.innerHTML = '';
-                window.stop();
+    // Блокировка консоли
+    Object.defineProperty(window, 'console', {
+        value: new Proxy(console, {
+            get: (target, prop) => {
+                if (['log', 'error', 'warn', 'info'].includes(prop)) {
+                    return () => {};
+                }
+                return target[prop];
             }
-        };
-        setInterval(devToolsCheck, 500);
-    })();
-    </script>
+        })
+    });
+})();
 
-    <!-- Three.js с защитой целостности -->
-    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js" integrity="sha384-7Mm0WZ0Q1yN9Fj+Udkp9D4zVhBZ+hR6iWRCYON96W+cp7l5ng5Pk5Ps7ELh5V4h3" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/FontLoader.js" integrity="sha384-+q9j8K0QqCl5YDBJyRk/6AlQ+6dXj3WhUQLQ5P5ZL5U5Y5e5h5Y5e5h5Y5e5h5Y5" crossorigin="anonymous"></script>
+// ================= ЗАЩИТА ОТ IFRAME ================= //
+if (window.top !== window.self) {
+    window.top.location.href = window.self.location.href;
+}
 
-    <!-- Основной код с защитой -->
-    <script>
-    /*! 🔒 ARTERRII MAIN CODE */
-    (function(){
-        // 1. Проверка Three.js
-        if (typeof THREE !== 'object' || !THREE.Scene) {
-            document.body.innerHTML = '<h1>THREE.JS TAMPERED</h1>';
-            throw new Error('Invalid THREE.js');
-        }
-
-        // 2. Заморозка критичных объектов
-        Object.freeze(THREE);
-        Object.freeze(THREE.Scene.prototype);
-
-        // 3. Защита от модификации
-        const originalSetup = {
-            compileShader: THREE.WebGLRenderer.prototype.compileShader,
-            render: THREE.WebGLRenderer.prototype.render
-        };
-
-      // ================= WEBGL STARFIELD ================= //
+    // ================= WEBGL STARFIELD ================= //
     const canvas = document.getElementById('starfield');
     const gl = canvas.getContext('webgl', { preserveDrawingBuffer: false });
 
@@ -575,32 +533,32 @@
         watermarkCamera.updateProjectionMatrix();
         watermarkRenderer.setSize(window.innerWidth, window.innerHeight);
     });
-
-        // 4. Проверка целостности кода
-        const CODE_HASH = 'e7f7bc86e8cee12aacc90f7d7176b8aa25a373092e8f132edf224864dfb4b177'; // Замените на реальный хеш
-        fetch(location.href)
-            .then(r => r.text())
-            .then(t => {
-                const hash = sha256(t);
-                if (hash !== CODE_HASH) {
-                    document.body.innerHTML = '<h1>CODE MODIFIED</h1>';
-                    window.stop();
-                }
-            });
-
-        function sha256(str) {
-            // Реализация хеширования
-            return CryptoJS.SHA256(str).toString();
-        }
-    })();
-    </script>
-
-    <!-- Защита от вставки в iframe (резервная) -->
-    <script>
-    if (window.self !== window.top) {
-        document.body.innerHTML = '';
-        window.top.location = self.location;
+// ================= ЗАЩИТА ОТ СКРИНШОТОВ ================= //
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'PrintScreen' || (e.ctrlKey && e.key === 's')) {
+        e.preventDefault();
+        alert('Screenshots are disabled!');
     }
+});
+
+// ================= ПРОВЕРКА ЦЕЛОСТНОСТИ КОДА ================= //
+const originalHash = 'af766ef2c625a99e5a043f5c64072a8cc97577a25599fec7bcbfcf50db28a28c'; // Замените на реальный хеш вашего скрипта
+fetch(window.location.href)
+    .then(res => res.text())
+    .then(text => {
+        const currentHash = CryptoJS.SHA256(text).toString();
+        if (currentHash !== originalHash) {
+            document.body.innerHTML = '<h1 style="color:red">Code tampering detected!</h1>';
+        }
+    })
+    .catch(() => {}); // Игнорируем ошибки (чтобы не ломать функциональность)
     </script>
 </body>
+<!-- Защита от вставки в iframe -->
+<script>
+if (window.self !== window.top) {
+    document.body.innerHTML = '<h1 style="color:red">Embedding this page is not allowed!</h1>';
+    window.top.location = window.self.location;
+}
+</script>
 </html>
