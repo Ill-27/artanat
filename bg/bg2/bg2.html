@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script>document.addEventListener('contextmenu', (e) => e.preventDefault());</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>АРТЕРРИИ</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap');
+        body {
+            background-color: #000;
+            color: #ff0;
+            font-family: 'Fira Code', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            line-height: 1.6;
+            text-shadow: 0 0 10px rgba(255, 255, 0, 0.8);
+            overflow: hidden;
+            transition: opacity 1.5s ease;
+        }
+        .container {
+            width: 100%;
+            max-width: 700px;
+            padding: 20px;
+            position: relative;
+        }
+        .typing {
+            border-right: 2px solid #ff0;
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            from, to { border-color: transparent }
+            50% { border-color: #ff0 }
+        }
+        .input-line {
+            display: flex;
+            align-items: center;
+            margin-top: 30px;
+        }
+        .prompt {
+            color: #fff;
+            margin-right: 10px;
+        }
+        .input-container {
+            position: relative;
+            flex-grow: 1;
+        }
+        .input-field {
+            background: none;
+            border: none;
+            color: #fff;
+            font-family: 'Fira Code', monospace;
+            padding: 5px 0;
+            width: 100%;
+            outline: none;
+            caret-color: #fff;
+        }
+        .underline {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: #fff;
+        }
+        .error-message {
+            color: #fff !important;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8) !important;
+        }
+        .fade-out {
+            opacity: 0;
+        }
+        #content-container {
+            display: none;
+            width: 100%;
+        }
+        #terminal-output div {
+            margin-bottom: 15px;
+        }
+        /* Стили для модального окна правил */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: black;
+            color: white;
+            padding: 30px;
+            max-width: 700px;
+            max-height: 80vh;
+            overflow-y: auto;
+            border-radius: 5px;
+            font-family: 'Fira Code', monospace;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+        .modal-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .modal-section {
+            margin-bottom: 15px;
+        }
+        .modal-checkbox {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .modal-checkbox input {
+            margin-right: 10px;
+        }
+        .modal-button {
+            background: #000;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 20px;
+            cursor: pointer;
+            font-family: 'Fira Code', monospace;
+        }
+        .modal-button:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>    
+    <div class="container">
+        <div id="terminal-output"></div>
+        
+        <div class="input-line" style="display:none;">
+            <span class="prompt">>_</span>
+            <div class="input-container">
+                <input type="text" id="command-input" class="input-field" autocomplete="off" placeholder="Нажмите сюда, чтобы ввести свой код...">
+                <div class="underline"></div>
+            </div>
+        </div>
+        
+        <div id="content-container"></div>
+    </div>
+
+    <script>
+        // Генерация 7-значного ID посещения (счетчик открытий сайта)
+        function getVisitId() {
+            let visitId = sessionStorage.getItem('arterii_visit_id');
+            if (!visitId) {
+                // Получаем текущий счетчик из localStorage или начинаем с 1
+                let counter = localStorage.getItem('arterii_visit_counter');
+                if (!counter) {
+                    counter = 1;
+                } else {
+                    counter = parseInt(counter) + 1;
+                }
+                visitId = String(counter).padStart(7, '0');
+                // Сохраняем обновленный счетчик
+                localStorage.setItem('arterii_visit_counter', counter);
+                // Сохраняем ID для текущей сессии
+                sessionStorage.setItem('arterii_visit_id', visitId);
+            }
+            return visitId;
+        }
+
+        const CONFIG = {
+            welcomeMessages: [
+                "[www.arterrii.ru] #Добро пожаловать...",
+                "Загрузка арт-пространства v1.9.5.25...",
+                "> Привет, гость с ID " + getVisitId() + "! Это Соль, AI-гид этого арт-музея.", 
+                "> Куда полетим сейчас?",
+            ],
+            accessCodes: {
+                "arterii2024": "gallery.html",
+                "salt": "salt-project.html"
+            },
+            defaultResponse: "> Ошибка: неверный код доступа"
+        };
+
+        async function typeText(element, text, isError = false) {
+            element.innerHTML = '';
+            element.classList.add('typing');
+            if(isError) element.classList.add('error-message');
+            
+            for (let i = 0; i < text.length; i++) {
+                element.innerHTML = text.substring(0, i+1);
+                await new Promise(r => setTimeout(r, 20 + Math.random() * 50));
+            }
+            
+            element.classList.remove('typing');
+            return new Promise(r => setTimeout(r, 300));
+        }
+
+        function showRulesModal(targetPage) {
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-title">АРТЕРРИИ</div>
+                    <div class="modal-section">
+                        Цифровой арт-музей для всех форм творчества: от кода до кино, от ИИ до интерактива.
+                    </div>
+                    
+                    <div class="modal-section">
+                        <strong>Что здесь?</strong><br>
+                        В наших фондах — текст, звук, видео, графика, анимация, 3D, интерактив, цифровые технологии и всё, что рождается на стыке кода и вдохновения.
+                    </div>
+                    
+                    <div class="modal-section">
+                        <strong>Правила</strong><br>
+                        Единственный адрес — arterrii.ru.<br>
+                        Общение — Telegram (Ия / Дан) или email.
+                    </div>
+                    
+                    <div class="modal-section">
+                        Мы создали арт-музей как безопасное пространство для искусства.<br>
+                        Весь контент на arterrii.ru защищён цифровыми водяными знаками + невидимыми метками.<br>
+                        - Любое копирование, использование и распространение без разрешения запрещено законом (ст. 1301 ГК РФ).
+                    </div>
+                    
+                    <div class="modal-section">
+                        <strong>Ваша конфиденциальность важна для нас:</strong><br>
+                        • Мы не собираем персональные данные.<br>
+                        • Используем только стандартные технические метки для защиты контента и безопасности сайта. 
+                    </div>
+                    
+                    <div class="modal-section">
+                        Копирование контента = нарушение авторских прав. Давайте уважать творческий труд вместе!
+                    </div>
+                    
+                    <div class="modal-section">
+                        <strong>Сотрудничество*</strong><br>
+                        Если творите с душой — присоединяйтесь к нашим коллекциям.<br>
+                        Только прямые производители. Посредникам — вход закрыт. <br>
+                        > Тестовый период + новые фичи + нейросети в подарок.<br>
+                        Сотрудничаем с теми, кому близок наш дух.
+                    </div>
+                    
+                    <div class="modal-section">
+                        <strong>*УСЛОВИЯ СОТРУДНИЧЕСТВА</strong><br>
+                        Тест-драйв. 2 недели (бесплатно, без обязательств). <br>
+                        Оплата. Помесячно, предоплатой. <br>
+                        • Платежи за текущий месяц не возвращаются (даже при досрочном уходе)!<br>
+                        Нейросети и доступ к новым функциям сайта — это наши подарки, а не обязанности. <br><br>
+                        
+                        <strong>Прекращение сотрудничества:</strong><br>
+                        • После окончания оплаченного месяца мы можем не продлевать сотрудничество без объяснения причин. <br>
+                        • Вы тоже вправе уйти в любой момент — просто не продлевайте аренду. Все ваши экспонаты будут полностью удалены с нашего сайта.
+                    </div>
+                    
+                    <div class="modal-section">
+                        <strong>Наша философия:</strong><br>
+                        Долгосрочная дружба строится на общих интересах и взаимном уважении.<br>
+                        Если чувствуем, что нам не по пути — расстаёмся корректно.
+                    </div>
+                    
+                    <div class="modal-section">
+                        <strong>Наше правило:</strong><br>
+                        «Нет совместного пути — нет цифрового следа».
+                    </div>
+                    
+                    <div class="modal-section">
+                        Ноль данных. Только арт. Только здесь и сейчас.
+                    </div>
+                    
+                    <div class="modal-checkbox">
+                        <input type="checkbox" id="agree-checkbox">
+                        <label for="agree-checkbox">Я прочитал(а) и согласен(на) с правилами проекта</label>
+                    </div>
+                    
+                    <button class="modal-button" id="continue-button" disabled>Продолжить</button>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            const checkbox = modal.querySelector('#agree-checkbox');
+            const continueButton = modal.querySelector('#continue-button');
+            
+            checkbox.addEventListener('change', function() {
+                continueButton.disabled = !this.checked;
+            });
+            
+            continueButton.addEventListener('click', function() {
+                document.body.removeChild(modal);
+                loadContent(targetPage);
+            });
+        }
+
+        async function loadContent(pageUrl) {
+            try {
+                const response = await fetch(pageUrl);
+                const content = await response.text();
+                
+                document.getElementById('terminal-output').style.opacity = 0;
+                setTimeout(() => {
+                    document.getElementById('content-container').innerHTML = content;
+                    document.getElementById('content-container').style.display = 'block';
+                    document.getElementById('terminal-output').style.display = 'none';
+                }, 500);
+            } catch (error) {
+                const response = document.createElement('div');
+                await typeText(response, "> Ошибка загрузки контента", true);
+                document.getElementById('terminal-output').appendChild(response);
+            }
+        }
+
+        async function initTerminal() {
+            const output = document.getElementById('terminal-output');
+            
+            for (const msg of CONFIG.welcomeMessages) {
+                const line = document.createElement('div');
+                output.appendChild(line);
+                await typeText(line, msg);
+            }
+            
+            document.querySelector('.input-line').style.display = 'flex';
+            document.getElementById('command-input').focus();
+        }
+
+        function setupInput() {
+            const input = document.getElementById('command-input');
+            
+            input.addEventListener('keypress', async function(e) {
+                if(e.key === 'Enter') {
+                    const code = input.value.trim();
+                    const response = document.createElement('div');
+                    document.getElementById('terminal-output').appendChild(response);
+                    
+                    if(CONFIG.accessCodes[code]) {
+                        await typeText(response, "> Код верный. Ознакомьтесь с правилами...");
+                        input.value = '';
+                        
+                        // Показываем модальное окно с правилами сразу
+                        setTimeout(() => {
+                            showRulesModal(CONFIG.accessCodes[code]);
+                        }, 500);
+                    } else {
+                        await typeText(response, CONFIG.defaultResponse, true);
+                        input.value = '';
+                    }
+                }
+            });
+        }
+
+        window.onload = function() {
+            setTimeout(initTerminal, 500);
+            setupInput();
+            
+            document.addEventListener('click', function(e) {
+                if(e.target.id === 'back-button') {
+                    document.getElementById('content-container').style.display = 'none';
+                    document.getElementById('content-container').innerHTML = '';
+                    document.getElementById('terminal-output').style.display = 'block';
+                    document.getElementById('terminal-output').style.opacity = 1;
+                    document.getElementById('command-input').focus();
+                }
+            });
+        };
+    </script>
+</body>
+</html>
