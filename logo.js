@@ -21,7 +21,7 @@ class LogoAnimation {
             powerPreference: "high-performance"
         });
         
-        this.renderer.setSize(100, 100);
+        this.renderer.setSize(140, 140);
         this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         this.camera.position.z = 8;
 
