@@ -540,11 +540,5 @@ fetch(window.location.href)
     .catch(() => {}); // Игнорируем ошибки (чтобы не ломать функциональность)
     </script>
 </body>
-<!-- Защита от вставки в iframe -->
-<script>
-if (window.self !== window.top) {
-    document.body.innerHTML = '<h1 style="color:red">Embedding this page is not allowed!</h1>';
-    window.top.location = window.self.location;
-}
 </script>
 </html>
