@@ -3,7 +3,7 @@
     {
       "src": "/bg(.*)\\.html",
       "headers": {
-        "Content-Security-Policy": "frame-ancestors https://arterrii.ru https://arterrii.vercel.app;",
+        "Content-Security-Policy": "default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; object-src 'none'; frame-ancestors https://arterrii.ru https://arterrii.vercel.app; base-uri 'self'; connect-src 'self'; form-action 'self'; upgrade-insecure-requests;",
         "X-Frame-Options": "SAMEORIGIN",
         "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
         "X-Content-Type-Options": "nosniff",
@@ -14,17 +14,13 @@
         "Cross-Origin-Opener-Policy": "same-origin",
         "Cross-Origin-Resource-Policy": "same-origin",
         "Strict-Transport-Security": "max-age=63072000; includeSubDomains; preload",
-        "Access-Control-Allow-Origin": "https://arterrii.vercel.app",
-        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type, Authorization",
-        "Access-Control-Allow-Credentials": "true",
         "X-XSS-Protection": "1; mode=block"
       }
     },
     {
       "src": "/(.*)",
       "headers": {
-        "Content-Security-Policy": "default-src 'self'; script-src 'self' 'nonce-3a7f' https://cdn.jsdelivr.net; style-src 'self' 'nonce-3a7f' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://fonts.googleapis.com; object-src 'none'; frame-ancestors 'none'; base-uri 'self';",
+        "Content-Security-Policy": "default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; object-src 'none'; frame-ancestors 'none'; base-uri 'self'; connect-src 'self'; form-action 'self'; upgrade-insecure-requests;",
         "X-Frame-Options": "SAMEORIGIN",
         "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
         "X-Content-Type-Options": "nosniff",
@@ -35,10 +31,6 @@
         "Cross-Origin-Opener-Policy": "same-origin",
         "Cross-Origin-Resource-Policy": "same-origin",
         "Strict-Transport-Security": "max-age=63072000; includeSubDomains; preload",
-        "Access-Control-Allow-Origin": "https://arterrii.vercel.app",
-        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type, Authorization",
-        "Access-Control-Allow-Credentials": "true",
         "X-XSS-Protection": "1; mode=block"
       }
     }
