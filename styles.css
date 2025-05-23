@@ -111,7 +111,7 @@ canvas {
     font-size: 1px;
     padding: 3px 8px;
     border: 1px solid white;
-    border-radius: 0px;
+    border-radius: 10px;
     transition: all 0.3s ease;
     display: inline-flex;
     align-items: center;
