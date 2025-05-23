@@ -4,13 +4,47 @@
     <meta charset="UTF-8">
     <title>ARTERII SECURE STARFIELD</title>
     <script>
-    document.addEventListener('copy', (e) => {
+// Блокировка копирования, вырезания и контекстного меню
+document.addEventListener('copy', (e) => e.preventDefault());
+document.addEventListener('cut', (e) => e.preventDefault());
+document.addEventListener('contextmenu', (e) => e.preventDefault());
+
+// Блокировка выделения (кроме интерактивных элементов)
+document.addEventListener('selectstart', (e) => {
+    const target = e.target;
+    if (
+        !target.isContentEditable && 
+        target.tagName !== 'INPUT' && 
+        target.tagName !== 'TEXTAREA' && 
+        !target.classList.contains('allow-selection')
+    ) {
         e.preventDefault();
-        e.clipboardData.setData('text/plain', '© ARTERRII Protected Content');
-    });
-    document.addEventListener('cut', (e) => e.preventDefault());
-    document.addEventListener('contextmenu', (e) => e.preventDefault());
-    </script>
+    }
+});
+
+// Блокировка drag & drop (кроме интерактивных элементов)
+document.addEventListener('dragstart', (e) => {
+    const target = e.target;
+    if (
+        target.tagName !== 'INPUT' && 
+        target.tagName !== 'TEXTAREA'
+    ) {
+        e.preventDefault();
+    }
+});
+
+// CSS-защита от выделения (с исключением для полей ввода)
+const antiSelectionStyle = document.createElement('style');
+antiSelectionStyle.textContent = `
+    *:not(input):not(textarea):not([contenteditable="true"]):not(.allow-selection) {
+        user-select: none !important;
+        -webkit-user-select: none !important;
+        -moz-user-select: none !important;
+        -ms-user-select: none !important;
+    }
+`;
+document.head.appendChild(antiSelectionStyle);
+</script>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400&display=swap" rel="stylesheet">
     <style>
         body { 
