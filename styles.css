@@ -23,7 +23,7 @@ iframe.bg-iframe {
     width: 100vw;
     height: 100vh;
     border: none;
-    z-index: 0;
+    z-index: 100000;
     pointer-events: auto !important;
 }
 
