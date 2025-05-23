@@ -1,3 +1,41 @@
+// Правила сайта - модальное окно
+function showRules() {
+    const modal = document.getElementById('rules-modal');
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function initRulesModal() {
+    const modal = document.getElementById('rules-modal');
+    const closeBtn = document.getElementById('close-rules-button');
+    
+    // Закрытие по кнопке
+    closeBtn.addEventListener('click', function() {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    });
+    
+    // Закрытие по клику вне контента
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
+    
+    // Закрытие по ESC
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
+}
+
+// Остальной код...
+document.addEventListener('DOMContentLoaded', () => {
+    initRulesModal(); // Инициализация модального окна
+
 document.addEventListener('DOMContentLoaded', () => {
     // Проверка поддержки WebGL
     if (!window.WebGLRenderingContext || !document.createElement('canvas').getContext('webgl')) {
@@ -99,40 +137,3 @@ document.addEventListener('DOMContentLoaded', () => {
     // Инициализация позиции курсора
     cursorAnimation.updatePosition(window.innerWidth / 2, window.innerHeight / 2);
 });
-
-function initRulesModal() {
-    const modal = document.getElementById('rules-modal');
-    const closeBtn = document.getElementById('close-rules-button');
-    
-    // Функция для открытия модального окна
-    window.showRules = function() {
-    const modal = document.getElementById('rules-modal');
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-};
-    
-    // Закрытие по кнопке
-    closeBtn.addEventListener('click', function() {
-        modal.classList.remove('active');
-        document.body.style.overflow = ''; // Восстанавливаем прокрутку
-    });
-    
-    // Закрытие по клику вне контента
-    modal.addEventListener('click', function(e) {
-        if (e.target === modal) {
-            modal.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-    });
-    
-    // Закрытие по ESC
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && modal.classList.contains('active')) {
-            modal.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-    });
-}
-
-// Инициализируем при загрузке
-document.addEventListener('DOMContentLoaded', initRulesModal);
