@@ -41,7 +41,7 @@ iframe.bg-iframe {
     width: 100px;
     height: 100px;
     pointer-events: none;
-    z-index: 0;
+    z-index: 10;
     transform: translate(-50%, -50%);
     display: block;
     -webkit-tap-highlight-color: transparent;
