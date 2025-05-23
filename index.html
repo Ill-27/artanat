@@ -119,5 +119,43 @@
         <button class="modal-button" id="close-rules-button">/</button>
     </div>
 </div>
+    <script nonce="3a7f">
+// Правила сайта - модальное окно
+function showRules() {
+    const modal = document.getElementById('rules-modal');
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('rules-modal');
+    const closeBtn = document.getElementById('close-rules-button');
+    
+    // Обработчик для кнопки правил
+    document.getElementById('rules-button').addEventListener('click', showRules);
+    
+    // Закрытие по кнопке
+    closeBtn.addEventListener('click', function() {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    });
+    
+    // Закрытие по клику вне контента
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
+    
+    // Закрытие по ESC
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
+});
+</script>
 </body>
 </html>
