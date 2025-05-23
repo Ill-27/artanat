@@ -24,7 +24,7 @@ iframe.bg-iframe {
     height: 100vh;
     border: none;
     z-index: 0;
-    pointer-events: none;
+    pointer-events: auto !important;
 }
 
 #logo-container {
