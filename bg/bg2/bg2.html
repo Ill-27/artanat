@@ -5,6 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>АРТЕРРИИ</title>
+    <script>
+    document.addEventListener('copy', (e) => {
+        e.preventDefault();
+        e.clipboardData.setData('text/plain', '© ARTERRII Protected Content');
+    });
+    document.addEventListener('cut', (e) => e.preventDefault());
+    document.addEventListener('contextmenu', (e) => e.preventDefault());
+    </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap');
         body {
@@ -86,7 +94,7 @@
             top: 0;
             left: 0;
             right: 0;
-            bottom: 150px;
+            bottom: 300px;
             background: transparent;
             display: flex;
             justify-content: center;
