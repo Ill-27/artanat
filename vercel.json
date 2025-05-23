@@ -3,7 +3,7 @@
     {
       "src": "/bg(?:.*)/(.*)\\.(html|js)",
       "headers": {
-        "Content-Security-Policy": "frame-ancestors https://arterrii.ru https://arterrii.vercel.app;",
+        "Content-Security-Policy": "frame-ancestors https://arterrii.ru https://arterrii.vercel.app tg://;",
         "X-Frame-Options": "SAMEORIGIN",
         "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
         "X-Content-Type-Options": "nosniff",
