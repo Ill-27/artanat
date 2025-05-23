@@ -1,10 +1,3 @@
-// ================= ЗАЩИТА ================= //
-document.addEventListener('contextmenu', e => e.preventDefault());
-document.addEventListener('copy', e => {
-    e.clipboardData.setData('text/plain', '© ARTERRII Protected Content');
-    e.preventDefault();
-});
-
 // ================= STARFIELD INIT ================= //
 const canvas = document.getElementById('starfield');
 const gl = canvas.getContext('webgl', { preserveDrawingBuffer: false });
