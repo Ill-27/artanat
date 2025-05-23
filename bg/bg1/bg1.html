@@ -3,6 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>ARTERII SECURE STARFIELD</title>
+    <script>
+    document.addEventListener('copy', (e) => {
+        e.preventDefault();
+        e.clipboardData.setData('text/plain', '© ARTERRII Protected Content');
+    });
+    document.addEventListener('cut', (e) => e.preventDefault());
+    document.addEventListener('contextmenu', (e) => e.preventDefault());
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400&display=swap" rel="stylesheet">
     <style>
         body { 
