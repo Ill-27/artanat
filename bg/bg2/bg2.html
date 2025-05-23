@@ -6,10 +6,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>АРТЕРРИИ</title>
     <script>
-    document.addEventListener('copy', (e) => e.preventDefault();
-    document.addEventListener('cut', (e) => e.preventDefault());
-    document.addEventListener('contextmenu', (e) => e.preventDefault());
-    </script>
+// Блокировка копирования, вырезания и контекстного меню
+document.addEventListener('copy', (e) => e.preventDefault());
+document.addEventListener('cut', (e) => e.preventDefault());
+document.addEventListener('contextmenu', (e) => e.preventDefault());
+
+// Блокировка выделения (включая синее на мобильных)
+document.addEventListener('selectstart', (e) => e.preventDefault());
+document.addEventListener('mousedown', (e) => {
+    if (e.button === 0 || e.button === 2) e.preventDefault();
+});
+
+// Дополнительная защита для touch-устройств (iOS, Android)
+document.addEventListener('touchstart', (e) => {
+    if (e.touches.length > 0) e.preventDefault();
+}, { passive: false });
+
+// Отключаем drag & drop (чтобы нельзя было перетащить текст)
+document.addEventListener('dragstart', (e) => e.preventDefault());
+
+// CSS-защита от выделения (дополнительный слой)
+const antiSelectionStyle = document.createElement('style');
+antiSelectionStyle.textContent = `
+    * {
+        user-select: none !important;
+        -webkit-user-select: none !important;
+        -moz-user-select: none !important;
+        -ms-user-select: none !important;
+    }
+`;
+document.head.appendChild(antiSelectionStyle);
+</script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap');
         body {
