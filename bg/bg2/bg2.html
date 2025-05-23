@@ -132,7 +132,7 @@ document.head.appendChild(antiSelectionStyle);
             background: transparent;
             display: flex;
             z-index: 1000;
-            opacity: 0.8;
+            opacity: 0.85;
         }
         .modal-content {
             background: black;
@@ -209,7 +209,7 @@ document.head.appendChild(antiSelectionStyle);
         <div class="input-line" style="display:none;">
             <span class="prompt">>_</span>
             <div class="input-container">
-                <input type="text" id="command-input" class="input-field" autocomplete="off" placeholder="Нажмите сюда, чтобы ввести название коллекции...">
+                <input type="text" id="command-input" class="input-field" autocomplete="off" placeholder="Нажмите сюда, чтобы ввести свой код...">
                 <div class="underline"></div>
             </div>
         </div>
@@ -426,16 +426,16 @@ document.head.appendChild(antiSelectionStyle);
                     
                     <div class="modal-section">
                         <strong>/о нас</strong><br>
-                        <span style="color: #FF6000;">Дан</span> / соавтор, главный разработчик, концепт-вокалист<br>
-                        <span style="color: #FF6000;">Ия</span> / соавтор, концепт-режиссёр, художник CG<br>
-                        <span style="color: #FF6000;">Оля</span> / куратор<br>
-                        <a href="https://t.me/producer_arterrii_ru" target="_blank" style="color: #FF6000; text-decoration: none;">Аня</a> / продюсер<br>
+                        <span style="color: #FFFF00;">Дан</span> / соавтор, главный разработчик, концепт-вокалист<br>
+                        <span style="color: #FFFF00;">Ия</span> / соавтор, концепт-режиссёр, художник CG<br>
+                        <span style="color: #FFFF00;">Оля</span> / куратор<br>
+                        <a href="https://t.me/producer_arterrii_ru" target="_blank" style="color: #FFFF00; text-decoration: none;">Аня</a> / продюсер<br>
                         И другие. 
                     </div>
                     
                     <div class="modal-section">
                         Единственный адрес нашего проекта — arterrii.ru.<br>
-                        Мы в соцсетях: <span style="color: red;">см. в футере сайта</span>.<br>
+                        Мы в соцсетях: <span style="color: #FF6000;">см. в футере сайта</span>.<br>
                         <span style="color: red;">Иные сайты / страницы с нами никак не связаны!</span>
                     </div>
                     
@@ -474,7 +474,7 @@ document.head.appendChild(antiSelectionStyle);
                     <div class="modal-section">
                         <strong>/коллабы:</strong><br>
                         Сотрудничаем с теми, кому близок наш дух.<br>
-                        Открыты к любым предложениям и идеям / <span style="color: #FFFF00;"пишите -></span> <a href="https://t.me/producer_arterrii_ru" target="_blank" style="color: white; text-decoration: none;">
+                        Открыты к любым предложениям и идеям / <span style="color: #FFFF00;">пишите -></span> <a href="https://t.me/producer_arterrii_ru" target="_blank" style="color: white; text-decoration: none;">
   <img src="https://telegram.org/img/t_logo.png" alt="Telegram" style="width: 16px; height: 16px; vertical-align: middle;">
 </a>
                     </div>
@@ -574,7 +574,7 @@ document.head.appendChild(antiSelectionStyle);
                     document.getElementById('terminal-output').appendChild(response);
                     
                     if(CONFIG.accessCodes[code]) {
-                        await typeText(response, "> Ок. Ознакомьтесь сначала с правилами...");
+                        await typeText(response, "> Ок, но сначала правила...");
                         input.value = '';
                         
                         // Показываем модальное окно с правилами сразу
