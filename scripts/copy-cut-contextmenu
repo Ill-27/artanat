@@ -1,0 +1,8 @@
+<script>
+    document.addEventListener('copy', (e) => {
+        e.preventDefault();
+        e.clipboardData.setData('text/plain', '© ARTERRII Protected Content');
+    });
+    document.addEventListener('cut', (e) => e.preventDefault());
+    document.addEventListener('contextmenu', (e) => e.preventDefault());
+    </script>
