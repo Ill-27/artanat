@@ -106,9 +106,10 @@ function initRulesModal() {
     
     // Функция для открытия модального окна
     window.showRules = function() {
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden'; // Блокируем прокрутку страницы
-    };
+    const modal = document.getElementById('rules-modal');
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+};
     
     // Закрытие по кнопке
     closeBtn.addEventListener('click', function() {
