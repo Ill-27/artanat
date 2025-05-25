@@ -1,99 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARTERRII</title>
-    <script>
-// Блокировка копирования, вырезания и контекстного меню
-document.addEventListener('copy', (e) => e.preventDefault());
-document.addEventListener('cut', (e) => e.preventDefault());
-document.addEventListener('contextmenu', (e) => e.preventDefault());
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ARTERRII</title>
 
-// Блокировка выделения (кроме интерактивных элементов)
-document.addEventListener('selectstart', (e) => {
-    const target = e.target;
-    if (
-        !target.isContentEditable && 
-        target.tagName !== 'INPUT' && 
-        target.tagName !== 'TEXTAREA' && 
+  <!-- Favicons -->
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="apple-mobile-web-app-title" content="ARTERRII" />
+  <meta name="application-name" content="ARTERRII" />
+
+  <!-- Fonts and Styles -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" nonce="3a7f" />
+  <link rel="stylesheet" href="styles.css" nonce="3a7f" />
+
+  <!-- Protection Script -->
+  <script>
+    document.addEventListener('copy', (e) => e.preventDefault());
+    document.addEventListener('cut', (e) => e.preventDefault());
+    document.addEventListener('contextmenu', (e) => e.preventDefault());
+
+    document.addEventListener('selectstart', (e) => {
+      const target = e.target;
+      if (
+        !target.isContentEditable &&
+        target.tagName !== 'INPUT' &&
+        target.tagName !== 'TEXTAREA' &&
         !target.classList.contains('allow-selection')
-    ) {
+      ) {
         e.preventDefault();
-    }
-});
+      }
+    });
 
-// Блокировка drag & drop (кроме интерактивных элементов)
-document.addEventListener('dragstart', (e) => {
-    const target = e.target;
-    if (
-        target.tagName !== 'INPUT' && 
-        target.tagName !== 'TEXTAREA'
-    ) {
+    document.addEventListener('dragstart', (e) => {
+      const target = e.target;
+      if (target.tagName !== 'INPUT' && target.tagName !== 'TEXTAREA') {
         e.preventDefault();
-    }
-});
+      }
+    });
 
-// CSS-защита от выделения (с исключением для полей ввода)
-const antiSelectionStyle = document.createElement('style');
-antiSelectionStyle.textContent = `
-    *:not(input):not(textarea):not([contenteditable="true"]):not(.allow-selection) {
+    const antiSelectionStyle = document.createElement('style');
+    antiSelectionStyle.textContent = `
+      *:not(input):not(textarea):not([contenteditable="true"]):not(.allow-selection) {
         user-select: none !important;
         -webkit-user-select: none !important;
         -moz-user-select: none !important;
         -ms-user-select: none !important;
-    }
-`;
-document.head.appendChild(antiSelectionStyle);
-</script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://cdn.jsdelivr.net">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" nonce="3a7f">
-    <link rel="stylesheet" href="styles.css" nonce="3a7f">
-
-    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="shortcut icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <meta name="apple-mobile-web-app-title" content="Arterrii" />
-    <link rel="manifest" href="/site.webmanifest" />
+      }
+    `;
+    document.head.appendChild(antiSelectionStyle);
+  </script>
 </head>
 <body>
-   <iframe src="bg/bg1/bg1.html" class="bg-iframe" 
-        allow="webgl" 
-        allowfullscreen 
-        loading="eager"
-        style="background: black; border: none;">
-    </iframe>
+  <iframe src="bg/bg1/bg1.html" class="bg-iframe" allow="webgl" allowfullscreen loading="eager" style="background: black; border: none;"></iframe>
 
-    <iframe src="bg/bg2/bg2.html" class="bg-iframe" 
+  <iframe src="bg/bg2/bg2.html" class="bg-iframe"
     allow="webgl; fullscreen; autoplay;"
     allowfullscreen
     loading="eager"
     sandbox="allow-same-origin allow-scripts allow-forms allow-pointer-lock allow-modals"
     style="background: transparent; border: none; pointer-events: auto;">
-</iframe>
+  </iframe>
 
-    <div id="white-overlay"></div>
-    <div id="logo-container">
-        <canvas id="logo-canvas"></canvas>
-    </div>
-    <div id="cursor-container">
-        <canvas id="cursor-canvas"></canvas>
-    </div>
+  <div id="white-overlay"></div>
+  <div id="logo-container"><canvas id="logo-canvas"></canvas></div>
+  <div id="cursor-container"><canvas id="cursor-canvas"></canvas></div>
 
-    <div id="arterii-license">
-        <div>© 2025 ARTERRII. Все права защищены</div>
-        <div>Это цифровой арт-музей. Только для просмотра</div>
-        <div>Копирование и использование запрещено</div>
-        <a href="/dmca">DMCA Protection</a>
-    </div>
+  <div id="arterii-license">
+    <div>© 2025 ARTERRII. Все права защищены</div>
+    <div>Это цифровой арт-музей. Только для просмотра</div>
+    <div>Копирование и использование запрещено</div>
+    <a href="/dmca">DMCA Protection</a>
+  </div>
 
-    <span class="telegram-btn" id="telegram-link" title="Telegram"></span>
-    <span class="fullscreen-btn" id="fullscreen-toggle">↘</span>
+  <span class="telegram-btn" id="telegram-link" title="Telegram"></span>
+  <span class="fullscreen-btn" id="fullscreen-toggle">↘</span>
 
-    <script nonce="3a7f" src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
-    <script nonce="3a7f" src="cursor.js"></script>
-    <script nonce="3a7f" src="main.js"></script>
+  <script nonce="3a7f" src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+  <script nonce="3a7f" src="cursor.js"></script>
+  <script nonce="3a7f" src="main.js"></script>
 </body>
 </html>
