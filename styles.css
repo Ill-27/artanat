@@ -26,13 +26,6 @@ iframe.bg-iframe {
     z-index: 0;
     pointer-events: auto !important;
 }
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px;
-    border-bottom: 0px solid #eee;
-  }
 #cursor-container {
     position: fixed;
     width: 100px;
@@ -43,6 +36,24 @@ iframe.bg-iframe {
     display: block;
     -webkit-tap-highlight-color: transparent;
 }
+.refresh-icon {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            z-index: 1000;
+            transition: transform 0.5s ease;
+        }
+        
+        .refresh-icon:hover {
+            opacity: 0.8;
+        }
+        
+        .refresh-icon:active {
+            transform: rotate(360deg);
+        }
 #white-overlay {
     position: fixed;
     top: 0;
