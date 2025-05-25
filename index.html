@@ -15,11 +15,18 @@
   <meta name="apple-mobile-web-app-title" content="ARTERRII" />
   <meta name="application-name" content="ARTERRII" />
 
-  <header style="padding: 20px; background: black;">
-  <a href="/" style="display: inline-block;">
-    <img src="favicon.svg" alt="Arterrii" width="120" height="120">
-  </a>
-</header>
+  <style>
+  .logo-fixed {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000; /* Чтобы логотип был поверх других элементов */
+  }
+</style>
+
+<a href="/" class="logo-fixed">
+  <img src="favicon.svg" alt="Логотип" width="100">
+</a>
 
   <!-- Fonts and Styles -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
