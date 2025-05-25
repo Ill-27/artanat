@@ -1,3 +1,17 @@
+// Получаем элемент кнопки
+        const refreshButton = document.getElementById('refreshButton');
+
+// Добавляем обработчик клика
+        refreshButton.addEventListener('click', function() {
+            // Вращаем иконку
+            this.style.transform = 'rotate(360deg)';
+            
+            // Обновляем страницу после завершения анимации
+            setTimeout(() => {
+                window.location.reload();
+            }, 500); // 500ms = длительность анимации
+        });
+
 document.addEventListener('DOMContentLoaded', () => {
     // Проверка поддержки WebGL
     if (!window.WebGLRenderingContext || !document.createElement('canvas').getContext('webgl')) {
@@ -99,17 +113,3 @@ document.addEventListener('DOMContentLoaded', () => {
     // Инициализация позиции курсора
     cursorAnimation.updatePosition(window.innerWidth / 2, window.innerHeight / 2);
 });
-
-        // Получаем элемент кнопки
-        const refreshButton = document.getElementById('refreshButton');
-        
-        // Добавляем обработчик клика
-        refreshButton.addEventListener('click', function() {
-            // Вращаем иконку
-            this.style.transform = 'rotate(360deg)';
-            
-            // Обновляем страницу после завершения анимации
-            setTimeout(() => {
-                window.location.reload();
-            }, 500); // 500ms = длительность анимации
-        });
