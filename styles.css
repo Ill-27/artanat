@@ -40,8 +40,8 @@ iframe.bg-iframe {
             position: fixed;
             top: 20px;
             left: 20px;
-            width: 100px;
-            height: 100px;
+            width: 70px;
+            height: 70px;
             cursor: pointer;
             z-index: 1000;
             transition: transform 0.5s ease;
