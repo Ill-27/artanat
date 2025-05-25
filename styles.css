@@ -16,6 +16,16 @@ html, body {
     height: 100%;
 }
 
+<style>
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 0px solid #eee;
+  }
+</style>
+
 iframe.bg-iframe {
     position: fixed;
     top: 0;
