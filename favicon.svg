@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="1000" height="1000"><style>
+    #light-icon {
+      display: inline;
+    }
+    #dark-icon {
+      display: none;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      #light-icon {
+        display: none;
+      }
+      #dark-icon {
+        display: inline;
+      }
+    }
+  </style><g id="light-icon"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="1000" height="1000"><g clip-path="url(#SvgjsClipPath1168)"><rect width="1000" height="1000" fill="#000000"></rect><g transform="matrix(7.142857142857143,0,0,7.142857142857143,0,0)"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="140" height="140"><svg width="140" height="140" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+  <!-- Прозрачный фон -->
+  <rect width="100%" height="100%" fill="none"></rect>
+
+  <!-- Внешний круг -->
+  <circle cx="70" cy="70" r="63" fill="black" stroke="#DDD" stroke-width="0.5"></circle>
+
+  <!-- Цветные кружки -->
+  <g transform="translate(70,70)">
+    <circle cx="49" cy="0" r="5" fill="#FF0000" transform="rotate(0)"></circle>
+    <circle cx="49" cy="0" r="4" fill="#FF8000" transform="rotate(51.4)"></circle>
+    <circle cx="49" cy="0" r="3" fill="#FFFF00" transform="rotate(102.8)"></circle>
+    <circle cx="49" cy="0" r="2" fill="#00FF80" transform="rotate(154.2)"></circle>
+    <circle cx="49" cy="0" r="3" fill="#00D0FF" transform="rotate(205.6)"></circle>
+    <circle cx="49" cy="0" r="4" fill="#0000FF" transform="rotate(257)"></circle>
+    <circle cx="49" cy="0" r="5" fill="#8000FF" transform="rotate(308.4)"></circle>
+  </g>
+
+  <!-- Центральная группа -->
+  <g transform="translate(70,70)" font-family="Fira Code, sans-serif" font-weight="bold" font-size="8" fill="white" text-anchor="middle" dominant-baseline="central">
+    <text x="0" y="32" transform="rotate(-60)">T</text>
+    <text x="0" y="32" transform="rotate(120)">T</text>
+    <text x="0" y="32" transform="rotate(30)">A</text>
+    <text x="0" y="32" transform="rotate(-150)">A</text>
+
+    <!-- Центральный круг -->
+    <circle cx="0" cy="0" r="15" fill="white"></circle>
+  </g>
+</svg></svg></g></g><defs><clipPath id="SvgjsClipPath1168"><rect width="1000" height="1000" x="0" y="0" rx="500" ry="500"></rect></clipPath></defs></svg></g><g id="dark-icon"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="1000" height="1000"><g clip-path="url(#SvgjsClipPath1169)"><rect width="1000" height="1000" fill="#ffffff"></rect><g transform="matrix(7.142857142857143,0,0,7.142857142857143,0,0)"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="140" height="140"><svg width="140" height="140" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+  <!-- Прозрачный фон -->
+  <rect width="100%" height="100%" fill="none"></rect>
+
+  <!-- Внешний круг -->
+  <circle cx="70" cy="70" r="63" fill="black" stroke="#DDD" stroke-width="0.5"></circle>
+
+  <!-- Цветные кружки -->
+  <g transform="translate(70,70)">
+    <circle cx="49" cy="0" r="5" fill="#FF0000" transform="rotate(0)"></circle>
+    <circle cx="49" cy="0" r="4" fill="#FF8000" transform="rotate(51.4)"></circle>
+    <circle cx="49" cy="0" r="3" fill="#FFFF00" transform="rotate(102.8)"></circle>
+    <circle cx="49" cy="0" r="2" fill="#00FF80" transform="rotate(154.2)"></circle>
+    <circle cx="49" cy="0" r="3" fill="#00D0FF" transform="rotate(205.6)"></circle>
+    <circle cx="49" cy="0" r="4" fill="#0000FF" transform="rotate(257)"></circle>
+    <circle cx="49" cy="0" r="5" fill="#8000FF" transform="rotate(308.4)"></circle>
+  </g>
+
+  <!-- Центральная группа -->
+  <g transform="translate(70,70)" font-family="Fira Code, sans-serif" font-weight="bold" font-size="8" fill="white" text-anchor="middle" dominant-baseline="central">
+    <text x="0" y="32" transform="rotate(-60)">T</text>
+    <text x="0" y="32" transform="rotate(120)">T</text>
+    <text x="0" y="32" transform="rotate(30)">A</text>
+    <text x="0" y="32" transform="rotate(-150)">A</text>
+
+    <!-- Центральный круг -->
+    <circle cx="0" cy="0" r="15" fill="white"></circle>
+  </g>
+</svg></svg></g></g><defs><clipPath id="SvgjsClipPath1169"><rect width="1000" height="1000" x="0" y="0" rx="500" ry="500"></rect></clipPath></defs></svg></g></svg>
