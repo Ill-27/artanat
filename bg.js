@@ -198,7 +198,7 @@ function initStarfieldBackground() {
         time += 16;
         
         gl.viewport(0, 0, canvas.width, canvas.height);
-        gl.clearColor(1, 1, 1, 1); // Белый фон вместо черного
+        gl.clearColor(0, 0, 0, 1); // Черный фон вместо белого
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
         
         // Вращение
