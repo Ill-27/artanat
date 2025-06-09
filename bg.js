@@ -1,12 +1,5 @@
 // arterii-starfield.js
 (function() {
-    // ================= ЗАЩИТА ================= //
-    document.addEventListener('contextmenu', e => e.preventDefault());
-    document.addEventListener('copy', e => {
-        e.clipboardData.setData('text/plain', '© ARTERRII Protected Content');
-        e.preventDefault();
-    });
-
     // ================= Создаем необходимые элементы ================= //
     const canvas = document.createElement('canvas');
     canvas.id = 'starfield';
@@ -15,7 +8,8 @@
     canvas.style.left = '0';
     canvas.style.width = '100vw';
     canvas.style.height = '100vh';
-    canvas.style.zIndex = '-1';
+    canvas.style.zIndex = '-9999'; // Очень низкий z-index
+    canvas.style.pointerEvents = 'none'; // Чтобы не блокировал клики
     document.body.appendChild(canvas);
 
     const watermarkDiv = document.createElement('div');
@@ -25,7 +19,7 @@
     watermarkDiv.style.left = '0';
     watermarkDiv.style.width = '100%';
     watermarkDiv.style.height = '100%';
-    watermarkDiv.style.pointerEvents = 'auto';
+    watermarkDiv.style.pointerEvents = 'none';
     watermarkDiv.style.zIndex = '9';
     document.body.appendChild(watermarkDiv);
 
