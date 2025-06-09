@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
     speed: 0.01,
     drift: 0.03,
     opacity: 0.6,
-    colors: [new THREE.Color(0, 0, 0)], // Черный цвет
+    colors: [new THREE.Color(1, 1, 1)], // Белый цвет вместо черного
     updateInterval: 50
   };
 
