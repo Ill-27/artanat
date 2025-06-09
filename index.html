@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ARTERRII</title>
-  <meta name="description" content="Цифровые мастерские Артаната" />
+  <meta name="description" content="Город искусства: цифровые мастерские и прочее" />
 
   <!-- Favicons -->
   <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
@@ -18,44 +18,46 @@
   <!-- Fonts and Styles -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://cdn.jsdelivr.net" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" nonce="3a7f" />
   <link rel="stylesheet" href="styles.css" />
 
-  <!-- Protection Script -->
-  <script>
-    document.addEventListener('copy', (e) => e.preventDefault());
-    document.addEventListener('cut', (e) => e.preventDefault());
-    document.addEventListener('contextmenu', (e) => e.preventDefault());
+  <!-- Anti-Copy / Anti-Select -->
+  <script defer>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.addEventListener('copy', (e) => e.preventDefault());
+      document.addEventListener('cut', (e) => e.preventDefault());
+      document.addEventListener('contextmenu', (e) => e.preventDefault());
 
-    document.addEventListener('selectstart', (e) => {
-      const target = e.target;
-      if (
-        !target.isContentEditable &&
-        target.tagName !== 'INPUT' &&
-        target.tagName !== 'TEXTAREA' &&
-        !target.classList.contains('allow-selection')
-      ) {
-        e.preventDefault();
-      }
+      document.addEventListener('selectstart', (e) => {
+        const t = e.target;
+        if (
+          !t.isContentEditable &&
+          t.tagName !== 'INPUT' &&
+          t.tagName !== 'TEXTAREA' &&
+          !t.classList.contains('allow-selection')
+        ) {
+          e.preventDefault();
+        }
+      });
+
+      document.addEventListener('dragstart', (e) => {
+        const t = e.target;
+        if (t.tagName !== 'INPUT' && t.tagName !== 'TEXTAREA') {
+          e.preventDefault();
+        }
+      });
+
+      const style = document.createElement('style');
+      style.textContent = `
+        *:not(input):not(textarea):not([contenteditable="true"]):not(.allow-selection) {
+          user-select: none !important;
+          -webkit-user-select: none !important;
+          -moz-user-select: none !important;
+          -ms-user-select: none !important;
+        }
+      `;
+      document.head.appendChild(style);
     });
-
-    document.addEventListener('dragstart', (e) => {
-      const target = e.target;
-      if (target.tagName !== 'INPUT' && target.tagName !== 'TEXTAREA') {
-        e.preventDefault();
-      }
-    });
-
-    const antiSelectionStyle = document.createElement('style');
-    antiSelectionStyle.textContent = `
-      *:not(input):not(textarea):not([contenteditable="true"]):not(.allow-selection) {
-        user-select: none !important;
-        -webkit-user-select: none !important;
-        -moz-user-select: none !important;
-        -ms-user-select: none !important;
-      }
-    `;
-    document.head.appendChild(antiSelectionStyle);
   </script>
 </head>
 <body>
@@ -67,12 +69,35 @@
   <p>Копирование и использование запрещено.</p>
   <a href="/dmca">DMCA Protection</a>
 </footer>
+  
+  <div class="container">
+    <div class="scene" id="scene">
+      <div class="search-section">
+        <div class="search-container">
+          <div class="logo" id="logo">Ближе. Ярче. Артанат</div>
+          <input type="text" class="search-box" placeholder="🔍 Начните вводить..." />
+          <div class="scroll-hint" id="scrollHint">Это цифровой город искусства. Листайте вниз...</div>
+        </div>
+      </div>
+
+      <div class="grid-section">
+        <canvas class="webgl" id="threeDCanvas"></canvas>
+      </div>
+
+      <div class="content-section" id="contentSection">
+        <div class="content-container" id="contentContainer">
+          <h2>Результаты поиска: <span id="searchQuery"></span></h2>
+          <p>Здесь будут отображаться ваши результаты...</p>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <span class="telegram-btn" id="telegram-link" title="Telegram"></span>
   <span class="fullscreen-btn" id="fullscreen-toggle">↘</span>
 
   <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
-  <script src="bg8.js"></script>
+  <script src="bg.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
