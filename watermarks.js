@@ -42,9 +42,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     initSeamlessGrid() {
       const texts = [
-        'Arterrii', 'arterrii.ru', 
+        'Artanat', 'artanat.ru', 
         this.generateId(),
-        'v.1.9.5.25'
+        'v.2.1.6.25'
       ];
       
       const columnWidth = 80 / watermarkConfig.columns;
