@@ -182,7 +182,7 @@ canvas.webgl {
 .footer-content {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 10px;
 }
 
 .refresh-icon {
