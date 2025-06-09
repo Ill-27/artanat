@@ -42,9 +42,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     initSeamlessGrid() {
       const texts = [
-        'Artanat', 'artanat.ru', 
+        'Arterrii', 'arterrii.ru', 
         this.generateId(),
-        'v.2.1.6.25'
+        'v.1.9.5.25'
       ];
       
       const columnWidth = 80 / watermarkConfig.columns;
@@ -181,7 +181,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }, 1000);
       
       document.addEventListener('copy', (e) => {
-        e.clipboardData.setData('text/plain', '© ARTANAT Protected Content');
+        e.clipboardData.setData('text/plain', '© ARTERRII Protected Content');
         e.preventDefault();
       });
       
