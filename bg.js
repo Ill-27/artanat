@@ -101,7 +101,7 @@ function initStarfieldBackground() {
     gl.useProgram(program);
 
     // Генерация звезд
-    const STARS_COUNT = 70000;
+    const STARS_COUNT = 10000;
     const positions = new Float32Array(STARS_COUNT * 3);
     const sizes = new Float32Array(STARS_COUNT);
     const alphas = new Float32Array(STARS_COUNT);
