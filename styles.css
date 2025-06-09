@@ -1,17 +1,19 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Fira Code', monospace;
-}
-
-body {
-  height: 100vh;
-  wigth: 100vw;
-  overflow-x: hidden;
-  background-color: black;
-  scroll-behavior: smooth;
-  position: relative;
+html, body { 
+    margin: 0; 
+    padding: 0;
+    overflow: hidden; 
+    background: black; 
+    cursor: none;
+    touch-action: none;
+    -ms-touch-action: none;
+    font-family: monospace;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    width: 100%;
+    height: 100%;
 }
 
 .refresh-icon {
