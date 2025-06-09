@@ -179,10 +179,14 @@ canvas.webgl {
   font-family: 'Fira Code', monospace;
 }
 
+.site-footer p:not(:last-child) {
+  margin-bottom: 16px;
+}
+
 .footer-content {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 6px;
 }
 
 .refresh-icon {
