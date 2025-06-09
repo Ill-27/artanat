@@ -2,10 +2,7 @@ html, body {
     margin: 0; 
     padding: 0;
     overflow: hidden; 
-    background: black; 
-    cursor: none;
-    touch-action: none;
-    -ms-touch-action: none;
+    background: transparent; 
     font-family: monospace;
     -webkit-tap-highlight-color: transparent;
     -webkit-user-select: none;
