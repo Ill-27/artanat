@@ -20,7 +20,7 @@
     watermarkDiv.style.width = '100%';
     watermarkDiv.style.height = '100%';
     watermarkDiv.style.pointerEvents = 'none';
-    watermarkDiv.style.zIndex = '9';
+    watermarkDiv.style.zIndex = '-9999';
     document.body.appendChild(watermarkDiv);
 
     // Добавляем стили
