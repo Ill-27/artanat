@@ -59,7 +59,7 @@ function initStarfieldBackground() {
             if (colorType == 5) return vec3(1.0, 0.38, 0.0);  // Оранжевый
             if (colorType == 6) return vec3(1.0, 0.0, 0.0);   // Красный
             
-            return vec3(0.0); // Черный (был белый)
+            return vec3(1.0); // Белый (был черный)
         }
         
         void main() {
@@ -67,7 +67,7 @@ function initStarfieldBackground() {
             if (dist > 0.5) discard;
             
             float alpha = vAlpha * (0.6 + 0.4 * sin(uTime * 0.002 + vColorIndex * 10.0));
-            vec3 color = mix(vec3(0.0), getColor(vColorIndex), step(0.93, vColorIndex)); // Черный вместо белого
+            vec3 color = mix(vec3(1.0), getColor(vColorIndex), step(0.93, vColorIndex)); // Белый вместо черного
             
             gl_FragColor = vec4(color, alpha * (1.0 - smoothstep(0.3, 0.5, dist)));
         }
@@ -198,7 +198,7 @@ function initStarfieldBackground() {
         time += 16;
         
         gl.viewport(0, 0, canvas.width, canvas.height);
-        gl.clearColor(1, 1, 1, 1); // Белый фон вместо черного
+        gl.clearColor(0, 0, 0, 1); // Черный фон вместо белого
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
         
         // Вращение
