@@ -174,7 +174,7 @@ canvas.webgl {
   left: 20px;
   width: 100%;
   z-index: 1000;
-  color: rgba(1, 1, 1, 0.6);
+  color: rgba(1, 1, 1, 1);
   font-size: 14px;
   font-family: 'Fira Code', monospace;
 }
