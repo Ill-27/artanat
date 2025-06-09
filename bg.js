@@ -17,8 +17,8 @@
     watermarkDiv.style.position = 'fixed';
     watermarkDiv.style.top = '0';
     watermarkDiv.style.left = '0';
-    watermarkDiv.style.width = '100%';
-    watermarkDiv.style.height = '100%';
+    watermarkDiv.style.width = '100vw';
+    watermarkDiv.style.height = '100vh';
     watermarkDiv.style.pointerEvents = 'none';
     watermarkDiv.style.zIndex = '-9999';
     document.body.appendChild(watermarkDiv);
