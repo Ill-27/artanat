@@ -201,7 +201,6 @@ canvas.webgl {
   user-select: none;
   transform-origin: center;
   z-index: 1000;
-  filter: invert(1); /* Инвертирован цвет иконки */
 }
 
 .song-control {
