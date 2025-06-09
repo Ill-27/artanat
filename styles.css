@@ -11,6 +11,7 @@ body {
   background-color: black;
   scroll-behavior: smooth;
   position: relative;
+  color: white; /* Добавляем белый цвет текста по умолчанию */
 }
 
 .container {
@@ -21,8 +22,8 @@ body {
   left: 0;
   perspective: 1200px;
   overflow: hidden;
-  z-index: 0; /* Уменьшите z-index */
-  pointer-events: auto; /* Чтобы клики проходили сквозь */
+  z-index: 0;
+  pointer-events: auto;
 }
 
 .scene {
@@ -106,7 +107,7 @@ body {
 
 .scroll-hint {
   margin-top: 1.5rem;
-  color: rgba(0, 0, 0, 0.6);
+  color: rgba(255, 255, 255, 0.6); /* Изменено на белый цвет с прозрачностью */
   font-size: 1rem;
   animation: float 4s ease-in-out infinite;
   transition: color 0.5s ease;
@@ -172,11 +173,12 @@ canvas.webgl {
   position: fixed;
   bottom: 20px;
   left: 20px;
-  width: 100%;
+  width: calc(100% - 40px); /* Учитываем отступы */
   z-index: 1000;
-  color: rgba(1, 1, 1, 1);
+  color: white; /* Явно задаем белый цвет текста */
   font-size: 14px;
   font-family: 'Fira Code', monospace;
+  mix-blend-mode: difference; /* Для лучшей видимости на любом фоне */
 }
 
 .site-footer p:not(:last-child) {
@@ -210,57 +212,65 @@ canvas.webgl {
   pointer-events: none;
   z-index: 999999;
   mix-blend-mode: multiply;
+  opacity: 0.5; /* Добавляем прозрачность для водяного знака */
 }
 
 #watermark-container canvas {
-  opacity: 1;
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
 .fullscreen-btn {
-    position: fixed;
-    bottom: 140px;
-    right: 20px;
-    cursor: pointer;
-    font-size: 14px;
-    padding: 3px 8px;
-    border: 1px solid white;
-    border-radius: 0px;
-    transition: all 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 30px;
-    z-index: 100;
-    color: white;
-    -webkit-tap-highlight-color: transparent;
-    pointer-events: auto;
+  position: fixed;
+  bottom: 140px;
+  right: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 3px 8px;
+  border: 1px solid white;
+  border-radius: 0px;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 30px;
+  z-index: 100;
+  color: white;
+  -webkit-tap-highlight-color: transparent;
+  pointer-events: auto;
+  background-color: transparent;
 }
+
 .fullscreen-btn:hover {
-    background: transparent;
+  background: rgba(255, 255, 255, 0.2);
 }
+
 .telegram-btn {
-    position: fixed;
-    bottom: 140px;
-    left: 20px;
-    cursor: pointer;
-    font-size: 14px;
-    padding: 3px 8px;
-    border: 1px solid white;
-    border-radius: 0px;
-    transition: all 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 30px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: center;
-    z-index: 100;
-    -webkit-tap-highlight-color: transparent;
-    pointer-events: auto;
+  position: fixed;
+  bottom: 140px;
+  left: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 3px 8px;
+  border: 1px solid white;
+  border-radius: 0px;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 30px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: 100;
+  -webkit-tap-highlight-color: transparent;
+  pointer-events: auto;
+  background-color: transparent;
 }
+
 .telegram-btn:hover {
-    background: transparent;
+  background: rgba(255, 255, 255, 0.2);
 }
