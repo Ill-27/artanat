@@ -193,13 +193,12 @@ canvas.webgl {
   position: fixed;
   top: 10px;
   left: 10px;
-  width: 120px;
-  height: 120px;
-  cursor: grab;
+  width: 110px;
+  height: 110px;
+  cursor: pointer;
   user-select: none;
   transform-origin: center;
   z-index: 1000;
-  transition: transform 0.05s linear; /* Быстрое обновление трансформации */
 }
 
 .fullscreen-btn {
