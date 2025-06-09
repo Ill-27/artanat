@@ -10,7 +10,10 @@ function initStarfieldBackground() {
     canvas.style.pointerEvents = 'none'; // Чтобы не блокировал клики
     document.body.insertBefore(canvas, document.body.firstChild);
 
-    const gl = canvas.getContext('webgl', { preserveDrawingBuffer: false });
+    const gl = canvas.getContext('webgl', { 
+        preserveDrawingBuffer: false,
+        alpha: true // Включаем поддержку прозрачности
+    });
 
     if (!gl) {
         console.error('WebGL not supported for background');
@@ -198,7 +201,7 @@ function initStarfieldBackground() {
         time += 16;
         
         gl.viewport(0, 0, canvas.width, canvas.height);
-        gl.clearColor(0, 0, 0, 1); // Черный фон вместо белого
+        gl.clearColor(0, 0, 0, 0); // Прозрачный фон (альфа = 0)
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
         
         // Вращение
