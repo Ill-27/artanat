@@ -6,9 +6,9 @@
 }
 
 body {
-  height: 300vh;
+  height: 100vh;
   overflow-x: hidden;
-  background-color: transparent;
+  background-color: black;
   scroll-behavior: smooth;
   position: relative;
 }
