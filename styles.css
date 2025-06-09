@@ -20,7 +20,7 @@ body {
             width: 55px;
             height: 55px;
             cursor: pointer;
-            z-index: 1000;
+            z-index: 10;
             transition: transform 0.5s ease;
         }
         
@@ -44,7 +44,7 @@ canvas {
     left: 20px; 
     color: white;
     text-align: left; 
-    z-index: 1002; 
+    z-index: 10; 
     font-size: 13px;
     opacity: 1;
     animation: fadeIn 1s ease-out forwards;
