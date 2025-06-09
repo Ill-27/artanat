@@ -2,13 +2,13 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: monospace;
+  font-family: 'Fira Code', monospace;
 }
 
 body {
   height: 300vh;
   overflow-x: hidden;
-  background-color: black;
+  background-color: transparent;
   scroll-behavior: smooth;
   position: relative;
 }
@@ -176,13 +176,26 @@ canvas.webgl {
   z-index: 1000;
   color: rgba(0, 0, 0, 0.6);
   font-size: 14px;
-  font-family: monospace;
+  font-family: 'Fira Code', monospace;
 }
 
 .footer-content {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
+}
+
+.refresh-icon {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  width: 120px;
+  height: 120px;
+  cursor: grab;
+  user-select: none;
+  transform-origin: center;
+  z-index: 1000;
+  transition: transform 0.05s linear; /* Быстрое обновление трансформации */
 }
 
 #watermark-container {
@@ -202,7 +215,7 @@ canvas.webgl {
 
 .fullscreen-btn {
     position: fixed;
-    bottom: 80px;
+    bottom: 120px;
     right: 20px;
     cursor: pointer;
     font-size: 14px;
@@ -226,7 +239,7 @@ canvas.webgl {
 .telegram-btn {
     position: fixed;
     bottom: 120px;
-    right: 20px;
+    left: 20px;
     cursor: pointer;
     font-size: 14px;
     padding: 3px 8px;
