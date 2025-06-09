@@ -9,7 +9,7 @@ body {
   height: 100vh;
   wigth: 100vw;
   overflow-x: hidden;
-  background-color: transparent;
+  background-color: black;
   scroll-behavior: smooth;
   position: relative;
 }
