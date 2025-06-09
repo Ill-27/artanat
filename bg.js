@@ -25,7 +25,7 @@
     watermarkDiv.style.left = '0';
     watermarkDiv.style.width = '100%';
     watermarkDiv.style.height = '100%';
-    watermarkDiv.style.pointerEvents = 'none';
+    watermarkDiv.style.pointerEvents = 'auto';
     watermarkDiv.style.zIndex = '9';
     document.body.appendChild(watermarkDiv);
 
