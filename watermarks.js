@@ -1,4 +1,16 @@
- // ================= ЗАЩИТА ================= //
+function initStarfieldBackground() {
+    const canvas = document.createElement('canvas');
+    canvas.id = 'starfield-bg';
+    canvas.style.position = 'fixed';
+    canvas.style.top = '0';
+    canvas.style.left = '0';
+    canvas.style.width = '100vw';
+    canvas.style.height = '100vh';
+    canvas.style.zIndex = '-9999'; // Очень низкий z-index
+    canvas.style.pointerEvents = 'none'; // Чтобы не блокировал клики
+    document.body.insertBefore(canvas, document.body.firstChild);
+
+     // ================= ЗАЩИТА ================= //
     document.addEventListener('contextmenu', e => e.preventDefault());
     document.addEventListener('copy', e => {
         e.clipboardData.setData('text/plain', '© ARTERRII Protected Content');
