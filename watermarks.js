@@ -1,9 +1,3 @@
-// Проверяем наличие звезд
-if (!document.getElementById('stars-script')) {
-  document.body.style.display = 'none';
-  throw new Error('Stars script is required');
-}
-
 document.addEventListener('DOMContentLoaded', function() {
   // 1. Инициализация сцены
   const scene = new THREE.Scene();
