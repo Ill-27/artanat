@@ -1,3 +1,9 @@
+// Проверяем наличие водяных знаков
+if (!document.getElementById('watermarks-script')) {
+  document.body.style.display = 'none';
+  throw new Error('Watermarks script is required');
+}
+
 function initStarfieldBackground() {
     const canvas = document.createElement('canvas');
     canvas.id = 'starfield-bg';
