@@ -100,9 +100,21 @@
   <span class="fullscreen-btn" id="fullscreen-toggle">↘</span>
 
   <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
-  <script src="watermarks.js"></script>
-  <script src="bg.js"></script>
   <script src="script.js"></script>
+  
+  <script src="bg.js" id="stars-script"></script>
+  <script src="watermarks.js" id="watermarks-script"></script>
+  <script>
+  // Взаимная проверка каждые 100мс
+  setInterval(() => {
+    const stars = document.getElementById('stars-script');
+    const watermarks = document.getElementById('watermarks-script');
+    
+    if (!stars || !watermarks) {
+      document.body.innerHTML = '<div style="color:red;font-size:24px;position:fixed;top:0;left:0;width:100%;height:100%;background:white;z-index:99999;display:flex;align-items:center;justify-content:center;">⚠️ Невозможно отобразить контент. Все элементы должны быть загружены.</div>';
+    }
+  }, 100);
+</script>
 
   <div class="modal-overlay" id="rules-modal" style="display: none;">
     <div class="modal-content">
