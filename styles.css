@@ -195,8 +195,8 @@ canvas.webgl {
   position: fixed;
   top: 0px;
   left: 0px;
-  width: 100px;
-  height: 100px;
+  width: 90px;
+  height: 90px;
   cursor: pointer;
   user-select: none;
   transform-origin: center;
