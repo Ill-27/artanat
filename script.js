@@ -1,3 +1,10 @@
+// ===== DMCA =====
+document.getElementById('dmcaLink').addEventListener('click', function(e) {
+    e.preventDefault();
+    var content = document.getElementById('dmcaContent');
+    content.style.display = content.style.display === 'none' ? 'block' : 'none';
+});
+
 // ===== Окно с правилами =====
 document.addEventListener('DOMContentLoaded', function() {
   const searchBox = document.querySelector('.search-box');
