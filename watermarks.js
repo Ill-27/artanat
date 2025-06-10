@@ -29,12 +29,13 @@ document.addEventListener('DOMContentLoaded', function() {
     updateInterval: 50
   };
 
-  // 3. Класс водяного знака (остальной код без изменений)
+  // 3. Класс водяного знака
   class SeamlessWatermark {
     constructor(font) {
       this.font = font;
       this.meshes = [];
       this.timeElements = [];
+      this.dateElements = []; // Новый массив для элементов с датой
       this.lastUpdate = 0;
       this.initSeamlessGrid();
       this.setupProtection();
@@ -53,20 +54,29 @@ document.addEventListener('DOMContentLoaded', function() {
       for (let col = 0; col < watermarkConfig.columns; col++) {
         for (let row = 0; row < watermarkConfig.rows * 1.5; row++) {
           const isTime = (col % 3 === 0 && row % 5 === 0);
-          const text = isTime ? this.getCurrentTime() : 
-                     texts[Math.floor(Math.random() * texts.length)];
+          const isDate = (col % 4 === 0 && row % 6 === 0); // Новое условие для даты
+          
+          let text;
+          if (isTime) {
+            text = this.getCurrentTime();
+          } else if (isDate) {
+            text = this.getCurrentDate(); // Новый вызов для получения даты
+          } else {
+            text = texts[Math.floor(Math.random() * texts.length)];
+          }
           
           this.createWatermark(
             text,
             -40 + col * columnWidth + (Math.random() - 0.5) * columnWidth * 0.8,
             30 - row * rowHeight * 0.6 + (Math.random() - 0.5) * rowHeight * 0.4,
-            isTime
+            isTime,
+            isDate // Передаем флаг isDate
           );
         }
       }
     }
     
-    createWatermark(text, x, y, isTime) {
+    createWatermark(text, x, y, isTime, isDate) {
       const size = watermarkConfig.baseSize * (0.8 + Math.random() * 0.5);
       const color = watermarkConfig.colors[
         Math.floor(Math.random() * watermarkConfig.colors.length)
@@ -97,6 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
         drift: watermarkConfig.drift * (0.5 + Math.random()),
         phase: Math.random() * Math.PI * 2,
         isTime: isTime,
+        isDate: isDate, // Сохраняем флаг isDate
         originalText: text,
         color: color,
         size: size,
@@ -106,6 +117,7 @@ document.addEventListener('DOMContentLoaded', function() {
       scene.add(mesh);
       this.meshes.push(mesh);
       if (isTime) this.timeElements.push(mesh);
+      if (isDate) this.dateElements.push(mesh); // Добавляем в массив dateElements
     }
     
     addSubtleNoise(geometry) {
@@ -121,9 +133,16 @@ document.addEventListener('DOMContentLoaded', function() {
     update(deltaTime) {
       if (deltaTime - this.lastUpdate > watermarkConfig.updateInterval) {
         const timeStr = this.getCurrentTime();
+        const dateStr = this.getCurrentDate(); // Получаем текущую дату
+        
         this.timeElements.forEach(mesh => {
           this.updateText(mesh, timeStr);
         });
+        
+        this.dateElements.forEach(mesh => {
+          this.updateText(mesh, dateStr); // Обновляем дату
+        });
+        
         this.lastUpdate = deltaTime;
       }
       
@@ -168,6 +187,20 @@ document.addEventListener('DOMContentLoaded', function() {
       return now.toLocaleTimeString('ru-RU', { hour12: false });
     }
     
+    // Новый метод для получения текущей даты в московском часовом поясе
+    getCurrentDate() {
+      const now = new Date();
+      // Получаем смещение для московского времени (UTC+3)
+      const mskOffset = 3 * 60 * 60 * 1000;
+      const mskTime = new Date(now.getTime() + mskOffset);
+      
+      const day = String(mskTime.getUTCDate()).padStart(2, '0');
+      const month = String(mskTime.getUTCMonth() + 1).padStart(2, '0');
+      const year = mskTime.getUTCFullYear();
+      
+      return `${day}.${month}.${year}`;
+    }
+    
     generateId() {
       return 'ID-' + Array.from({length: 12}, () => 
         Math.floor(Math.random() * 16).toString(16)).join('');
@@ -181,7 +214,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }, 1000);
       
       document.addEventListener('copy', (e) => {
-        e.clipboardData.setData('text/plain', '© ARTERRII Protected Content');
+        e.clipboardData.setData('text/plain', '© ARTANAT Protected Content');
         e.preventDefault();
       });
       
