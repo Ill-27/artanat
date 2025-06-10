@@ -13,19 +13,6 @@ body {
   position: relative;
 }
 
-.no-copy-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 10000;
-    background: black;
-    opacity: 0.1;
-    user-select: none; /* Запрет выделения текста */
-    pointer-events: none; /* Пропускает клики, но блокирует выделение */
-  }
-
 .container {
   width: 100%;
   height: 100vh;
