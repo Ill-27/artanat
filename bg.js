@@ -1,5 +1,5 @@
 function initStarfieldBackground() {
-    const canvas = document.createElement('canvas');
+    const canvas = document.createElement('canvas'); 
     canvas.id = 'starfield-bg';
     canvas.style.position = 'fixed';
     canvas.style.top = '0';
