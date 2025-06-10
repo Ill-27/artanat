@@ -1,4 +1,56 @@
-// Вращение логотипа
+// ===== Окно с правилами =====
+document.addEventListener('DOMContentLoaded', function() {
+  const searchBox = document.querySelector('.search-box');
+  const rulesModal = document.getElementById('rules-modal');
+  const agreeCheckbox = document.getElementById('agree-checkbox');
+  const continueButton = document.getElementById('continue-button');
+  const contentSection = document.getElementById('contentSection');
+  
+  // Обработчик ввода в поисковую строку
+  searchBox.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter' && this.value.trim() !== '') {
+      e.preventDefault();
+      showRulesModal();
+    }
+  });
+  
+  // Показ модального окна с правилами
+  function showRulesModal() {
+    rulesModal.style.display = 'flex';
+    document.body.style.overflow = 'hidden'; // Блокируем прокрутку страницы
+  }
+  
+  // Обработчик изменения состояния чекбокса
+  agreeCheckbox.addEventListener('change', function() {
+    continueButton.disabled = !this.checked;
+  });
+  
+  // Обработчик кнопки "Продолжить"
+  continueButton.addEventListener('click', function() {
+    rulesModal.style.display = 'none';
+    document.body.style.overflow = ''; // Восстанавливаем прокрутку
+    
+    // Показываем результаты поиска
+    document.getElementById('searchQuery').textContent = searchBox.value;
+    contentSection.style.display = 'flex';
+    
+    // Анимация появления контента
+    setTimeout(() => {
+      document.querySelector('.content-container').classList.add('active');
+    }, 50);
+  });
+  
+  // Закрытие модального окна при клике вне его
+  rulesModal.addEventListener('click', function(e) {
+    if (e.target === this) {
+      searchBox.value = ''; // Очищаем поисковую строку
+      rulesModal.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+  });
+});
+
+// ===== Вращение логотипа =====
 const refreshIcon = document.getElementById('refreshButton');
 
 let rotation = 0;
