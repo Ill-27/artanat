@@ -27,18 +27,6 @@ document.addEventListener('dragstart', (e) => {
     }
 });
 
-// CSS-защита от выделения (с исключением для полей ввода)
-const antiSelectionStyle = document.createElement('style');
-antiSelectionStyle.textContent = `
-    *:not(input):not(textarea):not([contenteditable="true"]):not(.allow-selection) {
-        user-select: none !important;
-        -webkit-user-select: none !important;
-        -moz-user-select: none !important;
-        -ms-user-select: none !important;
-    }
-`;
-document.head.appendChild(antiSelectionStyle);
-
 // Функция для получения текущего времени в московском часовом поясе (формат HHmmss)
 function getMoscowTime() {
     const now = new Date();
@@ -98,6 +86,7 @@ async function loadContent(pageUrl) {
 
 async function initTerminal() {
     const output = document.getElementById('terminal-output');
+    
     CONFIG.welcomeMessages[2] = "> Привет, гость " + getMoscowTime() + "! Это Соль, AI-гид Артаната.";
     
     for (const msg of CONFIG.welcomeMessages) {
@@ -109,9 +98,17 @@ async function initTerminal() {
     document.querySelector('.input-line').style.display = 'flex';
     document.getElementById('command-input').focus();
     
+    // Показываем подсказку только после появления строки ввода
     setTimeout(() => {
-        document.getElementById('scrollHint').style.display = 'block';
-    }, 500);
+        const scrollHint = document.createElement('div');
+        scrollHint.className = 'scroll-hint';
+        scrollHint.textContent = 'введите название нужного экспоната или коллекции';
+        document.querySelector('.search-container').appendChild(scrollHint);
+        
+        setTimeout(() => {
+            scrollHint.style.opacity = '1';
+        }, 500);
+    }, 1000);
 }
 
 function setupInput() {
@@ -149,6 +146,150 @@ function setupInput() {
     });
 }
 
+// ===== 3D ВРАЩЕНИЕ СЦЕНЫ =====
+let isDragging = false;
+let previousMousePosition = { x: 0, y: 0 };
+let rotation = { x: 0, y: 0 };
+const sceneElement = document.getElementById('scene');
+
+sceneElement.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    previousMousePosition = { x: e.clientX, y: e.clientY };
+});
+
+sceneElement.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    
+    const deltaX = e.clientX - previousMousePosition.x;
+    const deltaY = e.clientY - previousMousePosition.y;
+    
+    rotation.y += deltaX * 0.005;
+    rotation.x += deltaY * 0.005;
+    
+    sceneElement.style.transform = `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg)`;
+    previousMousePosition = { x: e.clientX, y: e.clientY };
+});
+
+sceneElement.addEventListener('mouseup', () => {
+    isDragging = false;
+});
+
+sceneElement.addEventListener('mouseleave', () => {
+    isDragging = false;
+});
+
+// Для touch устройств
+sceneElement.addEventListener('touchstart', (e) => {
+    isDragging = true;
+    previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    e.preventDefault();
+}, { passive: false });
+
+sceneElement.addEventListener('touchmove', (e) => {
+    if (!isDragging) return;
+    
+    const deltaX = e.touches[0].clientX - previousMousePosition.x;
+    const deltaY = e.touches[0].clientY - previousMousePosition.y;
+    
+    rotation.y += deltaX * 0.005;
+    rotation.x += deltaY * 0.005;
+    
+    sceneElement.style.transform = `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg)`;
+    previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    e.preventDefault();
+}, { passive: false });
+
+sceneElement.addEventListener('touchend', () => {
+    isDragging = false;
+});
+
+// ===== THREE.JS ИНИЦИАЛИЗАЦИЯ =====
+const canvas = document.getElementById('threeDCanvas');
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+camera.position.z = 5;
+
+const renderer = new THREE.WebGLRenderer({ 
+    canvas, 
+    alpha: true,
+    antialias: true,
+    powerPreference: "high-performance"
+});
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setClearColor(0x000000, 0);
+
+function animate() {
+    requestAnimationFrame(animate);
+    renderer.render(scene, camera);
+}
+animate();
+
+window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+// ===== ВРАЩЕНИЕ ЛОГОТИПА =====
+const refreshIcon = document.getElementById('refreshButton');
+let iconRotation = 0;
+let iconVelocity = 0;
+let isIconSpinning = false;
+
+function spinIcon() {
+    if (!isIconSpinning) return;
+
+    iconRotation += iconVelocity;
+    refreshIcon.style.transform = `rotate(${iconRotation}deg)`;
+    iconVelocity *= 0.997;
+
+    if (Math.abs(iconVelocity) < 0.05) {
+        isIconSpinning = false;
+        iconVelocity = 0;
+        return;
+    }
+
+    requestAnimationFrame(spinIcon);
+}
+
+function windUpIcon() {
+    iconVelocity += 5;
+    if (!isIconSpinning) {
+        isIconSpinning = true;
+        spinIcon();
+    }
+}
+
+refreshIcon.addEventListener('click', windUpIcon);
+refreshIcon.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    windUpIcon();
+}, { passive: false });
+
+// ===== DMCA =====
+document.getElementById('dmcaLink').addEventListener('click', function(e) {
+    e.preventDefault();
+    var content = document.getElementById('dmcaContent');
+    content.style.display = content.style.display === 'none' ? 'block' : 'none';
+});
+
+// ===== ПОЛНОЭКРАННЫЙ РЕЖИМ =====
+document.getElementById('fullscreen-toggle').addEventListener('click', function() {
+    if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => {
+            console.error('Fullscreen error:', err);
+        });
+    } else {
+        document.exitFullscreen();
+    }
+});
+
+// ===== TELEGRAM-КНОПКА =====
+document.getElementById('telegram-link').addEventListener('click', function() {
+    window.open('https://t.me/arterrii_ru', '_blank');
+});
+
 window.onload = function() {
     setTimeout(initTerminal, 500);
     setupInput();
@@ -163,111 +304,3 @@ window.onload = function() {
         }
     });
 };
-
-// DMCA
-document.getElementById('dmcaLink').addEventListener('click', function(e) {
-    e.preventDefault();
-    var content = document.getElementById('dmcaContent');
-    content.style.display = content.style.display === 'none' ? 'block' : 'none';
-});
-
-// Вращение логотипа
-const refreshIcon = document.getElementById('refreshButton');
-let rotation = 0;
-let velocity = 0;
-let isSpinning = false;
-
-function spin() {
-  if (!isSpinning) return;
-  rotation += velocity;
-  refreshIcon.style.transform = `rotate(${rotation}deg)`;
-  velocity *= 0.997;
-  if (Math.abs(velocity) < 0.05) {
-    isSpinning = false;
-    velocity = 0;
-    return;
-  }
-  requestAnimationFrame(spin);
-}
-
-function windUp() {
-  velocity += 5;
-  if (!isSpinning) {
-    isSpinning = true;
-    spin();
-  }
-}
-
-refreshIcon.addEventListener('click', windUp);
-refreshIcon.addEventListener('touchstart', (e) => {
-  e.preventDefault();
-  windUp();
-}, { passive: false });
-
-// THREE.JS инициализация
-const canvas = document.getElementById('threeDCanvas');
-const scene3d = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
-camera.position.z = 5;
-
-const renderer = new THREE.WebGLRenderer({ 
-  canvas, 
-  alpha: true,
-  antialias: true,
-  powerPreference: "high-performance"
-});
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-renderer.setClearColor(0x000000, 0);
-
-// 3D плоскость для текстового блока
-const textGeometry = new THREE.PlaneGeometry(5, 3);
-const textMaterial = new THREE.MeshBasicMaterial({ 
-  color: 0xffffff,
-  side: THREE.DoubleSide,
-  transparent: true,
-  opacity: 0.5
-});
-const textPlane = new THREE.Mesh(textGeometry, textMaterial);
-scene3d.add(textPlane);
-
-// Анимация
-function animate() {
-  requestAnimationFrame(animate);
-  textPlane.rotation.x += 0.005;
-  textPlane.rotation.y += 0.01;
-  renderer.render(scene3d, camera);
-}
-animate();
-
-// Обработчик скролла для 3D эффекта
-window.addEventListener('scroll', () => {
-  const scrollY = window.scrollY;
-  const maxScroll = document.body.scrollHeight - window.innerHeight;
-  const scrollPercent = Math.min(Math.max(scrollY / maxScroll, 0), 1);
-  
-  document.getElementById('scene').style.transform = `
-    rotateX(${scrollPercent * 30}deg)
-    rotateY(${scrollPercent * 15}deg)
-    translateZ(${scrollPercent * -100}px)
-  `;
-  
-  camera.position.z = 5 - scrollPercent * 7;
-  camera.position.y = scrollPercent * 5;
-}, { passive: true });
-
-// Полноэкранный режим
-document.getElementById('fullscreen-toggle').addEventListener('click', function(e) {
-  if (!document.fullscreenElement) {
-    document.documentElement.requestFullscreen().catch(err => {
-      console.error('Fullscreen error:', err);
-    });
-  } else {
-    document.exitFullscreen();
-  }
-});
-
-// Telegram-кнопка
-document.getElementById('telegram-link').addEventListener('click', function(e) {
-  window.open('https://t.me/arterrii_ru', '_blank');
-});
