@@ -20,6 +20,45 @@
   <link rel="preconnect" href="https://cdn.jsdelivr.net" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" nonce="3a7f" />
   <link rel="stylesheet" href="styles.css" />
+
+  <!-- Anti-Copy / Anti-Select -->
+  <script defer>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.addEventListener('copy', (e) => e.preventDefault());
+      document.addEventListener('cut', (e) => e.preventDefault());
+      document.addEventListener('contextmenu', (e) => e.preventDefault());
+
+      document.addEventListener('selectstart', (e) => {
+        const t = e.target;
+        if (
+          !t.isContentEditable &&
+          t.tagName !== 'INPUT' &&
+          t.tagName !== 'TEXTAREA' &&
+          !t.classList.contains('allow-selection')
+        ) {
+          e.preventDefault();
+        }
+      });
+
+      document.addEventListener('dragstart', (e) => {
+        const t = e.target;
+        if (t.tagName !== 'INPUT' && t.tagName !== 'TEXTAREA') {
+          e.preventDefault();
+        }
+      });
+
+      const style = document.createElement('style');
+      style.textContent = `
+        *:not(input):not(textarea):not([contenteditable="true"]):not(.allow-selection) {
+          user-select: none !important;
+          -webkit-user-select: none !important;
+          -moz-user-select: none !important;
+          -ms-user-select: none !important;
+        }
+      `;
+      document.head.appendChild(style);
+    });
+  </script>
 </head>
 <body>
   <img src="favicon/favicon.svg" alt="Refresh" class="refresh-icon" id="refreshButton">
@@ -34,25 +73,39 @@
     </div>
   </footer>
   
-  <div class="scene" id="scene">
-    <div class="search-section">
-      <div class="search-container">
-        <div id="terminal-output"></div>
-        
-        <div class="input-line" style="display:none;">
-            <span class="prompt">>_</span>
-            <div class="input-container">
-                <input type="text" id="command-input" class="input-field" autocomplete="off" placeholder="🔍 Начните вводить...">
-                <div class="underline"></div>
+  <div class="container">
+    <div class="scene" id="scene">
+      <div class="search-section">
+        <div class="search-container">
+          <div class="container">
+            <div id="terminal-output"></div>
+            
+            <div class="input-line" style="display:none;">
+                <span class="prompt">>_</span>
+                <div class="input-container">
+                    <input type="text" id="command-input" class="input-field" autocomplete="off" placeholder="🔍 Начните вводить...">
+                    <div class="underline"></div>
+                </div>
             </div>
+            
+            <div id="content-container"></div>
+          </div>
+          <div class="scroll-hint" id="scrollHint">введите название нужного экспоната или коллекции</div>
         </div>
-        
-        <div id="content-container"></div>
+      </div>
+
+      <div class="grid-section">
+        <canvas class="webgl" id="threeDCanvas"></canvas>
+      </div>
+
+      <div class="content-section" id="contentSection">
+        <div class="content-container" id="contentContainer">
+          <h2>Результаты поиска: <span id="searchQuery"></span></h2>
+          <p>Здесь будут отображаться ваши результаты...</p>
+        </div>
       </div>
     </div>
   </div>
-
-  <canvas class="webgl" id="threeDCanvas"></canvas>
 
   <span class="telegram-btn" id="telegram-link" title="Telegram"></span>
   <span class="fullscreen-btn" id="fullscreen-toggle">↘</span>
