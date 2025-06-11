@@ -1,3 +1,25 @@
+// ===== Печатание названия ======
+// Эффект печатания текста
+function typeWriter(element, text, speed) {
+  let i = 0;
+  element.textContent = ''; // Очищаем текст
+  function typing() {
+    if (i < text.length) {
+      element.textContent += text.charAt(i);
+      i++;
+      setTimeout(typing, speed);
+    }
+  }
+  typing();
+}
+
+// Запускаем анимацию после загрузки страницы
+document.addEventListener('DOMContentLoaded', function() {
+  const logo = document.getElementById('logo');
+  const fullText = logo.textContent;
+  typeWriter(logo, fullText, 100); // 100ms задержка между буквами
+});
+
 // ===== DMCA =====
 document.getElementById('dmcaLink').addEventListener('click', function(e) {
     e.preventDefault();
