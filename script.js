@@ -52,23 +52,22 @@ function getMoscowTime() {
     const hours = String(moscowTime.getUTCHours()).padStart(2, '0');
     const minutes = String(moscowTime.getUTCMinutes()).padStart(2, '0');
     const seconds = String(moscowTime.getUTCSeconds()).padStart(2, '0');
-    
     // Возвращаем время в формате HHmmss
     return hours + minutes + seconds;
 }
 
 const CONFIG = {
     welcomeMessages: [
-        "[www.artanat.ru] #Добро пожаловать в Артанат...",
-        "Загрузка пространства v2.1.6.25...",
-        "> Привет, гость " + getMoscowTime() + "! Это Соль, AI-гид этого арт-музея.", 
+        "[www.artanat.ru] #Добро пожаловать в Артанат - город искусства...",
+        "Загрузка арт-пространства v2.1.6.25...",
+        "> Привет, гость " + getMoscowTime() + "! Это Соль, AI-гид Артаната.", 
         "> Куда полетим сейчас?",
     ],
     accessCodes: {
         "arterii2024": "gallery.html",
         "salt": "salt-project.html"
     },
-    defaultResponse: "> Ошибка: такой коллекции нет"
+    defaultResponse: "> Ошибка: в наших фондах такого нет"
 };
 
 async function typeText(element, text, isError = false) {
