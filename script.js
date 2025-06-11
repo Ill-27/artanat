@@ -1,23 +1,38 @@
-// ===== Печатание названия ======
-// Эффект печатания текста
-function typeWriter(element, text, speed) {
+// ===== ТИПОГРАФИЧЕСКАЯ АНИМАЦИЯ ЛОГОТИПА =====
+function typeWriter(element, text, speed, delay = 0) {
   let i = 0;
-  element.textContent = ''; // Очищаем текст
-  function typing() {
-    if (i < text.length) {
-      element.textContent += text.charAt(i);
-      i++;
-      setTimeout(typing, speed);
-    }
-  }
-  typing();
+  setTimeout(() => {
+    const typing = setInterval(() => {
+      if (i < text.length) {
+        element.textContent = text.substring(0, i + 1);
+        i++;
+      } else {
+        clearInterval(typing);
+      }
+    }, speed);
+  }, delay);
 }
 
 // Запускаем анимацию после загрузки страницы
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', () => {
   const logo = document.getElementById('logo');
   const fullText = logo.textContent;
-  typeWriter(logo, fullText, 100); // 100ms задержка между буквами
+  logo.textContent = ''; // Очищаем текст перед анимацией
+  
+  // Разбиваем текст на части и анимируем каждую с задержкой
+  const parts = fullText.split('. ');
+  let accumulatedDelay = 0;
+  
+  parts.forEach((part, index) => {
+    const isLast = index === parts.length - 1;
+    const textToType = isLast ? part : part + '. ';
+    const typingSpeed = 100 + Math.random() * 50; // Случайная скорость для естественности
+    
+    typeWriter(logo, logo.textContent + textToType, typingSpeed, accumulatedDelay);
+    
+    // Увеличиваем задержку для следующей части
+    accumulatedDelay += textToType.length * typingSpeed + 300; // +300мс пауза между частями
+  });
 });
 
 // ===== DMCA =====
