@@ -1,8 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap');
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Fira Code', monospace;
 }
 
 body {
@@ -11,18 +11,87 @@ body {
   background-color: #000; /* Изменено на черный фон */
   scroll-behavior: smooth;
   position: relative;
+  color: #ff0;
+  font-family: 'Fira Code', monospace;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 85vh;
+  line-height: 1.6;
+  text-shadow: 0 0 10px rgba(255, 255, 0, 0.8);
+  overflow: hidden;
+  transition: opacity 1.5s ease;
 }
 
 .container {
-  width: 100%;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  perspective: 1200px;
-  overflow: hidden;
-  z-index: 0;
-  pointer-events: auto;
+    width: 100%;
+    max-width: 700px;
+    padding: 0px;
+    position: relative;
+}
+
+.typing {
+    border-right: 0px solid #ff0;
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+    from, to { border-color: transparent }
+    50% { border-color: #ff0 }
+}
+
+.input-line {
+    display: flex;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.prompt {
+    color: #fff;
+    margin-right: 10px;
+}
+
+.input-container {
+    position: relative;
+    flex-grow: 1;
+}
+
+.input-field {
+    background: none;
+    border: none;
+    color: #fff;
+    font-family: 'Fira Code', monospace;
+    padding: 5px 0;
+    width: 100%;
+    outline: none;
+    caret-color: #fff;
+}
+
+.underline {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: #fff;
+}
+
+.error-message {
+    color: #fff !important;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8) !important;
+}
+
+.fade-out {
+    opacity: 0;
+}
+
+#content-container {
+    display: none;
+    width: 100%;
+}
+
+#terminal-output div {
+    margin-bottom: 15px;
 }
 
 .scene {
@@ -42,67 +111,6 @@ body {
   align-items: center;
   transform: translateZ(0);
   z-index: 10;
-}
-
-.search-container {
-  width: 80%;
-  max-width: 700px;
-  text-align: center;
-  transform: translateY(-10vh);
-  will-change: transform, opacity;
-}
-
-.logo {
-  font-size: clamp(2rem, 5vw, 3rem);
-  font-weight: 700;
-  margin-bottom: 2.5rem;
-  transition: all 0.8s ease;
-  mix-blend-mode: difference;
-  will-change: color, filter, mix-blend-mode;
-  opacity: 0.8;
-  background: linear-gradient(
-    270deg,
-    #7F00FF,
-    #0000FF,
-    #00BFFF,
-    #00FF80,
-    #FFFF00,
-    #FF6000,
-    #FF0000,
-    #7F00FF
-  );
-  background-size: 400% 400%;
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  animation: gradientFlow 10s ease-in-out infinite;
-}
-
-@keyframes gradientFlow {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-  
-.search-box {
-  width: 100%;
-  padding: 1.2rem 2rem;
-  font-size: 1.3rem;
-  border: none;
-  border-radius: 50px;
-  outline: none;
-  box-shadow: 0 8px 25px rgba(255, 255, 255, 0.12); /* Изменено на белый shadow */
-  background: rgba(0, 0, 0, 0.95); /* Изменено на темный фон */
-  backdrop-filter: blur(5px);
-  transition: all 0.5s ease;
-  will-change: transform, background, color;
-  color: #fff; /* Добавлен белый цвет текста */
 }
 
 .scroll-hint {
