@@ -77,8 +77,7 @@ body {
 }
 
 .error-message {
-    color: #fff !important;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8) !important;
+    color: #fff;
 }
 
 .fade-out {
@@ -114,9 +113,9 @@ body {
 }
 
 .scroll-hint {
-  margin-top: 1.5rem;
-  color: rgba(255, 255, 255, 0.6); /* Изменено на белый */
-  font-size: 1rem;
+  margin-top: 2.5rem;
+  color: #fff;
+  font-size: 14px;
   animation: float 4s ease-in-out infinite;
   transition: color 0.5s ease;
   will-change: transform, color;
@@ -184,9 +183,8 @@ canvas.webgl {
   left: 20px;
   width: 100%;
   z-index: 1000;
-  color: rgba(255, 255, 255, 0.6); /* Изменено на белый */
+  color: #fff;
   font-size: 14px;
-  font-family: 'Fira Code', monospace;
 }
 
 .site-footer p:not(:last-child) {
@@ -209,32 +207,6 @@ canvas.webgl {
   user-select: none;
   transform-origin: center;
   z-index: 1001;
-}
-
-.song-control {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background: rgba(255, 255, 255, 0.7); /* Изменено на белый */
-  color: #000; /* Изменено на черный */
-  padding: 6px 12px;
-  border-radius: 8px;
-  font-size: 14px;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  user-select: none;
-  z-index: 1000;
-}
-
-.song-control:hover {
-  background: rgba(255, 255, 255, 0.85); /* Изменено на белый */
-}
-
-#musicIcon {
-  font-size: 18px;
-  transition: color 0.3s;
 }
 
 #watermark-container {
