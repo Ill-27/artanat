@@ -6,7 +6,7 @@
 }
 
 body {
-  height: 100vh;
+  height: 300vh;
   overflow-x: hidden;
   background-color: #000;
   scroll-behavior: smooth;
@@ -16,10 +16,19 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 85vh;
   line-height: 1.6;
   text-shadow: 0 0 10px rgba(255, 255, 0, 0.8);
   overflow: hidden;
   transition: opacity 1.5s ease;
+}
+
+.container {
+    width: 100%;
+    max-width: 700px;
+    padding: 0px;
+    position: relative;
+    z-index: 10;
 }
 
 .input-line {
@@ -77,12 +86,9 @@ body {
 .scene {
   width: 100%;
   height: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
+  position: relative;
   transform-style: preserve-3d;
   will-change: transform;
-  perspective: 1000px;
 }
 
 .search-section {
@@ -96,26 +102,13 @@ body {
   z-index: 10;
 }
 
-.search-container {
-  position: relative;
-  width: 100%;
-  max-width: 700px;
-  padding: 20px;
-  text-align: center;
-}
-
 .scroll-hint {
-  position: absolute;
-  bottom: 20%;
-  left: 0;
-  right: 0;
+  margin-top: 2.5rem;
   color: #fff;
   font-size: 1rem;
   animation: float 4s ease-in-out infinite;
   transition: color 0.5s ease;
   will-change: transform, color;
-  opacity: 0;
-  pointer-events: none;
 }
 
 @keyframes float {
@@ -123,16 +116,55 @@ body {
   50% { transform: translateY(-15px); }
 }
 
-canvas.webgl {
-  position: fixed;
+.grid-section {
+  position: absolute;
+  width: 100%;
+  height: 100%;
   top: 0;
   left: 0;
+  transform: translateZ(0px);
+  z-index: 1;
+  pointer-events: none;
+}
+
+canvas.webgl {
   width: 100%;
   height: 100%;
   display: block;
   will-change: transform;
-  z-index: 1;
-  pointer-events: none;
+}
+
+.content-section {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  transform: translateZ(100px);
+  z-index: 10;
+}
+
+.content-container {
+  width: 80%;
+  max-width: 1200px;
+  background: rgba(0, 0, 0, 0.95);
+  padding: 3rem;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(255, 255, 255, 0.2);
+  transform: scale(0.9) translateY(50px);
+  opacity: 0;
+  transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  backdrop-filter: blur(10px);
+  will-change: transform, opacity;
+  color: #fff;
+}
+
+.content-container.active {
+  transform: scale(1) translateY(0);
+  opacity: 1;
 }
 
 .site-footer {
@@ -166,6 +198,21 @@ canvas.webgl {
   user-select: none;
   transform-origin: center;
   z-index: 1001;
+}
+
+#watermark-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 99;
+  mix-blend-mode: screen;
+}
+
+#watermark-container canvas {
+  opacity: 0.7;
 }
 
 .fullscreen-btn {
@@ -267,11 +314,4 @@ canvas.webgl {
 .modal-button:disabled {
     background: transparent;
     cursor: not-allowed;
-}
-
-*:not(input):not(textarea):not([contenteditable="true"]):not(.allow-selection) {
-  user-select: none !important;
-  -webkit-user-select: none !important;
-  -moz-user-select: none !important;
-  -ms-user-select: none !important;
 }
