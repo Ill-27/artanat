@@ -97,7 +97,7 @@ async function loadContent(pageUrl) {
         }, 500);
     } catch (error) {
         const response = document.createElement('div');
-        await typeText(response, "> Ошибка загрузки коллекции", true);
+        await typeText(response, "> Ошибка загрузки экспоната / коллекции", true);
         document.getElementById('terminal-output').appendChild(response);
     }
 }
@@ -106,7 +106,7 @@ async function initTerminal() {
     const output = document.getElementById('terminal-output');
     
     // Обновляем время в приветственном сообщении
-    CONFIG.welcomeMessages[2] = "> Привет, гость " + getMoscowTime() + "! Это Соль, AI-гид этого арт-музея.";
+    CONFIG.welcomeMessages[2] = "> Привет, гость " + getMoscowTime() + "! Это Соль, AI-гид Артаната.";
     
     for (const msg of CONFIG.welcomeMessages) {
         const line = document.createElement('div');
