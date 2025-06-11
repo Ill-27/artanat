@@ -1,4 +1,4 @@
-// Блокировка копирования, вырезания и контекстного меню
+ // Блокировка копирования, вырезания и контекстного меню
 document.addEventListener('copy', (e) => e.preventDefault());
 document.addEventListener('cut', (e) => e.preventDefault());
 document.addEventListener('contextmenu', (e) => e.preventDefault());
@@ -52,22 +52,23 @@ function getMoscowTime() {
     const hours = String(moscowTime.getUTCHours()).padStart(2, '0');
     const minutes = String(moscowTime.getUTCMinutes()).padStart(2, '0');
     const seconds = String(moscowTime.getUTCSeconds()).padStart(2, '0');
+    
     // Возвращаем время в формате HHmmss
     return hours + minutes + seconds;
 }
 
 const CONFIG = {
     welcomeMessages: [
-        "[www.artanat.ru] #Добро пожаловать в Артанат - город искусства...",
-        "Загрузка арт-пространства v2.1.6.25...",
-        "> Привет, гость " + getMoscowTime() + "! Это Соль, AI-гид Артаната.", 
+        "[www.artanat.ru] #Добро пожаловать в Артанат...",
+        "Загрузка пространства v2.1.6.25...",
+        "> Привет, гость " + getMoscowTime() + "! Это Соль, AI-гид этого арт-музея.", 
         "> Куда полетим сейчас?",
     ],
     accessCodes: {
         "arterii2024": "gallery.html",
         "salt": "salt-project.html"
     },
-    defaultResponse: "> Ошибка: в наших фондах такого нет"
+    defaultResponse: "> Ошибка: такой коллекции нет"
 };
 
 async function typeText(element, text, isError = false) {
@@ -97,7 +98,7 @@ async function loadContent(pageUrl) {
         }, 500);
     } catch (error) {
         const response = document.createElement('div');
-        await typeText(response, "> Ошибка загрузки экспоната / коллекции", true);
+        await typeText(response, "> Ошибка загрузки коллекции", true);
         document.getElementById('terminal-output').appendChild(response);
     }
 }
@@ -106,7 +107,7 @@ async function initTerminal() {
     const output = document.getElementById('terminal-output');
     
     // Обновляем время в приветственном сообщении
-    CONFIG.welcomeMessages[2] = "> Привет, гость " + getMoscowTime() + "! Это Соль, AI-гид Артаната.";
+    CONFIG.welcomeMessages[2] = "> Привет, гость " + getMoscowTime() + "! Это Соль, AI-гид этого арт-музея.";
     
     for (const msg of CONFIG.welcomeMessages) {
         const line = document.createElement('div');
@@ -120,9 +121,6 @@ async function initTerminal() {
 
 function setupInput() {
     const input = document.getElementById('command-input');
-    const rulesModal = document.getElementById('rules-modal');
-    const agreeCheckbox = document.getElementById('agree-checkbox');
-    const continueButton = document.getElementById('continue-button');
     
     input.addEventListener('keypress', async function(e) {
         if(e.key === 'Enter') {
@@ -131,28 +129,14 @@ function setupInput() {
             document.getElementById('terminal-output').appendChild(response);
             
             if(CONFIG.accessCodes[code]) {
-                // Показываем модальное окно с правилами
-                rulesModal.style.display = 'flex';
-                document.body.style.overflow = 'hidden';
-                
-                // Ждем, пока пользователь согласится с правилами
-                continueButton.onclick = function() {
-                    if(agreeCheckbox.checked) {
-                        rulesModal.style.display = 'none';
-                        document.body.style.overflow = '';
-                        loadContent(CONFIG.accessCodes[code]);
-                    }
-                };
+                await typeText(response, "> Загрузка коллекции...");
+                input.value = '';
+                loadContent(CONFIG.accessCodes[code]);
             } else {
                 await typeText(response, CONFIG.defaultResponse, true);
                 input.value = '';
             }
         }
-    });
-    
-    // Обработчик изменения состояния чекбокса
-    agreeCheckbox.addEventListener('change', function() {
-        continueButton.disabled = !this.checked;
     });
 }
 
@@ -176,6 +160,58 @@ document.getElementById('dmcaLink').addEventListener('click', function(e) {
     e.preventDefault();
     var content = document.getElementById('dmcaContent');
     content.style.display = content.style.display === 'none' ? 'block' : 'none';
+});
+
+// ===== Окно с правилами =====
+document.addEventListener('DOMContentLoaded', function() {
+  const searchBox = document.querySelector('.search-box');
+  const rulesModal = document.getElementById('rules-modal');
+  const agreeCheckbox = document.getElementById('agree-checkbox');
+  const continueButton = document.getElementById('continue-button');
+  const contentSection = document.getElementById('contentSection');
+  
+  // Обработчик ввода в поисковую строку
+  searchBox.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter' && this.value.trim() !== '') {
+      e.preventDefault();
+      showRulesModal();
+    }
+  });
+  
+  // Показ модального окна с правилами
+  function showRulesModal() {
+    rulesModal.style.display = 'flex';
+    document.body.style.overflow = 'hidden'; // Блокируем прокрутку страницы
+  }
+  
+  // Обработчик изменения состояния чекбокса
+  agreeCheckbox.addEventListener('change', function() {
+    continueButton.disabled = !this.checked;
+  });
+  
+  // Обработчик кнопки "Продолжить"
+  continueButton.addEventListener('click', function() {
+    rulesModal.style.display = 'none';
+    document.body.style.overflow = ''; // Восстанавливаем прокрутку
+    
+    // Показываем результаты поиска
+    document.getElementById('searchQuery').textContent = searchBox.value;
+    contentSection.style.display = 'flex';
+    
+    // Анимация появления контента
+    setTimeout(() => {
+      document.querySelector('.content-container').classList.add('active');
+    }, 50);
+  });
+  
+  // Закрытие модального окна при клике вне его
+  rulesModal.addEventListener('click', function(e) {
+    if (e.target === this) {
+      searchBox.value = ''; // Очищаем поисковую строку
+      rulesModal.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+  });
 });
 
 // ===== Вращение логотипа =====
