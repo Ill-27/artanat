@@ -1,39 +1,159 @@
-// ===== ТИПОГРАФИЧЕСКАЯ АНИМАЦИЯ ЛОГОТИПА =====
-function typeWriter(element, text, speed, delay = 0) {
-  let i = 0;
-  setTimeout(() => {
-    const typing = setInterval(() => {
-      if (i < text.length) {
-        element.textContent = text.substring(0, i + 1);
-        i++;
-      } else {
-        clearInterval(typing);
-      }
-    }, speed);
-  }, delay);
+// Блокировка копирования, вырезания и контекстного меню
+document.addEventListener('copy', (e) => e.preventDefault());
+document.addEventListener('cut', (e) => e.preventDefault());
+document.addEventListener('contextmenu', (e) => e.preventDefault());
+
+// Блокировка выделения (кроме интерактивных элементов)
+document.addEventListener('selectstart', (e) => {
+    const target = e.target;
+    if (
+        !target.isContentEditable && 
+        target.tagName !== 'INPUT' && 
+        target.tagName !== 'TEXTAREA' && 
+        !target.classList.contains('allow-selection')
+    ) {
+        e.preventDefault();
+    }
+});
+
+// Блокировка drag & drop (кроме интерактивных элементов)
+document.addEventListener('dragstart', (e) => {
+    const target = e.target;
+    if (
+        target.tagName !== 'INPUT' && 
+        target.tagName !== 'TEXTAREA'
+    ) {
+        e.preventDefault();
+    }
+});
+
+// CSS-защита от выделения (с исключением для полей ввода)
+const antiSelectionStyle = document.createElement('style');
+antiSelectionStyle.textContent = `
+    *:not(input):not(textarea):not([contenteditable="true"]):not(.allow-selection) {
+        user-select: none !important;
+        -webkit-user-select: none !important;
+        -moz-user-select: none !important;
+        -ms-user-select: none !important;
+    }
+`;
+document.head.appendChild(antiSelectionStyle);
+
+// Функция для получения текущего времени в московском часовом поясе (формат HHmmss)
+function getMoscowTime() {
+    // Создаем дату с текущим временем UTC
+    const now = new Date();
+    
+    // Московский часовой пояс UTC+3
+    const moscowOffset = 3 * 60 * 60 * 1000;
+    const moscowTime = new Date(now.getTime() + moscowOffset);
+    
+    // Получаем часы, минуты, секунды
+    const hours = String(moscowTime.getUTCHours()).padStart(2, '0');
+    const minutes = String(moscowTime.getUTCMinutes()).padStart(2, '0');
+    const seconds = String(moscowTime.getUTCSeconds()).padStart(2, '0');
+    
+    // Возвращаем время в формате HHmmss
+    return hours + minutes + seconds;
 }
 
-// Запускаем анимацию после загрузки страницы
-document.addEventListener('DOMContentLoaded', () => {
-  const logo = document.getElementById('logo');
-  const fullText = logo.textContent;
-  logo.textContent = ''; // Очищаем текст перед анимацией
-  
-  // Разбиваем текст на части и анимируем каждую с задержкой
-  const parts = fullText.split('. ');
-  let accumulatedDelay = 0;
-  
-  parts.forEach((part, index) => {
-    const isLast = index === parts.length - 1;
-    const textToType = isLast ? part : part + '. ';
-    const typingSpeed = 100 + Math.random() * 50; // Случайная скорость для естественности
+const CONFIG = {
+    welcomeMessages: [
+        "[www.artanat.ru] #Добро пожаловать в Артанат...",
+        "Загрузка пространства v2.1.6.25...",
+        "> Привет, гость " + getMoscowTime() + "! Это Соль, AI-гид этого арт-музея.", 
+        "> Куда полетим сейчас?",
+    ],
+    accessCodes: {
+        "arterii2024": "gallery.html",
+        "salt": "salt-project.html"
+    },
+    defaultResponse: "> Ошибка: такой коллекции нет"
+};
+
+async function typeText(element, text, isError = false) {
+    element.innerHTML = '';
+    element.classList.add('typing');
+    if(isError) element.classList.add('error-message');
     
-    typeWriter(logo, logo.textContent + textToType, typingSpeed, accumulatedDelay);
+    for (let i = 0; i < text.length; i++) {
+        element.innerHTML = text.substring(0, i+1);
+        await new Promise(r => setTimeout(r, 20 + Math.random() * 50));
+    }
     
-    // Увеличиваем задержку для следующей части
-    accumulatedDelay += textToType.length * typingSpeed + 300; // +300мс пауза между частями
-  });
-});
+    element.classList.remove('typing');
+    return new Promise(r => setTimeout(r, 300));
+}
+
+async function loadContent(pageUrl) {
+    try {
+        const response = await fetch(pageUrl);
+        const content = await response.text();
+        
+        document.getElementById('terminal-output').style.opacity = 0;
+        setTimeout(() => {
+            document.getElementById('content-container').innerHTML = content;
+            document.getElementById('content-container').style.display = 'block';
+            document.getElementById('terminal-output').style.display = 'none';
+        }, 500);
+    } catch (error) {
+        const response = document.createElement('div');
+        await typeText(response, "> Ошибка загрузки коллекции", true);
+        document.getElementById('terminal-output').appendChild(response);
+    }
+}
+
+async function initTerminal() {
+    const output = document.getElementById('terminal-output');
+    
+    // Обновляем время в приветственном сообщении
+    CONFIG.welcomeMessages[2] = "> Привет, гость " + getMoscowTime() + "! Это Соль, AI-гид этого арт-музея.";
+    
+    for (const msg of CONFIG.welcomeMessages) {
+        const line = document.createElement('div');
+        output.appendChild(line);
+        await typeText(line, msg);
+    }
+    
+    document.querySelector('.input-line').style.display = 'flex';
+    document.getElementById('command-input').focus();
+}
+
+function setupInput() {
+    const input = document.getElementById('command-input');
+    
+    input.addEventListener('keypress', async function(e) {
+        if(e.key === 'Enter') {
+            const code = input.value.trim();
+            const response = document.createElement('div');
+            document.getElementById('terminal-output').appendChild(response);
+            
+            if(CONFIG.accessCodes[code]) {
+                await typeText(response, "> Загрузка коллекции...");
+                input.value = '';
+                loadContent(CONFIG.accessCodes[code]);
+            } else {
+                await typeText(response, CONFIG.defaultResponse, true);
+                input.value = '';
+            }
+        }
+    });
+}
+
+window.onload = function() {
+    setTimeout(initTerminal, 500);
+    setupInput();
+    
+    document.addEventListener('click', function(e) {
+        if(e.target.id === 'back-button') {
+            document.getElementById('content-container').style.display = 'none';
+            document.getElementById('content-container').innerHTML = '';
+            document.getElementById('terminal-output').style.display = 'block';
+            document.getElementById('terminal-output').style.opacity = 1;
+            document.getElementById('command-input').focus();
+        }
+    });
+};
 
 // ===== DMCA =====
 document.getElementById('dmcaLink').addEventListener('click', function(e) {
@@ -225,28 +345,6 @@ window.addEventListener('resize', () => {
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
   }, 100);
-});
-
-// ===== ПОИСК =====
-const searchBox = document.querySelector('.search-box');
-searchBox.addEventListener('keypress', function(e) {
-  if (e.key === 'Enter') {
-    const query = this.value.trim();
-    if (query) {
-      document.getElementById('searchQuery').textContent = query;
-      document.getElementById('contentSection').style.display = 'flex';
-      document.getElementById('contentContainer').classList.add('active');
-    }
-  }
-});
-
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') {
-    document.getElementById('contentSection').style.display = 'none';
-    document.getElementById('contentContainer').classList.remove('active');
-    searchBox.value = '';
-    setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 300);
-  }
 });
 
 // ===== ПОЛНОЭКРАННЫЙ РЕЖИМ =====
