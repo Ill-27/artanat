@@ -75,7 +75,6 @@ body {
   width: 100%;
   outline: none;
   caret-color: #fff;
-  font-family: 'Fira Code', monospace;
 }
 
 .underline {
@@ -106,7 +105,7 @@ body {
 
 .scroll-hint {
   margin-top: 2.5rem;
-  font-size: 1rem;
+  font-size: 14px;
   animation: float 4s ease-in-out infinite;
   will-change: transform;
 }
