@@ -22,9 +22,9 @@ const EXHIBITS_DB = {
     "статуя1": {
         type: "3d",
         title: "Древняя статуя",
-        glb: "/models/statue1/model.glb",
-        usdz: "/models/statue1/model.usdz",
-        poster: "/models/statue1/poster.jpg",
+        glb: "/models/exhibit1/model.glb",
+        usdz: "/models/exhibit1/model.usdz",
+        poster: "/models/exhibit1/poster.jpg",
         description: "Артефакт III века до н.э., найденный в 2023 году"
     },
     "видео1": {
