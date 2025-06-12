@@ -20,64 +20,23 @@
   <link rel="preconnect" href="https://cdn.jsdelivr.net" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" nonce="3a7f" />
   <link rel="stylesheet" href="styles.css" />
-
-  <!-- Anti-Copy / Anti-Select -->
-  <script defer>
-    document.addEventListener('DOMContentLoaded', () => {
-      document.addEventListener('copy', (e) => e.preventDefault());
-      document.addEventListener('cut', (e) => e.preventDefault());
-      document.addEventListener('contextmenu', (e) => e.preventDefault());
-
-      document.addEventListener('selectstart', (e) => {
-        const t = e.target;
-        if (
-          !t.isContentEditable &&
-          t.tagName !== 'INPUT' &&
-          t.tagName !== 'TEXTAREA' &&
-          !t.classList.contains('allow-selection')
-        ) {
-          e.preventDefault();
-        }
-      });
-
-      document.addEventListener('dragstart', (e) => {
-        const t = e.target;
-        if (t.tagName !== 'INPUT' && t.tagName !== 'TEXTAREA') {
-          e.preventDefault();
-        }
-      });
-
-      const style = document.createElement('style');
-      style.textContent = `
-        *:not(input):not(textarea):not([contenteditable="true"]):not(.allow-selection) {
-          user-select: none !important;
-          -webkit-user-select: none !important;
-          -moz-user-select: none !important;
-          -ms-user-select: none !important;
-        }
-      `;
-      document.head.appendChild(style);
-    });
-  </script>
 </head>
 <body>
   <img src="favicon/favicon.svg" alt="Refresh" class="refresh-icon" id="refreshButton">
 
   <footer class="site-footer">
-  <p>© 2025 ARTANAT. Все права защищены.</p>
-  <p>Это цифровой арт-музей. Только для просмотра.</p>
-  <p>Копирование и использование запрещено.</p>
-  <a href="#" id="dmcaLink">DMCA Protection</a>
-<div id="dmcaContent" style="display: none;">
-  <p>Этот сайт соблюдает Digital Millennium Copyright Act (DMCA). Если вы обнаружили нарушение авторских прав, свяжитесь с нами по email: dan@artanat.ru.</p>
-</div>
+    <p>© 2025 ARTANAT. Все права защищены.</p>
+    <p>Это цифровой арт-музей. Только для просмотра.</p>
+    <p>Копирование и использование запрещено.</p>
+    <a href="#" id="dmcaLink">DMCA Protection</a>
+    <div id="dmcaContent" style="display: none;">
+      <p>Этот сайт соблюдает Digital Millennium Copyright Act (DMCA). Если вы обнаружили нарушение авторских прав, свяжитесь с нами по email: dan@artanat.ru.</p>
+    </div>
   </footer>
   
-  <div class="container">
-    <div class="scene" id="scene">
-      <div class="search-section">
-        <div class="search-container">
-          <div class="container">
+  <div class="scene" id="scene">
+    <div class="search-section">
+      <div class="search-container">
         <div id="terminal-output"></div>
         
         <div class="input-line" style="display:none;">
@@ -89,21 +48,12 @@
         </div>
         
         <div id="content-container"></div>
+        <div class="scroll-hint" id="scrollHint" style="display: none; color: white;">введите название нужного экспоната или коллекции</div>
+      </div>
     </div>
-          <div class="scroll-hint" id="scrollHint">Это цифровой город искусства. Листайте вниз...</div>
-        </div>
-      </div>
 
-      <div class="grid-section">
-        <canvas class="webgl" id="threeDCanvas"></canvas>
-      </div>
-
-      <div class="content-section" id="contentSection">
-        <div class="content-container" id="contentContainer">
-          <h2>Результаты поиска: <span id="searchQuery"></span></h2>
-          <p>Здесь будут отображаться ваши результаты...</p>
-        </div>
-      </div>
+    <div class="grid-section">
+      <canvas class="webgl" id="threeDCanvas"></canvas>
     </div>
   </div>
 
@@ -117,80 +67,80 @@
 
   <div class="modal-overlay" id="rules-modal" style="display: none;">
     <div class="modal-content">
-    <div class="modal-title">
-        <span>Артанат / город искусства</span>
-        <hr style="width: 70%; margin: 2px 0 0 0; border: 0; border-top: 1px solid white;">
-    </div>
-    
-    <div class="modal-section">
-        <span style="color: #FFFF00;">Цифровой арт-музей для всех форм творчества.</span><br>
-        В наших фондах — текст, звук, графика, анимация, 3D, цифровые технологии и всё, что рождается на стыке кода и вдохновения.
-    </div>
-    
-    <div class="modal-section">
-        <strong>/о нас</strong><br>
-        <span style="color: #FFFF00;">Дан</span> / соавтор, главный разработчик, концепт-вокалист<br>
-        <span style="color: #FFFF00;">Ия</span> / соавтор, концепт-режиссёр, художник CG<br>
-        <span style="color: #FFFF00;">Оля</span> / куратор<br>
-        <span style="color: #FFFF00;">Аня</span> / продюсер <a href="https://t.me/producer_arterrii_ru" target="_blank" style="color: white; text-decoration: none;">
-  <img src="https://telegram.org/img/t_logo.png" alt="Telegram" style="width: 16px; height: 16px; vertical-align: middle;">
-</a><br>
-        И другие. 
-    </div>
-    
-    <div class="modal-section">
-        Единственный адрес нашего проекта — artanat.ru.<br>
-        Наши контакты: <span style="color: #FF6000;">см. в футере сайта</span>.<br>
-        <span style="color: red;">Иные сайты / страницы с нами никак не связаны!</span>
-    </div>
-    
-    <div class="modal-section">
-        <strong>/важно</strong><br>
-        Мы создали арт-музей как безопасное пространство для искусства.<br>
-        <span style="color: red;">Любое копирование, использование и распространение без разрешения запрещено законом.</span>
-    </div>
-    
-    <div class="modal-section">
-        <strong>/сотрудничество</strong><br>
-        Только с прямыми производителями. <span style="color: red;">Посредникам - вход закрыт.</span><br>
-        Если творите с душой — присоединяйтесь к нашим коллекциям.<br>
-        Мы оформляем все коллекции на свой вкус. Оформленные нами коллекции могут быть размещены только на нашем сайте!
-    </div>
-    
-    <div class="modal-section">
-        <span style="color: #00BFFF;">/условия сотрудничества:</span><br>
-        1. Тест-драйв - одно размещение. Бесплатно, без обязательств.<br>
-        2. Оплата - за оформление и размещение коллекции. Оплата только после договоренности с продюсером!<br>
-        • Платежи за текущий период не возвращаются (даже при досрочном уходе)!<br>
-        • Нейросети и доступ к новым функциям сайта — это наши подарки, а не обязанности.
-    </div>
+      <div class="modal-title">
+          <span>Артанат / город искусства</span>
+          <hr style="width: 70%; margin: 2px 0 0 0; border: 0; border-top: 1px solid white;">
+      </div>
+      
+      <div class="modal-section">
+          <span style="color: #FFFF00;">Цифровой арт-музей для всех форм творчества.</span><br>
+          В наших фондах — текст, звук, графика, анимация, 3D, цифровые технологии и всё, что рождается на стыке кода и вдохновения.
+      </div>
+      
+      <div class="modal-section">
+          <strong>/о нас</strong><br>
+          <span style="color: #FFFF00;">Дан</span> / соавтор, главный разработчик, концепт-вокалист<br>
+          <span style="color: #FFFF00;">Ия</span> / соавтор, концепт-режиссёр, художник CG<br>
+          <span style="color: #FFFF00;">Оля</span> / куратор<br>
+          <span style="color: #FFFF00;">Аня</span> / продюсер <a href="https://t.me/producer_arterrii_ru" target="_blank" style="color: white; text-decoration: none;">
+            <img src="https://telegram.org/img/t_logo.png" alt="Telegram" style="width: 16px; height: 16px; vertical-align: middle;">
+          </a><br>
+          И другие. 
+      </div>
+      
+      <div class="modal-section">
+          Единственный адрес нашего проекта — artanat.ru.<br>
+          Наши контакты: <span style="color: #FF6000;">см. в футере сайта</span>.<br>
+          <span style="color: red;">Иные сайты / страницы с нами никак не связаны!</span>
+      </div>
+      
+      <div class="modal-section">
+          <strong>/важно</strong><br>
+          Мы создали арт-музей как безопасное пространство для искусства.<br>
+          <span style="color: red;">Любое копирование, использование и распространение без разрешения запрещено законом.</span>
+      </div>
+      
+      <div class="modal-section">
+          <strong>/сотрудничество</strong><br>
+          Только с прямыми производителями. <span style="color: red;">Посредникам - вход закрыт.</span><br>
+          Если творите с душой — присоединяйтесь к нашим коллекциям.<br>
+          Мы оформляем все коллекции на свой вкус. Оформленные нами коллекции могут быть размещены только на нашем сайте!
+      </div>
+      
+      <div class="modal-section">
+          <span style="color: #00BFFF;">/условия сотрудничества:</span><br>
+          1. Тест-драйв - одно размещение. Бесплатно, без обязательств.<br>
+          2. Оплата - за оформление и размещение коллекции. Оплата только после договоренности с продюсером!<br>
+          • Платежи за текущий период не возвращаются (даже при досрочном уходе)!<br>
+          • Нейросети и доступ к новым функциям сайта — это наши подарки, а не обязанности.
+      </div>
 
-    <div class="modal-section">
-        <span style="color: #00FF80;">/прекращение сотрудничества:</span><br>
-        • После окончания оплаченного периода мы можем не продлевать сотрудничество без объяснения причин.<br>
-        • Вы тоже вправе уйти в любой момент — просто не продлевайте размещение. Если чувствуем, что нам не по пути — расстаёмся корректно.<br>
-        • Удаление ваших коллекций (оплаченных экспонатов) с нашего сайта только по обоюдной договоренности!
-    </div>
+      <div class="modal-section">
+          <span style="color: #00FF80;">/прекращение сотрудничества:</span><br>
+          • После окончания оплаченного периода мы можем не продлевать сотрудничество без объяснения причин.<br>
+          • Вы тоже вправе уйти в любой момент — просто не продлевайте размещение. Если чувствуем, что нам не по пути — расстаёмся корректно.<br>
+          • Удаление ваших коллекций (оплаченных экспонатов) с нашего сайта только по обоюдной договоренности!
+      </div>
 
-    <div class="modal-section">
-        • Мы не собираем персональные данные.
+      <div class="modal-section">
+          • Мы не собираем персональные данные.
+      </div>
+      
+      <div class="modal-section">
+          <strong>/коллабы:</strong><br>
+          Творим с теми, кому близок наш дух.<br>
+          Открыты к любым предложениям и идеям! <span style="color: #FFFF00;">Пишите продюсеру в Telegram <a href="https://t.me/producer_arterrii_ru" target="_blank" style="color: white; text-decoration: none;">
+            <img src="https://telegram.org/img/t_logo.png" alt="Telegram" style="width: 16px; height: 16px; vertical-align: middle;">
+          </a>.</span>
+      </div>
+      
+      <div class="modal-checkbox">
+          <input type="checkbox" id="agree-checkbox">
+          <label for="agree-checkbox">Я прочитал(а) и согласен(на) с правилами проекта.</label>
+      </div>
+      
+      <button class="modal-button" id="continue-button" disabled>Продолжить</button>
     </div>
-    
-    <div class="modal-section">
-        <strong>/коллабы:</strong><br>
-        Творим с теми, кому близок наш дух.<br>
-        Открыты к любым предложениям и идеям! <span style="color: #FFFF00;">Пишите продюсеру в Telegram <a href="https://t.me/producer_arterrii_ru" target="_blank" style="color: white; text-decoration: none;">
-  <img src="https://telegram.org/img/t_logo.png" alt="Telegram" style="width: 16px; height: 16px; vertical-align: middle;">
-</a>.</span>
-    </div>
-    
-    <div class="modal-checkbox">
-        <input type="checkbox" id="agree-checkbox">
-        <label for="agree-checkbox">Я прочитал(а) и согласен(на) с правилами проекта.</label>
-    </div>
-    
-    <button class="modal-button" id="continue-button" disabled>Продолжить</button>
-    </div>
-</div>
+  </div>
 </body>
 </html>
