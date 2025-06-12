@@ -141,7 +141,7 @@ body {
 
 .fullscreen-btn {
     position: fixed;
-    bottom: 140px;
+    bottom: 160px;
     right: 20px;
     cursor: pointer;
     font-size: 14px;
@@ -163,7 +163,7 @@ body {
 }
 .telegram-btn {
     position: fixed;
-    bottom: 140px;
+    bottom: 160px;
     left: 20px;
     cursor: pointer;
     font-size: 14px;
