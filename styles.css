@@ -104,6 +104,7 @@ body {
   width: 100%;
   z-index: 1000;
   color: #fff;
+  text-shadow: none;
   font-size: 14px;
   font-family: 'Fira Code', monospace;
 }
