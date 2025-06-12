@@ -6,121 +6,95 @@
 }
 
 body {
-  height: 300vh;
-  overflow-x: hidden;
   background-color: #000;
-  scroll-behavior: smooth;
-  position: relative;
   color: #ff0;
   font-family: 'Fira Code', monospace;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 85vh;
+  min-height: 100vh;
   line-height: 1.6;
   text-shadow: 0 0 10px rgba(255, 255, 0, 0.8);
   overflow: hidden;
-  transition: opacity 1.5s ease;
 }
 
-.scene {
-  transform-style: preserve-3d;
-  perspective: 1000px;
-}
-
-.search-section {
-  transform: translateZ(50px);
-  backface-visibility: visible;
-  width: 100%;
-  max-width: 700px;
-  margin: 0 auto;
-  padding: 20px;
-  text-align: left; /* Восстанавливаем ваше выравнивание */
-}
-
-.scroll-hint {
-  color: white !important; /* Белый цвет для подсказки */
-  text-align: center; /* Центрируем только подсказку */
-  margin-top: 2.5rem;
-  animation: float 4s ease-in-out infinite;
-}
-
-.search-container {
-  width: 100%;
-  max-width: 700px;
-  padding: 20px;
-  text-align: center;
+.terminal-container {
+    width: 100%;
+    max-width: 700px;
+    padding: 20px;
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
 }
 
 .input-line {
-  display: flex;
-  align-items: center;
-  margin-top: 30px;
+    display: flex;
+    align-items: center;
+    margin-top: 30px;
+    width: 100%;
 }
 
 .prompt {
-  color: #fff;
-  margin-right: 10px;
+    color: #fff;
+    margin-right: 10px;
 }
 
 .input-container {
-  position: relative;
-  flex-grow: 1;
+    position: relative;
+    flex-grow: 1;
 }
 
 .input-field {
-  background: none;
-  border: none;
-  color: #fff;
-  padding: 5px 0;
-  width: 100%;
-  outline: none;
-  caret-color: #fff;
-  font-family: 'Fira Code', monospace;
+    background: none;
+    border: none;
+    color: #fff;
+    padding: 5px 0;
+    width: 100%;
+    outline: none;
+    caret-color: #fff;
+    font-family: 'Fira Code', monospace;
 }
 
 .underline {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 1px;
-  background: #fff;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: #fff;
 }
 
 .error-message {
-  color: #fff !important;
+    color: #fff !important;
 }
 
-.fade-out {
-  opacity: 0;
-}
-
-#content-container {
-  display: none;
-  width: 100%;
+#terminal-output {
+    width: 100%;
 }
 
 #terminal-output div {
-  margin-bottom: 15px;
+    margin-bottom: 15px;
 }
 
-.grid-section {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  transform: translateZ(0px);
-  z-index: 1;
-  pointer-events: none;
+#content-container {
+    display: none;
+    width: 100%;
 }
 
-canvas.webgl {
-  width: 100%;
-  height: 100%;
-  display: block;
-  will-change: transform;
+.scroll-hint {
+    margin-top: 2.5rem;
+    color: #fff;
+    font-size: 1rem;
+    animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
 }
 
 .site-footer {
@@ -138,12 +112,6 @@ canvas.webgl {
   margin-bottom: 4px;
 }
 
-.footer-content {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
 .refresh-icon {
   position: fixed;
   top: 0px;
@@ -152,132 +120,104 @@ canvas.webgl {
   height: 90px;
   cursor: pointer;
   user-select: none;
-  transform-origin: center;
   z-index: 1001;
 }
 
-#watermark-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 99;
-  mix-blend-mode: screen;
-}
-
-#watermark-container canvas {
-  opacity: 0.7;
-}
-
 .fullscreen-btn {
-  position: fixed;
-  bottom: 140px;
-  right: 20px;
-  cursor: pointer;
-  font-size: 14px;
-  padding: 3px 8px;
-  border: 1px solid white;
-  border-radius: 0px;
-  transition: all 0.3s ease;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 30px;
-  z-index: 100;
-  color: white;
-  -webkit-tap-highlight-color: transparent;
-  pointer-events: auto;
+    position: fixed;
+    bottom: 140px;
+    right: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 3px 8px;
+    border: 1px solid white;
+    border-radius: 0px;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 30px;
+    z-index: 100;
+    color: white;
+    -webkit-tap-highlight-color: transparent;
 }
-
 .fullscreen-btn:hover {
-  background: transparent;
+    background: transparent;
 }
-
 .telegram-btn {
-  position: fixed;
-  bottom: 140px;
-  left: 20px;
-  cursor: pointer;
-  font-size: 14px;
-  padding: 3px 8px;
-  border: 1px solid white;
-  border-radius: 0px;
-  transition: all 0.3s ease;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 30px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: center;
-  z-index: 100;
-  -webkit-tap-highlight-color: transparent;
-  pointer-events: auto;
+    position: fixed;
+    bottom: 140px;
+    left: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 3px 8px;
+    border: 1px solid white;
+    border-radius: 0px;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 30px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    z-index: 100;
+    -webkit-tap-highlight-color: transparent;
 }
-
 .telegram-btn:hover {
-  background: transparent;
+    background: transparent;
 }
 
 .modal-overlay {
-  position: fixed;
-  top: 40px;
-  left: 30px;
-  right: 30px;
-  bottom: 230px;
-  background: transparent;
-  display: flex;
-  z-index: 1000;
-  opacity: 0.85;
+    position: fixed;
+    top: 40px;
+    left: 30px;
+    right: 30px;
+    bottom: 230px;
+    background: transparent;
+    display: flex;
+    z-index: 1000;
+    opacity: 0.85;
 }
-
 .modal-content {
-  background: black;
-  color: white;
-  padding: 30px;
-  max-width: 1000vw;
-  max-height: 80vh;
-  overflow-y: auto;
-  border-radius: 0px;
-  font-family: 'Fira Code', monospace;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+    background: black;
+    color: white;
+    padding: 30px;
+    max-width: 1000vw;
+    max-height: 80vh;
+    overflow-y: auto;
+    border-radius: 0px;
+    font-family: 'Fira Code', monospace;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
 }
-
 .modal-title {
-  font-size: 1.5em;
-  font-weight: bold;
-  margin-bottom: 20px;
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 20px;
 }
-
 .modal-section {
-  margin-bottom: 15px;
+    margin-bottom: 15px;
 }
-
 .modal-checkbox {
-  margin-top: 20px;
-  display: flex;
-  align-items: center;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
 }
-
 .modal-checkbox input {
-  margin-right: 10px;
+    margin-right: 10px;
 }
-
 .modal-button {
-  background: #0000FF;
-  color: white;
-  border: 0px;
-  padding: 10px 20px;
-  margin-top: 30px;
-  cursor: pointer;
-  font-family: 'Fira Code', monospace;
+    background: #0000FF;
+    color: white;
+    border: 0px;
+    padding: 10px 20px;
+    margin-top: 30px;
+    cursor: pointer;
+    font-family: 'Fira Code', monospace;
 }
-
 .modal-button:disabled {
-  background: transparent;
-  cursor: not-allowed;
+    background: transparent;
+    cursor: not-allowed;
 }
