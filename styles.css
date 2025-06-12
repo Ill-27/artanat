@@ -20,7 +20,7 @@ body {
 
 .terminal-container {
     width: 100%;
-    max-width: 700px;
+    max-width: 500px;
     padding: 20px;
     position: fixed;
     z-index: 10;
