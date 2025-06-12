@@ -20,19 +20,21 @@ body {
   overflow: hidden; /* Запрещает прокрутку страницы, чтобы, когда открыто модальное окно, нельзя было скроллить основную страницу */
 }
 
+/* Контейнер терминала */
 .terminal-container {
     width: 100%;
     max-width: 700px;
-    padding: 20px; /* внутренние отступы со всех сторон */
+    padding: 20px; /* Внутренние отступы со всех сторон */
     margin-top: -150px; /* Поднимаем контейнер на 150px вверх */
     position: relative;  /* Позиционирование элемента. relative - можно смещать */
     z-index: 10;
-    display: flex;
+    display: flex; /* Отображение элемента: гибкое */
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
+/* Строка ввода */
 .input-line {
     display: flex;
     align-items: center;
@@ -50,16 +52,18 @@ body {
     flex-grow: 1;
 }
 
+/* Поле ввода */
 .input-field {
     background: none;
     border: none;
     color: #fff;
     padding: 5px 0;
     width: 100%;
-    outline: none;  /* внешняя граница */
+    outline: none; /* Убираем обводку при фокусе */
     caret-color: #fff;
 }
 
+/* Подчеркивание поля ввода */
 .underline {
     position: absolute;
     bottom: 0;
@@ -86,6 +90,7 @@ body {
     width: 100%;
 }
 
+/* Анимация подсказки (плавное подпрыгивание) */
 .scroll-hint {
     margin-top: 2.5rem;
     color: #fff;
@@ -131,7 +136,7 @@ body {
   width: 100%;
   height: 100%;
   pointer-events: ;
-  z-index: 99;
+  z-index: -999;
   mix-blend-mode: screen;
 }
 
