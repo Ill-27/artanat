@@ -1,18 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap');
+/* Основные настройки для всех элементов */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+  margin: 0; /* Убираем отступы */
+  padding: 0; /* Убираем внутренние отступы */
+  box-sizing: border-box; /* Правильная модель размеров */
 }
 
+/* Стили для всего тела страницы */
 body {
   background-color: #000;
   color: #ff0;
   font-family: 'Fira Code', monospace;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
+  justify-content: center; /* Центрируем по горизонтали */
+  align-items: center; /* Центрируем по вертикали */
+  min-height: 100vh; /* На всю высоту экрана */
   line-height: 1.6;
   text-shadow: 0 0 10px rgba(255, 255, 0, 0.8);
   overflow: hidden;
@@ -20,9 +22,10 @@ body {
 
 .terminal-container {
     width: 100%;
-    max-width: 500px;
-    padding: 20px;
-    position: fixed;
+    max-width: 700px;
+    padding: 20px; /* внутренние отступы со всех сторон */
+    margin-top: -150px; /* Поднимаем контейнер на 150px вверх */
+    position: relative;  /* Позиционирование элемента. relative - можно смещать */
     z-index: 10;
     display: flex;
     flex-direction: column;
@@ -33,7 +36,7 @@ body {
 .input-line {
     display: flex;
     align-items: center;
-    margin-top: 30px;
+    margin-top: 30px;  /* Внешний отступ сверху */
     width: 100%;
 }
 
@@ -53,7 +56,7 @@ body {
     color: #fff;
     padding: 5px 0;
     width: 100%;
-    outline: none;
+    outline: none;  /* внешняя граница */
     caret-color: #fff;
     font-family: 'Fira Code', monospace;
 }
