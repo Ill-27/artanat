@@ -27,23 +27,12 @@ document.addEventListener('dragstart', (e) => {
     }
 });
 
-// CSS-защита от выделения (с исключением для полей ввода)
-const antiSelectionStyle = document.createElement('style');
-antiSelectionStyle.textContent = `
-    *:not(input):not(textarea):not([contenteditable="true"]):not(.allow-selection) {
-        user-select: none !important;
-        -webkit-user-select: none !important;
-        -moz-user-select: none !important;
-        -ms-user-select: none !important;
-    }
-`;
-document.head.appendChild(antiSelectionStyle);
-
 // Функция для получения текущего времени в московском часовом поясе (формат HHmmss)
 function getMoscowTime() {
     const now = new Date();
     const moscowOffset = 3 * 60 * 60 * 1000;
     const moscowTime = new Date(now.getTime() + moscowOffset);
+    
     const hours = String(moscowTime.getUTCHours()).padStart(2, '0');
     const minutes = String(moscowTime.getUTCMinutes()).padStart(2, '0');
     const seconds = String(moscowTime.getUTCSeconds()).padStart(2, '0');
@@ -98,6 +87,8 @@ async function loadContent(pageUrl) {
 
 async function initTerminal() {
     const output = document.getElementById('terminal-output');
+    
+    // Обновляем время в приветственном сообщении
     CONFIG.welcomeMessages[2] = "> Привет, гость " + getMoscowTime() + "! Это Соль, AI-гид Артаната.";
     
     for (const msg of CONFIG.welcomeMessages) {
@@ -108,10 +99,7 @@ async function initTerminal() {
     
     document.querySelector('.input-line').style.display = 'flex';
     document.getElementById('command-input').focus();
-    
-    setTimeout(() => {
-        document.getElementById('scrollHint').style.display = 'block';
-    }, 500);
+    document.getElementById('scrollHint').style.display = 'block';
 }
 
 function setupInput() {
@@ -179,14 +167,17 @@ let isSpinning = false;
 
 function spin() {
   if (!isSpinning) return;
+
   rotation += velocity;
   refreshIcon.style.transform = `rotate(${rotation}deg)`;
   velocity *= 0.997;
+
   if (Math.abs(velocity) < 0.05) {
     isSpinning = false;
     velocity = 0;
     return;
   }
+
   requestAnimationFrame(spin);
 }
 
@@ -203,58 +194,6 @@ refreshIcon.addEventListener('touchstart', (e) => {
   e.preventDefault();
   windUp();
 }, { passive: false });
-
-// THREE.JS инициализация
-const canvas = document.getElementById('threeDCanvas');
-const scene3d = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
-camera.position.z = 5;
-
-const renderer = new THREE.WebGLRenderer({ 
-  canvas, 
-  alpha: true,
-  antialias: true,
-  powerPreference: "high-performance"
-});
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-renderer.setClearColor(0x000000, 0);
-
-// 3D плоскость для текстового блока
-const textGeometry = new THREE.PlaneGeometry(5, 3);
-const textMaterial = new THREE.MeshBasicMaterial({ 
-  color: 0xffffff,
-  side: THREE.DoubleSide,
-  transparent: true,
-  opacity: 0.5
-});
-const textPlane = new THREE.Mesh(textGeometry, textMaterial);
-scene3d.add(textPlane);
-
-// Анимация
-function animate() {
-  requestAnimationFrame(animate);
-  textPlane.rotation.x += 0.005;
-  textPlane.rotation.y += 0.01;
-  renderer.render(scene3d, camera);
-}
-animate();
-
-// Обработчик скролла для 3D эффекта
-window.addEventListener('scroll', () => {
-  const scrollY = window.scrollY;
-  const maxScroll = document.body.scrollHeight - window.innerHeight;
-  const scrollPercent = Math.min(Math.max(scrollY / maxScroll, 0), 1);
-  
-  document.getElementById('scene').style.transform = `
-    rotateX(${scrollPercent * 30}deg)
-    rotateY(${scrollPercent * 15}deg)
-    translateZ(${scrollPercent * -100}px)
-  `;
-  
-  camera.position.z = 5 - scrollPercent * 7;
-  camera.position.y = scrollPercent * 5;
-}, { passive: true });
 
 // Полноэкранный режим
 document.getElementById('fullscreen-toggle').addEventListener('click', function(e) {
