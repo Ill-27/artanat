@@ -39,6 +39,7 @@ function getMoscowTime() {
     return hours + minutes + seconds;
 }
 
+// ===== ОСНОВНЫЕ НАСТРОЙКИ =====
 const CONFIG = {
     welcomeMessages: [
         "[www.artanat.ru] #Добро пожаловать в Артанат - город искусства...",
@@ -53,8 +54,10 @@ const CONFIG = {
     defaultResponse: "> Ошибка: в наших фондах такого нет."
 };
 
+// Печатает текст как в терминале
 async function typeText(element, text, isError = false) {
-    element.innerHTML = '';
+    element.innerHTML = ''; // Очищаем элемент
+  // Печатаем по одной букве с задержкой
     element.classList.add('typing');
     if(isError) element.classList.add('error-message');
     
@@ -67,11 +70,12 @@ async function typeText(element, text, isError = false) {
     return new Promise(r => setTimeout(r, 300));
 }
 
+// Загружает контент страницы
 async function loadContent(pageUrl) {
     try {
-        const response = await fetch(pageUrl);
+        const response = await fetch(pageUrl); // Запрашиваем страницу
         const content = await response.text();
-        
+        // Показываем загруженный контент
         document.getElementById('terminal-output').style.opacity = 0;
         setTimeout(() => {
             document.getElementById('content-container').innerHTML = content;
@@ -79,6 +83,7 @@ async function loadContent(pageUrl) {
             document.getElementById('terminal-output').style.display = 'none';
         }, 500);
     } catch (error) {
+        // Если ошибка - показываем сообщение
         const response = document.createElement('div');
         await typeText(response, "> Ошибка загрузки экспоната / коллекции", true);
         document.getElementById('terminal-output').appendChild(response);
