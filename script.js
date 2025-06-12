@@ -50,7 +50,7 @@ const CONFIG = {
         "arterii2024": "gallery.html",
         "salt": "salt-project.html"
     },
-    defaultResponse: "> Ошибка: в наших фондах такого нет"
+    defaultResponse: "> Ошибка: в наших фондах такого нет."
 };
 
 async function typeText(element, text, isError = false) {
