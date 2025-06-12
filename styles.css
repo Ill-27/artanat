@@ -21,7 +21,8 @@ body {
 .terminal-container {
     width: 100%;
     max-width: 700px;
-    padding: 0px;
+    top: 500px;
+    padding: 20px;
     position: relative;
     z-index: 10;
     display: flex;
