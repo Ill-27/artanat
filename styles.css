@@ -42,14 +42,16 @@ body {
     width: 100%;
 }
 
+/* Это стиль для символа >_ перед полем ввода */
 .prompt {
     color: #fff;
     margin-right: 10px;
 }
 
+/* Обрамляет поле ввода (<input>) и его подчёркивание */
 .input-container {
-    position: relative;
-    flex-grow: 1;
+    position: relative;  /* Позиционирование относительно */
+    flex-grow: 1;        /* Растягивается на всё доступное пространство */
 }
 
 /* Поле ввода */
@@ -77,16 +79,18 @@ body {
     color: #fff !important;
 }
 
+/* Стиль для блока вывода терминала */
 #terminal-output {
-    width: 100%;
+    width: 100%;  /* Занимает всю ширину родителя */
 }
 
 #terminal-output div {
-    margin-bottom: 15px;
+    margin-bottom: 15px; /* Отступ снизу для каждой строки */
 }
 
+/* Стиль для контейнера контента. Показывается только после успешного ввода кода (например, через display: block в JavaScript) */
 #content-container {
-    display: none;
+    display: none;  /* Изначально скрыт */
     width: 100%;
 }
 
