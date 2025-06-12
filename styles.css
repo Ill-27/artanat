@@ -21,7 +21,7 @@ body {
 .terminal-container {
     width: 100%;
     max-width: 700px;
-    padding: 20px;
+    padding: 0px;
     position: relative;
     z-index: 10;
     display: flex;
@@ -88,7 +88,7 @@ body {
 .scroll-hint {
     margin-top: 2.5rem;
     color: #fff;
-    font-size: 10px;
+    font-size: 12px;
     animation: float 4s ease-in-out infinite;
 }
 
