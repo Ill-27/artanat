@@ -123,6 +123,21 @@ body {
   z-index: 1001;
 }
 
+#watermark-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 99;
+  mix-blend-mode: screen;
+}
+
+#watermark-container canvas {
+  opacity: 0.7;
+}
+
 .fullscreen-btn {
     position: fixed;
     bottom: 140px;
