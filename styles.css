@@ -17,7 +17,7 @@ body {
   min-height: 100vh; /* На всю высоту экрана */
   line-height: 1.6;
   text-shadow: 0 0 10px rgba(255, 255, 0, 0.8);
-  overflow: hidden;
+  overflow: hidden; /* Запрещает прокрутку страницы, чтобы, когда открыто модальное окно, нельзя было скроллить основную страницу */
 }
 
 .terminal-container {
@@ -58,7 +58,6 @@ body {
     width: 100%;
     outline: none;  /* внешняя граница */
     caret-color: #fff;
-    font-family: 'Fira Code', monospace;
 }
 
 .underline {
@@ -108,7 +107,6 @@ body {
   color: #fff;
   text-shadow: none;
   font-size: 14px;
-  font-family: 'Fira Code', monospace;
 }
 
 .site-footer p:not(:last-child) {
@@ -205,9 +203,8 @@ body {
     padding: 30px;
     max-width: 1000vw;
     max-height: 80vh;
-    overflow-y: auto;
+    overflow-y: scroll;  /* Всегда показывает полосы прокрутки (даже если контент помещается) */
     border-radius: 0px;
-    font-family: 'Fira Code', monospace;
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
 }
 .modal-title {
@@ -233,7 +230,6 @@ body {
     padding: 10px 20px;
     margin-top: 30px;
     cursor: pointer;
-    font-family: 'Fira Code', monospace;
 }
 .modal-button:disabled {
     background: transparent;
