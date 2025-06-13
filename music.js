@@ -22,10 +22,6 @@ const progressThumb = document.getElementById('progress-thumb');
 const timeStart = document.getElementById('time-start');
 const timeEnd = document.getElementById('time-end');
 
-const tooltip = document.createElement('div');
-tooltip.classList.add('progress-tooltip');
-progressTrack.appendChild(tooltip);
-
 function formatTime(seconds) {
   const min = Math.floor(seconds / 60);
   const sec = Math.floor(seconds % 60).toString().padStart(2, '0');
@@ -54,7 +50,7 @@ function loadSong(index) {
   nowPlaying.style.animation = 'none';
   nowPlaying.offsetHeight; // Trigger reflow
   nowPlaying.textContent = song.title;
-  nowPlaying.style.animation = 'fadeInUp 1s ease-out forwards, scrollTitle 10s linear infinite';
+  nowPlaying.style.animation = 'fadeInUp 1s ease-out forwards, scrollTitle 15s linear infinite';
   
   if (isPlaying) {
     playSong();
@@ -132,80 +128,69 @@ audioPlayer.addEventListener('timeupdate', () => {
     const fillHeight = percent * 100;
     progressFill.style.height = `${fillHeight}%`;
     progressThumb.style.bottom = `${fillHeight}%`;
-    
-    // Обновляем время, которое следует за ползунком
     timeStart.textContent = formatTime(audioPlayer.currentTime);
-    timeStart.style.bottom = `${fillHeight}%`;
-    timeStart.style.transform = `translateY(${fillHeight >= 90 ? -100 : 50}%)`;
-    
     timeEnd.textContent = formatTime(audioPlayer.duration);
   }
 });
 
-function updateProgressFromClientY(clientY) {
-  const rect = progressTrack.getBoundingClientRect();
-  const offsetY = clientY - rect.top;
-  const percent = 1 - offsetY / rect.height;
-  const clamped = Math.max(0, Math.min(1, percent));
-  const newTime = clamped * audioPlayer.duration;
-  audioPlayer.currentTime = newTime;
-  progressFill.style.height = `${clamped * 100}%`;
-  progressThumb.style.bottom = `${clamped * 100}%`;
+// Функции для управления ползунком
+function startDrag(e) {
+  e.preventDefault();
+  window.addEventListener('mousemove', handleDrag);
+  window.addEventListener('mouseup', stopDrag);
+  handleDrag(e);
 }
 
-function updateTooltipTime(clientY) {
+function handleDrag(e) {
   const rect = progressTrack.getBoundingClientRect();
-  const offsetY = clientY - rect.top;
-  const percent = 1 - offsetY / rect.height;
-  const clamped = Math.max(0, Math.min(1, percent));
-  tooltip.textContent = formatTime(clamped * audioPlayer.duration);
-  tooltip.style.bottom = `${clamped * 100}%`;
-  tooltip.style.display = 'block';
+  let offsetY = rect.bottom - (e.clientY || e.touches?.[0].clientY);
+  offsetY = Math.max(0, Math.min(rect.height, offsetY));
+  const percent = offsetY / rect.height;
+  
+  audioPlayer.currentTime = percent * audioPlayer.duration;
+  progressFill.style.height = `${percent * 100}%`;
+  progressThumb.style.bottom = `${percent * 100}%`;
 }
 
-let isDragging = false;
+function stopDrag() {
+  window.removeEventListener('mousemove', handleDrag);
+  window.removeEventListener('mouseup', stopDrag);
+}
 
-progressTrack.addEventListener('mousedown', (e) => {
-  isDragging = true;
-  updateProgressFromClientY(e.clientY);
-  updateTooltipTime(e.clientY);
+// Обработчики для мыши
+progressThumb.addEventListener('mousedown', startDrag);
+progressTrack.addEventListener('click', (e) => {
+  const rect = progressTrack.getBoundingClientRect();
+  const offsetY = rect.bottom - e.clientY;
+  const percent = Math.max(0, Math.min(1, offsetY / rect.height));
+  audioPlayer.currentTime = percent * audioPlayer.duration;
 });
 
-document.addEventListener('mousemove', (e) => {
-  if (isDragging) {
-    updateProgressFromClientY(e.clientY);
-    updateTooltipTime(e.clientY);
-  }
-});
+// Обработчики для сенсорных устройств
+progressThumb.addEventListener('touchstart', (e) => {
+  e.preventDefault();
+  window.addEventListener('touchmove', handleTouchMove);
+  window.addEventListener('touchend', stopTouch);
+  handleDrag(e);
+}, { passive: false });
 
-document.addEventListener('mouseup', () => {
-  if (isDragging) {
-    isDragging = false;
-    tooltip.style.display = 'none';
-  }
-});
+function handleTouchMove(e) {
+  e.preventDefault();
+  handleDrag(e);
+}
+
+function stopTouch() {
+  window.removeEventListener('touchmove', handleTouchMove);
+  window.removeEventListener('touchend', stopTouch);
+}
 
 progressTrack.addEventListener('touchstart', (e) => {
-  isDragging = true;
-  updateProgressFromClientY(e.touches[0].clientY);
-  updateTooltipTime(e.touches[0].clientY);
   e.preventDefault();
+  const rect = progressTrack.getBoundingClientRect();
+  const offsetY = rect.bottom - e.touches[0].clientY;
+  const percent = Math.max(0, Math.min(1, offsetY / rect.height));
+  audioPlayer.currentTime = percent * audioPlayer.duration;
 }, { passive: false });
-
-document.addEventListener('touchmove', (e) => {
-  if (isDragging && e.touches.length) {
-    updateProgressFromClientY(e.touches[0].clientY);
-    updateTooltipTime(e.touches[0].clientY);
-    e.preventDefault();
-  }
-}, { passive: false });
-
-document.addEventListener('touchend', () => {
-  if (isDragging) {
-    isDragging = false;
-    tooltip.style.display = 'none';
-  }
-});
 
 window.addEventListener('DOMContentLoaded', () => {
   resetShuffleQueue();
