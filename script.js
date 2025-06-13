@@ -157,11 +157,10 @@ window.onload = function() {
     });
 };
 
-// DMCA
+// DMCA - самый эффективный вариант
 document.getElementById('dmcaLink').addEventListener('click', function(e) {
     e.preventDefault();
-    var content = document.getElementById('dmcaContent');
-    content.style.display = content.style.display === 'none' ? 'block' : 'none';
+    document.querySelector('.site-footer').classList.toggle('dmca-active');
 });
 
 // Вращение логотипа
