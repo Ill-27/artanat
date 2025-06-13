@@ -106,85 +106,59 @@ body {
   50% { transform: translateY(-15px); }
 }
 
-/* ===== FOOTER & DMCA TOGGLE ===== */
+/* Footer Styles */
 .site-footer {
   position: fixed;
   bottom: 120px;
   left: 20px;
-  width: calc(100% - 40px);
   z-index: 1000;
   color: #fff;
   font-size: 14px;
-  line-height: 1.4;
-  text-shadow: none;
-  will-change: transform; /* Оптимизация для анимаций */
 }
 
-.footer-content {
+.footer-default,
+.footer-dmca {
   position: absolute;
-  width: 100%;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(10px);
-  transition: 
-    opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-    visibility 0.4s;
-}
-
-.footer-content.default-content {
-  opacity: 1;
-  visibility: visible;
+  transition: all 0.4s cubic-bezier(0.33, 1, 0.68, 1);
   transform: translateY(0);
+  opacity: 1;
 }
 
-.dmca-active .default-content {
+.footer-dmca {
   opacity: 0;
-  visibility: hidden;
+  transform: translateY(10px);
+  pointer-events: none;
+}
+
+.site-footer.active .footer-default {
+  opacity: 0;
   transform: translateY(-10px);
 }
 
-.dmca-active .dmca-content {
+.site-footer.active .footer-dmca {
   opacity: 1;
-  visibility: visible;
   transform: translateY(0);
+  pointer-events: auto;
 }
 
-.site-footer p {
-  margin: 0 0 5px 0;
-  font-size: 13px;
-}
-
-/* DMCA Link Styles */
-#dmcaLink {
+/* DMCA Button Styles */
+.dmca-btn {
   display: inline-block;
-  color: #0066ff;
+  color: #0000FF;
   text-decoration: underline;
-  text-decoration-color: rgba(0, 102, 255, 0.5);
+  text-decoration-color: currentColor;
   text-underline-offset: 3px;
-  text-decoration-thickness: 1px;
-  font-weight: 700;
   margin-top: 8px;
-  transition: 
-    color 0.3s cubic-bezier(0.65, 0, 0.35, 1),
-    text-decoration-color 0.3s cubic-bezier(0.65, 0, 0.35, 1),
-    filter 0.2s ease;
-  will-change: color, text-decoration;
-  backface-visibility: hidden; /* Фикс дрожания в Safari */
+  transition: all 0.3s ease;
+  cursor: pointer;
 }
 
-.dmca-active #dmcaLink {
-  color: #ff3355;
-  text-decoration-color: rgba(255, 51, 85, 0.7);
+.site-footer.active .dmca-btn {
+  color: #FF0000;
 }
 
-#dmcaLink:hover {
-  filter: brightness(1.15);
+.dmca-btn:hover {
   text-decoration-thickness: 2px;
-}
-
-#dmcaLink:active {
-  transform: scale(0.98);
 }
 
 .refresh-icon {
