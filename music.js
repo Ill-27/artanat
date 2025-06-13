@@ -16,6 +16,8 @@ const prevBtn = document.getElementById('prev-btn');
 const nextBtn = document.getElementById('next-btn');
 const repeatBtn = document.getElementById('repeat-btn');
 const nowPlaying = document.getElementById('now-playing');
+const playIcon = document.getElementById('play-icon');
+const pauseIcon = document.getElementById('pause-icon');
 
 const progressTrack = document.getElementById('progress-track');
 const progressFill = document.getElementById('progress-fill');
@@ -23,9 +25,15 @@ const progressThumb = document.getElementById('progress-thumb');
 const timeCurrent = document.getElementById('time-start');
 const timeDuration = document.getElementById('time-end');
 
-// Инициализация времени
-timeCurrent.classList.add('current');
-timeDuration.classList.add('duration');
+// Инициализация
+initPlayer();
+
+function initPlayer() {
+  resetShuffleQueue();
+  setupEventListeners();
+  loadSong(currentSongIndex);
+  updateTimeDisplay(0, 0);
+}
 
 function formatTime(seconds) {
   const min = Math.floor(seconds / 60);
@@ -33,8 +41,12 @@ function formatTime(seconds) {
   return `${min}:${sec}`;
 }
 
+function resetShuffleQueue() {
+  shuffledQueue = shuffleArray([...Array(songs.length).keys()]);
+}
+
 function shuffleArray(arr) {
-  const copy = arr.slice();
+  const copy = [...arr];
   for (let i = copy.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [copy[i], copy[j]] = [copy[j], copy[i]];
@@ -42,170 +54,144 @@ function shuffleArray(arr) {
   return copy;
 }
 
-function resetShuffleQueue() {
-  shuffledQueue = shuffleArray([...Array(songs.length).keys()]);
-}
-
 function loadSong(index) {
   const songIndex = shuffledQueue[index];
   const song = songs[songIndex];
+  
+  // Плавное переключение трека
   audioPlayer.src = song.file;
-  
-  // Обновляем название песни с плавной анимацией
-  nowPlaying.style.animation = 'none';
-  nowPlaying.offsetHeight; // Trigger reflow
   nowPlaying.textContent = song.title;
-  nowPlaying.style.animation = 'fadeInUp 1s ease-out forwards, scrollTitle 20s linear infinite';
+  resetTitleAnimation();
   
-  if (isPlaying) {
-    playSong();
+  // Сбрасываем прогресс
+  if (!isPlaying) {
+    updateProgressDisplay(0);
   }
+}
+
+function resetTitleAnimation() {
+  nowPlaying.style.animation = 'none';
+  nowPlaying.offsetHeight;
+  nowPlaying.style.animation = 'fadeInUp 1s ease-out forwards, scrollTitle 20s linear infinite';
 }
 
 function playSong() {
   audioPlayer.play().then(() => {
     isPlaying = true;
-    playBtn.classList.add('playing');
-  }).catch(err => {
-    console.error("Ошибка воспроизведения:", err);
-  });
+    playBtn.classList.add('active');
+    playIcon.style.display = 'none';
+    pauseIcon.style.display = 'block';
+  }).catch(console.error);
 }
 
 function pauseSong() {
   audioPlayer.pause();
   isPlaying = false;
-  playBtn.classList.remove('playing');
+  playBtn.classList.remove('active');
+  playIcon.style.display = 'block';
+  pauseIcon.style.display = 'none';
 }
 
 function nextSong() {
-  if (isRepeating) {
-    audioPlayer.currentTime = 0;
-    playSong();
-  } else {
-    currentSongIndex++;
-    if (currentSongIndex >= shuffledQueue.length) {
-      resetShuffleQueue();
-      currentSongIndex = 0;
-    }
-    loadSong(currentSongIndex);
-    if (isPlaying) playSong();
-  }
+  currentSongIndex = (currentSongIndex + 1) % shuffledQueue.length;
+  if (currentSongIndex === 0) resetShuffleQueue();
+  loadSong(currentSongIndex);
+  if (isPlaying) playSong();
 }
 
 function prevSong() {
-  if (isRepeating) {
-    audioPlayer.currentTime = 0;
-    playSong();
-  } else {
-    currentSongIndex = (currentSongIndex - 1 + shuffledQueue.length) % shuffledQueue.length;
-    loadSong(currentSongIndex);
-    if (isPlaying) playSong();
-  }
+  currentSongIndex = (currentSongIndex - 1 + shuffledQueue.length) % shuffledQueue.length;
+  loadSong(currentSongIndex);
+  if (isPlaying) playSong();
 }
 
-// Обработчики кнопок
-playBtn.addEventListener('click', () => {
-  if (!audioPlayer.src) loadSong(currentSongIndex);
-  isPlaying ? pauseSong() : playSong();
-});
-
-nextBtn.addEventListener('click', nextSong);
-prevBtn.addEventListener('click', prevSong);
-
-repeatBtn.addEventListener('click', () => {
+function toggleRepeat() {
   isRepeating = !isRepeating;
   repeatBtn.classList.toggle('active', isRepeating);
-});
-
-// Обработчики событий плеера
-audioPlayer.addEventListener('ended', () => {
-  if (isRepeating) {
-    audioPlayer.currentTime = 0;
-    playSong();
-  } else {
-    nextSong();
-  }
-});
-
-audioPlayer.addEventListener('timeupdate', () => {
-  if (audioPlayer.duration && !isDragging) {
-    updateProgressDisplay(audioPlayer.currentTime / audioPlayer.duration);
-  }
-});
-
-// Управление прогресс-баром
-function startDrag(e) {
-  isDragging = true;
-  handleDrag(e);
-}
-
-function handleDrag(e) {
-  if (!isDragging) return;
-  
-  const clientY = e.clientY || e.touches[0].clientY;
-  const rect = progressTrack.getBoundingClientRect();
-  const offsetY = rect.bottom - clientY;
-  const percent = Math.max(0, Math.min(1, offsetY / rect.height));
-  
-  audioPlayer.currentTime = percent * audioPlayer.duration;
-  updateProgressDisplay(percent);
-}
-
-function endDrag() {
-  isDragging = false;
 }
 
 function updateProgressDisplay(percent) {
   const fillHeight = percent * 100;
   progressFill.style.height = `${fillHeight}%`;
   progressThumb.style.bottom = `${fillHeight}%`;
-  
-  // Обновляем текущее время
-  timeCurrent.textContent = formatTime(audioPlayer.currentTime);
   timeCurrent.style.bottom = `${fillHeight}%`;
-  
-  // Обновляем общее время
-  if (!isDragging) {
-    timeDuration.textContent = formatTime(audioPlayer.duration);
-  }
 }
 
-// Инициализация событий перетаскивания
-progressTrack.addEventListener('mousedown', startDrag);
-document.addEventListener('mousemove', handleDrag);
-document.addEventListener('mouseup', endDrag);
+function updateTimeDisplay(current, duration) {
+  timeCurrent.textContent = formatTime(current);
+  timeDuration.textContent = formatTime(duration);
+}
 
-progressTrack.addEventListener('touchstart', (e) => {
-  startDrag(e.touches[0]);
-}, { passive: false });
+function handleProgressClick(e) {
+  const rect = progressTrack.getBoundingClientRect();
+  const offsetY = rect.bottom - (e.clientY || e.touches[0].clientY);
+  const percent = Math.max(0, Math.min(1, offsetY / rect.height));
+  audioPlayer.currentTime = percent * audioPlayer.duration;
+}
 
-document.addEventListener('touchmove', (e) => {
-  if (isDragging) handleDrag(e.touches[0]);
-}, { passive: false });
-
-document.addEventListener('touchend', endDrag);
-
-// Запуск плеера
-window.addEventListener('DOMContentLoaded', () => {
-  resetShuffleQueue();
-  currentSongIndex = 0;
-  loadSong(currentSongIndex);
+function setupEventListeners() {
+  // Кнопки управления
+  playBtn.addEventListener('click', () => {
+    if (!audioPlayer.src) loadSong(currentSongIndex);
+    isPlaying ? pauseSong() : playSong();
+  });
   
-  // Инициализация времени
-  timeCurrent.textContent = '0:00';
-  timeDuration.textContent = '0:00';
-});
+  nextBtn.addEventListener('click', nextSong);
+  prevBtn.addEventListener('click', prevSong);
+  repeatBtn.addEventListener('click', toggleRepeat);
 
-// Горячие клавиши
-document.addEventListener('keydown', (e) => {
-  if (e.code === 'Space') {
-    e.preventDefault();
-    playBtn.click();
-  } else if (e.code === 'ArrowRight') {
-    nextBtn.click();
-  } else if (e.code === 'ArrowLeft') {
-    prevBtn.click();
-  } else if (e.code === 'KeyR') {
-    repeatBtn.click();
-  }
-});
+  // Обработчики плеера
+  audioPlayer.addEventListener('timeupdate', () => {
+    if (audioPlayer.duration && !isDragging) {
+      const percent = audioPlayer.currentTime / audioPlayer.duration;
+      updateProgressDisplay(percent);
+      updateTimeDisplay(audioPlayer.currentTime, audioPlayer.duration);
+    }
+  });
+
+  audioPlayer.addEventListener('ended', () => {
+    if (isRepeating) {
+      audioPlayer.currentTime = 0;
+      playSong();
+    } else {
+      nextSong();
+    }
+  });
+
+  // Управление прогресс-баром
+  progressTrack.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    handleProgressClick(e);
+  });
+  
+  document.addEventListener('mousemove', (e) => {
+    if (isDragging) handleProgressClick(e);
+  });
+  
+  document.addEventListener('mouseup', () => {
+    isDragging = false;
+  });
+
+  progressTrack.addEventListener('touchstart', (e) => {
+    isDragging = true;
+    handleProgressClick(e);
+  }, { passive: false });
+  
+  document.addEventListener('touchmove', (e) => {
+    if (isDragging) handleProgressClick(e);
+  }, { passive: false });
+  
+  document.addEventListener('touchend', () => {
+    isDragging = false;
+  });
+
+  // Горячие клавиши
+  document.addEventListener('keydown', (e) => {
+    switch (e.code) {
+      case 'Space': e.preventDefault(); playBtn.click(); break;
+      case 'ArrowRight': nextBtn.click(); break;
+      case 'ArrowLeft': prevBtn.click(); break;
+      case 'KeyR': repeatBtn.click(); break;
+    }
+  });
+}
