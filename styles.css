@@ -24,7 +24,7 @@ body {
 .terminal-container {
     width: 100%;
     max-width: 700px;
-    padding: 60px; /* Внутренние отступы со всех сторон */
+    padding-left: 80px; /* Внутренние отступы со всех сторон */
     margin-top: -120px; /* Поднимаем контейнер вверх */
     z-index: 100;
     display: flex; /* Отображение элемента: гибкое */
