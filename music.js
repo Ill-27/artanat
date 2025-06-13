@@ -49,9 +49,18 @@ function loadSong(index) {
   const songIndex = shuffledQueue[index];
   const song = songs[songIndex];
   audioPlayer.src = song.file;
+  
+  // Обновляем название песни с анимацией
+  nowPlaying.style.animation = 'none';
+  nowPlaying.offsetHeight; // Trigger reflow
   nowPlaying.textContent = song.title;
-  isPlaying = false;
-  playBtn.textContent = '▶';
+  nowPlaying.style.animation = 'fadeInUp 1s ease-out forwards, scrollTitle 10s linear infinite';
+  
+  if (isPlaying) {
+    playSong();
+  } else {
+    playBtn.textContent = '▶';
+  }
 }
 
 function playSong() {
@@ -80,7 +89,7 @@ function nextSong() {
       currentSongIndex = 0;
     }
     loadSong(currentSongIndex);
-    playSong();
+    if (isPlaying) playSong();
   }
 }
 
@@ -91,7 +100,7 @@ function prevSong() {
   } else {
     currentSongIndex = (currentSongIndex - 1 + shuffledQueue.length) % shuffledQueue.length;
     loadSong(currentSongIndex);
-    playSong();
+    if (isPlaying) playSong();
   }
 }
 
@@ -105,18 +114,32 @@ prevBtn.addEventListener('click', prevSong);
 
 repeatBtn.addEventListener('click', () => {
   isRepeating = !isRepeating;
-  repeatBtn.style.color = isRepeating ? 'lime' : 'white';
+  repeatBtn.classList.toggle('active', isRepeating);
 });
 
-audioPlayer.addEventListener('ended', nextSong);
+audioPlayer.addEventListener('ended', () => {
+  if (isRepeating) {
+    audioPlayer.currentTime = 0;
+    playSong();
+  } else {
+    nextSong();
+  }
+});
 
 audioPlayer.addEventListener('timeupdate', () => {
-  const percent = audioPlayer.currentTime / audioPlayer.duration;
-  const fillHeight = percent * 100;
-  progressFill.style.height = `${fillHeight}%`;
-  progressThumb.style.bottom = `${fillHeight}%`;
-  timeStart.textContent = formatTime(audioPlayer.currentTime);
-  timeEnd.textContent = formatTime(audioPlayer.duration);
+  if (audioPlayer.duration) {
+    const percent = audioPlayer.currentTime / audioPlayer.duration;
+    const fillHeight = percent * 100;
+    progressFill.style.height = `${fillHeight}%`;
+    progressThumb.style.bottom = `${fillHeight}%`;
+    
+    // Обновляем время, которое следует за ползунком
+    timeStart.textContent = formatTime(audioPlayer.currentTime);
+    timeStart.style.bottom = `${fillHeight}%`;
+    timeStart.style.transform = `translateY(${fillHeight >= 90 ? -100 : 50}%)`;
+    
+    timeEnd.textContent = formatTime(audioPlayer.duration);
+  }
 });
 
 function updateProgressFromClientY(clientY) {
@@ -136,14 +159,15 @@ function updateTooltipTime(clientY) {
   const percent = 1 - offsetY / rect.height;
   const clamped = Math.max(0, Math.min(1, percent));
   tooltip.textContent = formatTime(clamped * audioPlayer.duration);
-  tooltip.style.bottom = `${clamped * 100 + 6}%`;
+  tooltip.style.bottom = `${clamped * 100}%`;
+  tooltip.style.display = 'block';
 }
 
 let isDragging = false;
 
-progressThumb.addEventListener('mousedown', (e) => {
+progressTrack.addEventListener('mousedown', (e) => {
   isDragging = true;
-  tooltip.style.display = 'block';
+  updateProgressFromClientY(e.clientY);
   updateTooltipTime(e.clientY);
 });
 
@@ -161,16 +185,18 @@ document.addEventListener('mouseup', () => {
   }
 });
 
-progressThumb.addEventListener('touchstart', (e) => {
+progressTrack.addEventListener('touchstart', (e) => {
   isDragging = true;
-  tooltip.style.display = 'block';
+  updateProgressFromClientY(e.touches[0].clientY);
   updateTooltipTime(e.touches[0].clientY);
+  e.preventDefault();
 }, { passive: false });
 
 document.addEventListener('touchmove', (e) => {
   if (isDragging && e.touches.length) {
     updateProgressFromClientY(e.touches[0].clientY);
     updateTooltipTime(e.touches[0].clientY);
+    e.preventDefault();
   }
 }, { passive: false });
 
@@ -181,12 +207,12 @@ document.addEventListener('touchend', () => {
   }
 });
 
-progressTrack.addEventListener('click', (e) => {
-  updateProgressFromClientY(e.clientY);
-});
-
 window.addEventListener('DOMContentLoaded', () => {
   resetShuffleQueue();
   currentSongIndex = 0;
   loadSong(currentSongIndex);
+  
+  // Инициализация времени
+  timeStart.textContent = '0:00';
+  timeEnd.textContent = '0:00';
 });
