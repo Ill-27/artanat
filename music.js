@@ -1,5 +1,5 @@
 const playlist = [
-  { title: "Песня 1", src: "audio/track1.mp3" },
+  { title: "Там, где небо 1", src: "songs/song1.mp3" },
   { title: "Песня 2", src: "audio/track2.mp3" },
   { title: "Песня 3", src: "audio/track3.mp3" }
 ];
