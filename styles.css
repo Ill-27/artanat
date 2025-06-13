@@ -306,8 +306,8 @@ body {
 
 /* Обновленный стиль для вертикального названия песни */
 .vertical-title-container {
-  writing-mode: vertical-rl;
-  transform: rotate(180deg); /* Это перевернет текст */
+  writing-mode: vertical-lr; /* Изменили с vertical-rl на vertical-lr */
+  transform: scaleX(-1); /* Зеркально отражаем по горизонтали */
   height: 100%;
   animation: scrollTitle 20s linear infinite;
   padding-left: 10px;
