@@ -247,7 +247,7 @@ body {
 /* Плеер */
 .music-player {
   position: fixed;
-  bottom: 230px;
+  bottom: 220px;
   left: 20px;
   display: flex;
   flex-direction: column;
@@ -311,7 +311,7 @@ body {
   transform: rotate(180deg); /* Добавлено это свойство */
   height: 100%;
   animation: scrollTitle 20s linear infinite;
-  padding-left: 15px;
+  padding-left: 30px;
   padding-top: 15px;
 }
 
@@ -376,7 +376,7 @@ body {
   color: white;
   white-space: nowrap;
   pointer-events: none;
-  left: 15px;
+  right: 15px;
   transition: bottom 0.1s linear;
 }
 
