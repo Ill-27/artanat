@@ -244,3 +244,49 @@ body {
     background: transparent;
     cursor: not-allowed;
 }
+
+.music-player {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 10px;
+  border: 1px solid #ff0;
+  border-radius: 5px;
+  z-index: 1000;
+  max-width: 300px;
+}
+
+.player-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.player-controls button {
+  background: none;
+  border: 1px solid #ff0;
+  color: #ff0;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  font-size: 12px;
+}
+
+.player-controls button:hover {
+  background: rgba(255, 255, 0, 0.2);
+}
+
+#volume-slider {
+  width: 70px;
+}
+
+#now-playing {
+  color: #ff0;
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
+}
