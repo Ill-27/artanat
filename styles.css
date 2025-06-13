@@ -106,6 +106,7 @@ body {
   50% { transform: translateY(-15px); }
 }
 
+/* Стили для футера и DMCA переключателя */
 .site-footer {
   position: fixed;
   bottom: 20px;
@@ -117,8 +118,40 @@ body {
   font-size: 14px;
 }
 
+.footer-content {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.footer-content.default-content {
+  display: block;
+  opacity: 1;
+}
+
+.dmca-active .default-content {
+  display: none;
+  opacity: 0;
+}
+
+.dmca-active .dmca-content {
+  display: block;
+  opacity: 1;
+}
+
 .site-footer p:not(:last-child) {
   margin-bottom: 4px;
+}
+
+#dmcaLink {
+  color: #fff;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 8px;
+}
+
+#dmcaLink:hover {
+  text-decoration: underline;
 }
 
 .refresh-icon {
