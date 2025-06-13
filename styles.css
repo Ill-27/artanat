@@ -24,6 +24,7 @@ body {
 /* Контейнер терминала */
 .terminal-container {
   position: fixed;
+  padding: 20px; /* Внутренние отступы со всех сторон */
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
