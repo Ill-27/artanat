@@ -246,8 +246,7 @@ body {
 
 /* Плеер */
 .music-player {
-  position: absolute;
-  top: 100px;
+  position: fixed;
   bottom: 160px;
   left: 20px;
   display: flex;
@@ -268,7 +267,7 @@ body {
 /* Вертикальная линия прогресса */
 .progress-track {
   position: relative;
-  height: 150px;
+  height: 100px;
   width: 1px;
   background: rgba(255, 255, 255, 0.3);
   cursor: pointer;
