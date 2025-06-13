@@ -157,10 +157,16 @@ window.onload = function() {
     });
 };
 
-// DMCA - самый эффективный вариант
+// DMCA - самый эффективный вариант с анимацией цвета
 document.getElementById('dmcaLink').addEventListener('click', function(e) {
     e.preventDefault();
-    document.querySelector('.site-footer').classList.toggle('dmca-active');
+    const footer = document.querySelector('.site-footer');
+    
+    // Переключаем класс
+    footer.classList.toggle('dmca-active');
+    
+    // Добавляем анимацию
+    this.style.transition = 'color 0.3s ease, text-decoration-color 0.3s ease';
 });
 
 // Вращение логотипа
