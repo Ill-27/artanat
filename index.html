@@ -94,26 +94,37 @@
 
   <!-- Плеер -->
   <div class="music-player">
+  <!-- Название песни вертикально -->
   <div class="now-playing-container">
     <span id="now-playing"><span>Выберите песню</span></span>
   </div>
 
+  <!-- Кнопки управления -->
   <div class="player-controls">
-    <button id="prevBtn">⏮</button>
-    <button id="playPauseBtn">▶</button>
-    <button id="nextBtn">⏭</button>
+    <button id="prev-btn">⏮</button>
+    <button id="play-btn">▶</button>
+    <button id="next-btn">⏭</button>
+    <button id="repeat-btn">🔁</button>
+    <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="1" />
   </div>
 
-  <div class="progress-container" id="progressContainer">
-    <div class="time top-time" id="duration">0:00</div>
-    <div class="progress-track">
-      <div class="progress-filled" id="progressFilled"></div>
+  <!-- Вертикальный прогресс-бар с временем -->
+  <div class="progress-container">
+    <div class="time-labels">
+      <span id="time-start">0:00</span>
+      <span id="time-current">0:00</span>
+      <span id="time-end">0:00</span>
     </div>
-    <div class="time current-time" id="currentTime">0:00</div>
-    <div class="time bottom-time">0:00</div>
-  </div>
-</div>
 
+    <div class="progress-track">
+      <div class="progress-fill"></div>
+      <div class="progress-thumb"></div>
+    </div>
+  </div>
+
+  <!-- Сам аудио-плеер -->
+  <audio id="audio-player"></audio>
+</div>
 
   <!-- Модальное окно -->
   <div class="modal-overlay" id="rules-modal" style="display: none;">
