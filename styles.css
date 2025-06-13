@@ -310,13 +310,7 @@ body {
   transform: scaleX(-1); /* Зеркально отражаем по горизонтали */
   height: 100%;
   animation: scrollTitle 20s linear infinite;
-  padding-left: 10px;
-}
-
-/* Обновленная анимация для перевернутого текста */
-@keyframes scrollTitle {
-  0% { transform: translateY(-100%) rotate(180deg); }
-  100% { transform: translateY(100%) rotate(180deg); }
+  padding-right: 10px;
 }
 
 .vertical-title {
@@ -391,23 +385,6 @@ body {
 
 .time-label.duration {
   top: -20px;
-}
-
-/* Анимации */
-@keyframes scrollTitle {
-  0% { transform: translateY(100%); }
-  100% { transform: translateY(-100%); }
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 /* Для тач-устройств */
