@@ -96,8 +96,7 @@ function handleSongEnd() {
   }
 }
 
-// Запуск плеера при загрузке страницы
-window.addEventListener('DOMContentLoaded', initPlayer);
+// Запуск плеера 
 document.addEventListener('click', function() {
   audioPlayer.play().catch(e => console.log(e));
 }, { once: true });
