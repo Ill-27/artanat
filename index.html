@@ -171,5 +171,17 @@
       <button class="modal-button" id="continue-button" disabled>Продолжить</button>
     </div>
   </div>
+
+  <div class="music-player">
+  <div class="player-controls">
+    <button id="prev-btn" title="Предыдущая">⏮</button>
+    <button id="play-btn" title="Включить">▶</button>
+    <button id="next-btn" title="Следующая">⏭</button>
+    <button id="repeat-btn" title="Повтор">🔁</button>
+    <input type="range" id="volume-slider" min="0" max="1" step="0.1" value="0.7" title="Громкость">
+    <span id="now-playing">Выберите песню</span>
+  </div>
+  <audio id="audio-player"></audio>
+</div>
 </body>
 </html>
