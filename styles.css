@@ -247,6 +247,7 @@ body {
 /* Плеер */
 .music-player {
   position: absolute;
+  top: 100px;
   bottom: 160px;
   left: 20px;
   display: flex;
