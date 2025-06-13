@@ -113,13 +113,33 @@
 
   <!-- Блок с кнопками под всем -->
   <div class="controls-container">
-    <div class="player-controls">
-      <button id="prev-btn">⏮</button>
-      <button id="play-btn">▶</button>
-      <button id="next-btn">⏭</button>
-      <button id="repeat-btn">🔁</button>
-    </div>
+  <div class="player-controls">
+    <button id="prev-btn" class="player-btn" aria-label="Previous">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <path fill="white" d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/>
+      </svg>
+    </button>
+    
+    <button id="play-btn" class="player-btn" aria-label="Play/Pause">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <path id="play-icon" fill="white" d="M8 5v14l11-7z"/>
+        <path id="pause-icon" fill="white" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" style="display:none"/>
+      </svg>
+    </button>
+    
+    <button id="next-btn" class="player-btn" aria-label="Next">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <path fill="white" d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
+      </svg>
+    </button>
+    
+    <button id="repeat-btn" class="player-btn" aria-label="Repeat">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <path fill="white" d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/>
+      </svg>
+    </button>
   </div>
+</div>
 
   <audio id="audio-player"></audio>
 </div>
