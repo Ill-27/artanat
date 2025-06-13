@@ -171,8 +171,8 @@ body {
 }
 .telegram-btn {
     position: fixed;
-    bottom: 200px;
-    right: 20px;
+    bottom: 160px;
+    left: 20px;
     cursor: pointer;
     font-size: 10px;
     padding: 3px 8px;
