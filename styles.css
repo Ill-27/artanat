@@ -247,7 +247,7 @@ body {
 /* Плеер */
 .music-player {
   position: absolute;
-  top: 150px;
+  bottom: 160px;
   left: 20px;
   display: flex;
   flex-direction: column;
@@ -267,7 +267,7 @@ body {
 /* Вертикальная линия прогресса */
 .progress-track {
   position: relative;
-  height: 200px;
+  height: 250px;
   width: 1px;
   background: rgba(255, 255, 255, 0.3);
   cursor: pointer;
@@ -298,14 +298,14 @@ body {
 
 /* Название песни (вертикальное) */
 .song-title-wrapper {
-  height: 200px;
+  height: 250px;
   width: 30px;
   overflow: hidden;
   position: relative;
 }
 
 .vertical-title-container {
-  writing-mode: vertical-rl;
+  writing-mode: vertical-lr;
   height: 100%;
   animation: scrollTitle 15s linear infinite;
   padding-left: 10px;
@@ -316,7 +316,7 @@ body {
   font-size: 12px;
   line-height: 1.4;
   white-space: nowrap;
-  animation: fadeInUp 1s ease-out forwards;
+  animation: fadeInUp 0.1s ease-out forwards;
 }
 
 /* Блок с кнопками */
