@@ -250,17 +250,17 @@ body {
   top: 150px;
   left: 20px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: 10px;
   z-index: 999;
 }
 
 .player-controls {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  gap: 10px;
+  gap: 15px;
 }
 
 .player-controls button {
@@ -270,23 +270,33 @@ body {
   font-size: 24px;
   cursor: pointer;
   transition: transform 0.2s;
+  padding: 5px;
 }
 
 .player-controls button:hover {
   transform: scale(1.2);
 }
 
+#repeat-btn.active {
+  filter: drop-shadow(0 0 5px white);
+}
+
 .song-title-wrapper {
   position: relative;
-  height: 160px;
-  width: 40px;
+  height: 30px;
+  width: 100%;
   overflow: hidden;
+  text-align: center;
+  margin-top: 10px;
 }
 
 .vertical-title-container {
   writing-mode: vertical-rl;
+  transform: rotate(180deg);
   text-align: center;
-  animation: scrollTitle 6s linear infinite alternate;
+  height: 100%;
+  animation: scrollTitle 10s linear infinite;
+  animation-fill-mode: both;
 }
 
 .vertical-title {
@@ -294,21 +304,34 @@ body {
   font-size: 10px;
   line-height: 1;
   white-space: nowrap;
+  opacity: 0;
+  animation: fadeInUp 1s ease-out forwards;
 }
 
-/* Анимация */
+/* Анимации */
 @keyframes scrollTitle {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(-40%); }
+  0% { transform: rotate(180deg) translateY(100%); }
+  100% { transform: rotate(180deg) translateY(-100%); }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .progress-track {
   position: relative;
   height: 160px;
-  width: 4px;
-  background: #fff;
-  border-radius: 2px;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.3);
   cursor: pointer;
+  margin-top: 10px;
 }
 
 .progress-fill {
@@ -317,15 +340,14 @@ body {
   width: 100%;
   background: white;
   height: 0%;
-  border-radius: 2px;
 }
 
 .progress-thumb {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
   background: white;
   border-radius: 50%;
   bottom: 0;
@@ -334,25 +356,23 @@ body {
 
 .time-label {
   position: absolute;
-  left: -40px;
   font-size: 10px;
   color: white;
   white-space: nowrap;
+  pointer-events: none;
 }
 
 .time-label.start {
+  left: 15px;
   bottom: 0;
-}
-
-.time-label.end {
-  top: 0;
+  transform: translateY(50%);
 }
 
 .progress-tooltip {
   position: absolute;
-  left: 10px;
+  left: 15px;
   font-size: 10px;
   color: white;
-  transform: translateX(-100%);
   display: none;
+  pointer-events: none;
 }
