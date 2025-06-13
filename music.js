@@ -1,103 +1,62 @@
-// Список песен
-const songs = [
-  {
-    title: "Там, где небо — Мария Зайцева",
-    file: "music/song1.mp3"
-  },
-  {
-    title: "Название песни 2",
-    file: "music/song2.mp3"
-  },
-  // Добавляй другие песни по структуре
+const playlist = [
+  { title: "Песня 1", src: "audio/track1.mp3" },
+  { title: "Песня 2", src: "audio/track2.mp3" },
+  { title: "Песня 3", src: "audio/track3.mp3" }
 ];
 
-// Элементы управления
-const audioPlayer = document.getElementById('audio-player');
-const playBtn = document.getElementById('play-btn');
-const prevBtn = document.getElementById('prev-btn');
-const nextBtn = document.getElementById('next-btn');
-const repeatBtn = document.getElementById('repeat-btn');
-const volumeSlider = document.getElementById('volume-slider');
-const nowPlaying = document.getElementById('now-playing');
+let currentTrackIndex = 0;
 
-// Состояние
-let currentSongIndex = 0;
-let isPlaying = false;
-let isRepeating = false;
+const audio = document.getElementById("audio-player");
+const playPauseBtn = document.getElementById("play-pause-btn");
+const nextBtn = document.getElementById("next-btn");
+const prevBtn = document.getElementById("prev-btn");
+const volumeSlider = document.getElementById("volume-slider");
+const nowPlaying = document.getElementById("now-playing");
 
-// Загрузка песни (без воспроизведения!)
-function loadSong(index) {
-  const song = songs[index];
-  audioPlayer.src = song.file;
-  nowPlaying.textContent = song.title;
-  isPlaying = false;
-  playBtn.textContent = '▶'; // Обновим кнопку
+function loadTrack(index) {
+  const track = playlist[index];
+  audio.src = track.src;
+  nowPlaying.textContent = track.title;
+  audio.load();
 }
 
-// Воспроизведение
-function playSong() {
-  audioPlayer.play().then(() => {
-    isPlaying = true;
-    playBtn.textContent = '⏸';
-  }).catch(err => {
-    console.error("Ошибка при попытке воспроизведения:", err);
-  });
-}
-
-// Пауза
-function pauseSong() {
-  audioPlayer.pause();
-  isPlaying = false;
-  playBtn.textContent = '▶';
-}
-
-// Кнопка Play/Pause
-playBtn.addEventListener('click', () => {
-  if (!audioPlayer.src) {
-    loadSong(currentSongIndex);
-  }
-  if (isPlaying) {
-    pauseSong();
+function playPause() {
+  if (audio.paused) {
+    audio.play();
+    playPauseBtn.textContent = "⏸";
   } else {
-    playSong();
+    audio.pause();
+    playPauseBtn.textContent = "▶";
   }
+}
+
+function playNext() {
+  currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
+  loadTrack(currentTrackIndex);
+  audio.play();
+  playPauseBtn.textContent = "⏸";
+}
+
+function playPrev() {
+  currentTrackIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
+  loadTrack(currentTrackIndex);
+  audio.play();
+  playPauseBtn.textContent = "⏸";
+}
+
+playPauseBtn.addEventListener("click", playPause);
+nextBtn.addEventListener("click", playNext);
+prevBtn.addEventListener("click", playPrev);
+
+volumeSlider.addEventListener("input", () => {
+  audio.volume = parseFloat(volumeSlider.value);
 });
 
-// Предыдущая песня
-prevBtn.addEventListener('click', () => {
-  currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
-  loadSong(currentSongIndex);
-});
+// Автоматически проигрывает следующую песню по окончании текущей
+audio.addEventListener("ended", playNext);
 
-// Следующая песня
-nextBtn.addEventListener('click', () => {
-  currentSongIndex = (currentSongIndex + 1) % songs.length;
-  loadSong(currentSongIndex);
-});
-
-// Повтор
-repeatBtn.addEventListener('click', () => {
-  isRepeating = !isRepeating;
-  repeatBtn.style.color = isRepeating ? 'lime' : '#ff0';
-});
-
-// Обработка конца песни
-audioPlayer.addEventListener('ended', () => {
-  if (isRepeating) {
-    playSong();
-  } else {
-    currentSongIndex = (currentSongIndex + 1) % songs.length;
-    loadSong(currentSongIndex);
-  }
-});
-
-// Громкость
-volumeSlider.addEventListener('input', () => {
-  audioPlayer.volume = parseFloat(volumeSlider.value);
-});
-
-// Инициализация — просто загружаем песню, НО НЕ ИГРАЕМ!
-window.addEventListener('DOMContentLoaded', () => {
-  loadSong(currentSongIndex);
-  audioPlayer.volume = parseFloat(volumeSlider.value);
+// Начальная инициализация
+window.addEventListener("DOMContentLoaded", () => {
+  loadTrack(currentTrackIndex);
+  audio.volume = parseFloat(volumeSlider.value);
 });
