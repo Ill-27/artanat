@@ -106,52 +106,85 @@ body {
   50% { transform: translateY(-15px); }
 }
 
-/* Стили для футера и DMCA переключателя */
+/* ===== FOOTER & DMCA TOGGLE ===== */
 .site-footer {
   position: fixed;
   bottom: 20px;
   left: 20px;
-  width: 100%;
+  width: calc(100% - 40px);
   z-index: 1000;
   color: #fff;
-  text-shadow: none;
   font-size: 14px;
+  line-height: 1.4;
+  text-shadow: none;
+  will-change: transform; /* Оптимизация для анимаций */
 }
 
 .footer-content {
-  display: none;
+  position: absolute;
+  width: 100%;
   opacity: 0;
-  transition: opacity 0.3s ease;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: 
+    opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    visibility 0.4s;
 }
 
 .footer-content.default-content {
-  display: block;
   opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
 }
 
 .dmca-active .default-content {
-  display: none;
   opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
 }
 
 .dmca-active .dmca-content {
-  display: block;
   opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
 }
 
-.site-footer p:not(:last-child) {
-  margin-bottom: 4px;
+.site-footer p {
+  margin: 0 0 5px 0;
+  font-size: 13px;
 }
 
+/* DMCA Link Styles */
 #dmcaLink {
-  color: #fff;
-  text-decoration: none;
   display: inline-block;
+  color: #0066ff;
+  text-decoration: underline;
+  text-decoration-color: rgba(0, 102, 255, 0.5);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  font-weight: 700;
   margin-top: 8px;
+  transition: 
+    color 0.3s cubic-bezier(0.65, 0, 0.35, 1),
+    text-decoration-color 0.3s cubic-bezier(0.65, 0, 0.35, 1),
+    filter 0.2s ease;
+  will-change: color, text-decoration;
+  backface-visibility: hidden; /* Фикс дрожания в Safari */
+}
+
+.dmca-active #dmcaLink {
+  color: #ff3355;
+  text-decoration-color: rgba(255, 51, 85, 0.7);
 }
 
 #dmcaLink:hover {
-  text-decoration: underline;
+  filter: brightness(1.15);
+  text-decoration-thickness: 2px;
+}
+
+#dmcaLink:active {
+  transform: scale(0.98);
 }
 
 .refresh-icon {
