@@ -310,7 +310,7 @@ body {
   transform: rotate(180deg); /* Добавлено это свойство */
   height: 100%;
   animation: scrollTitle 20s linear infinite;
-  padding-right: 10px;
+  padding-left: 10px;
 }
 
 .vertical-title {
