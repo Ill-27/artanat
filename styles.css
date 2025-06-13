@@ -244,16 +244,16 @@ body {
     cursor: not-allowed;
 }
 
+/* Плеер */
 .music-player {
-  position: relative;
-  top: 150px;
+  position: absolute;
+  top: 20px;
   left: 20px;
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 40px;
-  margin: 40px auto;
-  justify-content: center;
+  z-index: 999;
 }
 
 .player-controls {
@@ -294,10 +294,9 @@ body {
   font-size: 10px;
   line-height: 1.6;
   white-space: nowrap;
-  font-family: 'Fira Code', monospace;
 }
 
-/* Анимация плавного движения вверх-вниз */
+/* Анимация */
 @keyframes scrollTitle {
   0% { transform: translateY(0); }
   100% { transform: translateY(-40%); }
@@ -333,15 +332,6 @@ body {
   pointer-events: none;
 }
 
-.progress-time {
-  position: absolute;
-  left: -40px;
-  font-size: 10px;
-  color: white;
-  transform: translateX(0);
-  white-space: nowrap;
-}
-
 .time-label {
   position: absolute;
   left: -20px;
@@ -356,4 +346,13 @@ body {
 
 .time-label.end {
   top: 0;
+}
+
+.progress-tooltip {
+  position: absolute;
+  left: 10px;
+  font-size: 10px;
+  color: white;
+  transform: translateX(-100%);
+  display: none;
 }
