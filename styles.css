@@ -41,7 +41,7 @@ body {
     display: flex;
     align-items: center;
     margin-top: 30px;  /* Внешний отступ сверху */
-    width: 100%;
+    width: 80%;
 }
 
 /* Это стиль для символа >_ перед полем ввода */
@@ -62,7 +62,7 @@ body {
     border: none;
     color: #fff;
     padding: 5px 0;
-    width: 100%;
+    width: 80%;
     outline: none; /* Убираем обводку при фокусе */
     caret-color: #fff;
 }
@@ -72,7 +72,7 @@ body {
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 100%;
+    width: 80%;
     height: 1px;
     background: #fff;
 }
@@ -83,7 +83,7 @@ body {
 
 /* Стиль для блока вывода терминала */
 #terminal-output {
-    width: 100%;  /* Занимает всю ширину родителя */
+    width: 80%;  /* Занимает всю ширину родителя */
 }
 
 #terminal-output div {
@@ -93,7 +93,7 @@ body {
 /* Стиль для контейнера контента. Показывается только после успешного ввода кода (например, через display: block в JavaScript) */
 #content-container {
     display: none;  /* Изначально скрыт */
-    width: 100%;
+    width: 80%;
 }
 
 /* Анимация подсказки (плавное подпрыгивание) */
