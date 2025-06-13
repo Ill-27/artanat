@@ -324,9 +324,9 @@ body {
 .player-btn {
   background: none;
   border: 0px solid white;
-  width: 36px;
-  height: 36px;
-  padding: 6px;
+  width: 40px;
+  height: 30px;
+  padding: 3px 8px;
   cursor: pointer;
   transition: all 0.2s;
   border-radius: 0%;
@@ -343,10 +343,10 @@ body {
 .player-btn.active::after {
   content: "";
   position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
   border-radius: 0%;
   background: transparent;
   box-shadow: 0 0 8px white;
@@ -382,7 +382,7 @@ body {
 }
 
 .time-label.duration {
-  top: -40px;
+  top: -20px;
 }
 
 /* Анимации */
