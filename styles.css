@@ -15,7 +15,7 @@ body {
   justify-content: center; /* Центрируем по горизонтали */
   align-items: center; /* Центрируем по вертикали */
   height: 100vh; /* На всю высоту экрана */
-  weight: 100vw;
+  width: 100vw;
   line-height: 1.6;
   text-shadow: 0 0 10px rgba(255, 255, 0, 0.8);
   overflow: hidden; /* Запрещает прокрутку страницы, чтобы, когда открыто модальное окно, нельзя было скроллить основную страницу */
@@ -23,15 +23,16 @@ body {
 
 /* Контейнер терминала */
 .terminal-container {
-    width: 100%;
-    padding: 20px; /* Внутренние отступы со всех сторон */
-    margin-top: 0px; /* Поднимаем контейнер вверх */
-    position: fixed;  /* Позиционирование элемента. relative - можно смещать */
-    z-index: 100;
-    display: flex; /* Отображение элемента: гибкое */
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Строка ввода */
