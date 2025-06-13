@@ -257,9 +257,9 @@ body {
 
 .music-player {
   position: fixed;
-  top: 20px;
+  top: 100px;
   left: 20px;
-  background: rgba(0, 0, 0, 0.8);
+  background: none;
   padding: 10px;
   border: 1px solid white;
   border-radius: 0;
