@@ -94,16 +94,26 @@
 
   <!-- Плеер -->
   <div class="music-player">
-    <div class="player-controls">
-      <button id="prev-btn" title="Предыдущая">⏮</button>
-      <button id="play-btn" title="Воспроизвести">▶</button>
-      <button id="next-btn" title="Следующая">⏭</button>
-      <button id="repeat-btn" title="Повтор">🔁</button>
-      <input type="range" id="volume-slider" min="0" max="1" step="0.1" value="0.7" title="Громкость">
-      <span id="now-playing"><span>Выберите песню</span></span>
-    </div>
-    <audio id="audio-player" preload="none"></audio>
+  <div class="now-playing-container">
+    <span id="now-playing"><span>Выберите песню</span></span>
   </div>
+
+  <div class="player-controls">
+    <button id="prevBtn">⏮</button>
+    <button id="playPauseBtn">▶</button>
+    <button id="nextBtn">⏭</button>
+  </div>
+
+  <div class="progress-container" id="progressContainer">
+    <div class="time top-time" id="duration">0:00</div>
+    <div class="progress-track">
+      <div class="progress-filled" id="progressFilled"></div>
+    </div>
+    <div class="time current-time" id="currentTime">0:00</div>
+    <div class="time bottom-time">0:00</div>
+  </div>
+</div>
+
 
   <!-- Модальное окно -->
   <div class="modal-overlay" id="rules-modal" style="display: none;">
