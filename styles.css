@@ -14,7 +14,8 @@ body {
   display: flex;
   justify-content: center; /* Центрируем по горизонтали */
   align-items: center; /* Центрируем по вертикали */
-  min-height: 100vh; /* На всю высоту экрана */
+  height: 100vh; /* На всю высоту экрана */
+  weight: 100vw;
   line-height: 1.6;
   text-shadow: 0 0 10px rgba(255, 255, 0, 0.8);
   overflow: hidden; /* Запрещает прокрутку страницы, чтобы, когда открыто модальное окно, нельзя было скроллить основную страницу */
@@ -23,11 +24,10 @@ body {
 /* Контейнер терминала */
 .terminal-container {
     width: 100%;
-    max-width: 700px;
     padding: 20px; /* Внутренние отступы со всех сторон */
-    margin-top: -120px; /* Поднимаем контейнер вверх */
+    margin-top: 0px; /* Поднимаем контейнер вверх */
     position: fixed;  /* Позиционирование элемента. relative - можно смещать */
-    z-index: 10;
+    z-index: 100;
     display: flex; /* Отображение элемента: гибкое */
     flex-direction: column;
     align-items: center;
