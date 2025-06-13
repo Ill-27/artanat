@@ -14,8 +14,7 @@ body {
   display: flex;
   justify-content: center; /* Центрируем по горизонтали */
   align-items: center; /* Центрируем по вертикали */
-  height: 100vh; /* На всю высоту экрана */
-  width: 100vw;
+  min-height: 100vh; /* На всю высоту экрана */
   line-height: 1.6;
   text-shadow: 0 0 10px rgba(255, 255, 0, 0.8);
   overflow: hidden; /* Запрещает прокрутку страницы, чтобы, когда открыто модальное окно, нельзя было скроллить основную страницу */
@@ -23,17 +22,16 @@ body {
 
 /* Контейнер терминала */
 .terminal-container {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -70%); /* чуть выше центра */
-  width: 80%;
-  max-width: 800px;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+    width: 100%;
+    max-width: 700px;
+    padding: 20px; /* Внутренние отступы со всех сторон */
+    margin-top: -120px; /* Поднимаем контейнер вверх */
+    position: fixed;  /* Позиционирование элемента. relative - можно смещать */
+    z-index: 10;
+    display: flex; /* Отображение элемента: гибкое */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 /* Строка ввода */
@@ -41,7 +39,7 @@ body {
     display: flex;
     align-items: center;
     margin-top: 30px;  /* Внешний отступ сверху */
-    width: 80%;
+    width: 100%;
 }
 
 /* Это стиль для символа >_ перед полем ввода */
@@ -62,7 +60,7 @@ body {
     border: none;
     color: #fff;
     padding: 5px 0;
-    width: 80%;
+    width: 100%;
     outline: none; /* Убираем обводку при фокусе */
     caret-color: #fff;
 }
@@ -72,7 +70,7 @@ body {
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 80%;
+    width: 100%;
     height: 1px;
     background: #fff;
 }
@@ -83,7 +81,7 @@ body {
 
 /* Стиль для блока вывода терминала */
 #terminal-output {
-    width: 80%;  /* Занимает всю ширину родителя */
+    width: 100%;  /* Занимает всю ширину родителя */
 }
 
 #terminal-output div {
@@ -93,7 +91,7 @@ body {
 /* Стиль для контейнера контента. Показывается только после успешного ввода кода (например, через display: block в JavaScript) */
 #content-container {
     display: none;  /* Изначально скрыт */
-    width: 80%;
+    width: 100%;
 }
 
 /* Анимация подсказки (плавное подпрыгивание) */
