@@ -24,11 +24,11 @@ body {
 /* Контейнер терминала */
 .terminal-container {
   position: fixed;
-  padding: 20px; /* Внутренние отступы со всех сторон */
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%;
+  transform: translate(-50%, -60%); /* чуть выше центра */
+  width: 80%;
+  max-width: 800px;
   padding: 20px;
   display: flex;
   flex-direction: column;
