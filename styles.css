@@ -246,6 +246,8 @@ body {
 
 .music-player {
   position: relative;
+  top: 150px;
+  left: 20px;
   display: flex;
   flex-direction: row;
   align-items: center;
