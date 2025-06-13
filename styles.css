@@ -257,11 +257,11 @@ body {
 
 .music-player {
   position: fixed;
-  top: 100px;
+  bottom: 180px;
   left: 20px;
   background: none;
   padding: 10px;
-  border: 1px solid white;
+  border: none;
   border-radius: 0;
   z-index: 1002;
   display: flex;
