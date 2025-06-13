@@ -29,7 +29,7 @@ let isRepeating = false;
 function loadSong(index) {
   const song = songs[index];
   audioPlayer.src = song.file;
-  nowPlaying.textContent = song.title;
+  nowPlaying.innerHTML = `<span>${song.title}</span>`;
   isPlaying = false;
   playBtn.textContent = '▶'; // Обновим кнопку
 }
