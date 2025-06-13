@@ -13,117 +13,143 @@ const songs = [
 
 // Элементы управления
 const audioPlayer = document.getElementById('audio-player');
-const playBtn = document.getElementById('play-btn');
-const prevBtn = document.getElementById('prev-btn');
-const nextBtn = document.getElementById('next-btn');
+const playBtn = document.getElementById('playPauseBtn');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
 const nowPlaying = document.getElementById('now-playing');
+const progressFilled = document.getElementById('progressFilled');
+const currentTimeEl = document.getElementById('currentTime');
+const durationEl = document.getElementById('duration');
+const bottomTime = document.querySelector('.bottom-time');
+const progressTrack = document.querySelector('.progress-track');
 
-const progressTrack = document.getElementById('progress-track');
-const progressFill = document.getElementById('progress-fill');
-const progressThumb = document.getElementById('progress-thumb');
-const progressTime = document.getElementById('progress-time');
-const timeStart = document.getElementById('time-start');
-const timeEnd = document.getElementById('time-end');
-
-// Состояние
 let currentSongIndex = 0;
 let isPlaying = false;
-let isRepeating = false;
-
-// Форматирование времени
-function formatTime(seconds) {
-  const m = Math.floor(seconds / 60);
-  const s = Math.floor(seconds % 60);
-  return `${m}:${s < 10 ? '0' : ''}${s}`;
-}
+let isDragging = false;
 
 // Загрузка песни
 function loadSong(index) {
   const song = songs[index];
   audioPlayer.src = song.file;
-  nowPlaying.textContent = song.title;
-  isPlaying = false;
+  nowPlaying.innerHTML = `<span class="scrolling-text">${song.title}</span>`;
   playBtn.textContent = '▶';
-  progressFill.style.height = '0%';
-  progressThumb.style.bottom = '0%';
-  progressTime.style.bottom = '0%';
-  timeStart.textContent = '0:00';
-  timeEnd.textContent = '0:00';
+  isPlaying = false;
 }
 
-// Воспроизведение
+// Обновление времени и прогресса
+function updateProgress() {
+  if (!isDragging && audioPlayer.duration) {
+    const percent = audioPlayer.currentTime / audioPlayer.duration;
+    progressFilled.style.height = `${percent * 100}%`;
+    const minutes = Math.floor(audioPlayer.currentTime / 60);
+    const seconds = Math.floor(audioPlayer.currentTime % 60).toString().padStart(2, '0');
+    currentTimeEl.textContent = `${minutes}:${seconds}`;
+    positionCurrentTime();
+  }
+}
+
+// Позиционирование текущего времени слева от ползунка
+function positionCurrentTime() {
+  const percent = audioPlayer.currentTime / audioPlayer.duration;
+  const height = progressTrack.clientHeight;
+  const offset = (1 - percent) * height;
+  currentTimeEl.style.top = `${offset - 8}px`; // немного выше центра линии
+}
+
+// Формат времени
+function formatTime(sec) {
+  const min = Math.floor(sec / 60);
+  const secPart = Math.floor(sec % 60).toString().padStart(2, '0');
+  return `${min}:${secPart}`;
+}
+
+// Воспроизведение и пауза
 function playSong() {
   audioPlayer.play().then(() => {
     isPlaying = true;
     playBtn.textContent = '⏸';
   }).catch(err => {
-    console.error("Ошибка при попытке воспроизведения:", err);
+    console.error("Ошибка при воспроизведении:", err);
   });
 }
 
-// Пауза
 function pauseSong() {
   audioPlayer.pause();
   isPlaying = false;
   playBtn.textContent = '▶';
 }
 
-// Play/Pause
+// Управление кнопками
 playBtn.addEventListener('click', () => {
-  if (!audioPlayer.src) {
-    loadSong(currentSongIndex);
-  }
-  if (isPlaying) {
-    pauseSong();
-  } else {
-    playSong();
-  }
+  if (!audioPlayer.src) loadSong(currentSongIndex);
+  isPlaying ? pauseSong() : playSong();
 });
 
-// Предыдущая песня
 prevBtn.addEventListener('click', () => {
   currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
   loadSong(currentSongIndex);
+  if (isPlaying) playSong();
 });
 
-// Следующая песня
 nextBtn.addEventListener('click', () => {
   currentSongIndex = (currentSongIndex + 1) % songs.length;
   loadSong(currentSongIndex);
+  if (isPlaying) playSong();
 });
 
 // Обновление прогресса
-audioPlayer.addEventListener('timeupdate', () => {
-  if (audioPlayer.duration) {
-    const percent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
-    progressFill.style.height = `${percent}%`;
-    progressThumb.style.bottom = `${percent}%`;
-    progressTime.style.bottom = `${percent}%`;
-    progressTime.textContent = formatTime(audioPlayer.currentTime);
-    timeEnd.textContent = formatTime(audioPlayer.duration);
-  }
+audioPlayer.addEventListener('timeupdate', updateProgress);
+
+audioPlayer.addEventListener('loadedmetadata', () => {
+  bottomTime.textContent = formatTime(audioPlayer.duration);
+  durationEl.textContent = formatTime(audioPlayer.duration);
 });
 
-// Перемотка по клику
-progressTrack.addEventListener('click', (e) => {
-  const rect = progressTrack.getBoundingClientRect();
-  const clickY = e.clientY - rect.top;
-  const percent = 1 - (clickY / rect.height);
-  audioPlayer.currentTime = percent * audioPlayer.duration;
-});
-
-// Конец песни
 audioPlayer.addEventListener('ended', () => {
-  if (isRepeating) {
-    playSong();
-  } else {
-    currentSongIndex = (currentSongIndex + 1) % songs.length;
-    loadSong(currentSongIndex);
-    playSong();
-  }
+  currentSongIndex = (currentSongIndex + 1) % songs.length;
+  loadSong(currentSongIndex);
+  playSong();
 });
 
-// Инициализация
+// Поддержка мыши и касания
+function handleSeek(clientY) {
+  const rect = progressTrack.getBoundingClientRect();
+  const offsetY = clientY - rect.top;
+  const percent = 1 - (offsetY / rect.height);
+  const clamped = Math.max(0, Math.min(1, percent));
+
+  if (audioPlayer.duration) {
+    audioPlayer.currentTime = clamped * audioPlayer.duration;
+  }
+}
+
+progressTrack.addEventListener('mousedown', (e) => {
+  isDragging = true;
+  handleSeek(e.clientY);
+});
+
+document.addEventListener('mousemove', (e) => {
+  if (isDragging) handleSeek(e.clientY);
+});
+
+document.addEventListener('mouseup', () => {
+  isDragging = false;
+});
+
+progressTrack.addEventListener('touchstart', (e) => {
+  isDragging = true;
+  handleSeek(e.touches[0].clientY);
+}, { passive: true });
+
+document.addEventListener('touchmove', (e) => {
+  if (isDragging) handleSeek(e.touches[0].clientY);
+}, { passive: true });
+
+document.addEventListener('touchend', () => {
+  isDragging = false;
+});
+
+// Запуск при загрузке
 window.addEventListener('DOMContentLoaded', () => {
   loadSong(currentSongIndex);
 });
