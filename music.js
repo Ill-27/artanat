@@ -97,11 +97,7 @@ volumeSlider.addEventListener('input', () => {
 });
 
 // Инициализация — просто загружаем песню, НО НЕ ИГРАЕМ!
-document.addEventListener('DOMContentLoaded', () => {
-  const audio = document.getElementById('audio-player');
-  const volumeSlider = document.getElementById('volume-slider');
-
-  volumeSlider.addEventListener('input', () => {
-    audio.volume = parseFloat(volumeSlider.value);
-  });
+window.addEventListener('DOMContentLoaded', () => {
+  loadSong(currentSongIndex);
+  audioPlayer.volume = parseFloat(volumeSlider.value);
 });
