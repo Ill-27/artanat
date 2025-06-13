@@ -267,7 +267,7 @@ body {
 /* Вертикальная линия прогресса */
 .progress-track {
   position: relative;
-  height: 100px;
+  height: 130px;
   width: 1px;
   background: rgba(255, 255, 255, 0.3);
   cursor: pointer;
@@ -323,7 +323,7 @@ body {
 /* Стили для всех кнопок */
 .player-btn {
   background: none;
-  border: 1px solid white;
+  border: 0px solid white;
   width: 36px;
   height: 36px;
   padding: 6px;
