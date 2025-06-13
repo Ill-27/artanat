@@ -133,17 +133,44 @@ audioPlayer.addEventListener('timeupdate', () => {
   }
 });
 
-// Функции для управления ползунком
-function startDrag(e) {
-  e.preventDefault();
-  window.addEventListener('mousemove', handleDrag);
-  window.addEventListener('mouseup', stopDrag);
-  handleDrag(e);
-}
+// Плавное управление ползунком без зажима
+let isDragging = false;
 
-function handleDrag(e) {
+progressTrack.addEventListener('mousedown', (e) => {
+  isDragging = true;
+  updateProgress(e.clientY);
+});
+
+progressTrack.addEventListener('mousemove', (e) => {
+  if (isDragging) {
+    updateProgress(e.clientY);
+  }
+});
+
+document.addEventListener('mouseup', () => {
+  isDragging = false;
+});
+
+progressTrack.addEventListener('touchstart', (e) => {
+  isDragging = true;
+  updateProgress(e.touches[0].clientY);
+  e.preventDefault();
+}, { passive: false });
+
+progressTrack.addEventListener('touchmove', (e) => {
+  if (isDragging) {
+    updateProgress(e.touches[0].clientY);
+    e.preventDefault();
+  }
+}, { passive: false });
+
+document.addEventListener('touchend', () => {
+  isDragging = false;
+});
+
+function updateProgress(clientY) {
   const rect = progressTrack.getBoundingClientRect();
-  let offsetY = rect.bottom - (e.clientY || e.touches?.[0].clientY);
+  let offsetY = rect.bottom - clientY;
   offsetY = Math.max(0, Math.min(rect.height, offsetY));
   const percent = offsetY / rect.height;
   
@@ -151,46 +178,6 @@ function handleDrag(e) {
   progressFill.style.height = `${percent * 100}%`;
   progressThumb.style.bottom = `${percent * 100}%`;
 }
-
-function stopDrag() {
-  window.removeEventListener('mousemove', handleDrag);
-  window.removeEventListener('mouseup', stopDrag);
-}
-
-// Обработчики для мыши
-progressThumb.addEventListener('mousedown', startDrag);
-progressTrack.addEventListener('click', (e) => {
-  const rect = progressTrack.getBoundingClientRect();
-  const offsetY = rect.bottom - e.clientY;
-  const percent = Math.max(0, Math.min(1, offsetY / rect.height));
-  audioPlayer.currentTime = percent * audioPlayer.duration;
-});
-
-// Обработчики для сенсорных устройств
-progressThumb.addEventListener('touchstart', (e) => {
-  e.preventDefault();
-  window.addEventListener('touchmove', handleTouchMove);
-  window.addEventListener('touchend', stopTouch);
-  handleDrag(e);
-}, { passive: false });
-
-function handleTouchMove(e) {
-  e.preventDefault();
-  handleDrag(e);
-}
-
-function stopTouch() {
-  window.removeEventListener('touchmove', handleTouchMove);
-  window.removeEventListener('touchend', stopTouch);
-}
-
-progressTrack.addEventListener('touchstart', (e) => {
-  e.preventDefault();
-  const rect = progressTrack.getBoundingClientRect();
-  const offsetY = rect.bottom - e.touches[0].clientY;
-  const percent = Math.max(0, Math.min(1, offsetY / rect.height));
-  audioPlayer.currentTime = percent * audioPlayer.duration;
-}, { passive: false });
 
 window.addEventListener('DOMContentLoaded', () => {
   resetShuffleQueue();
