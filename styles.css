@@ -247,7 +247,7 @@ body {
 /* Плеер */
 .music-player {
   position: fixed;
-  top: 100px;
+  bottom: 180px;
   left: 20px;
   display: flex;
   flex-direction: column;
@@ -305,7 +305,7 @@ body {
 }
 
 .vertical-title-container {
-  writing-mode: vertical;
+  writing-mode: vertical-rl;
   height: 100%;
   animation: scrollTitle 20s linear infinite;
   padding-left: 10px;
