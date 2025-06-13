@@ -106,58 +106,80 @@ body {
   50% { transform: translateY(-15px); }
 }
 
-/* Footer Styles */
+/* Основные стили футера */
 .site-footer {
   position: fixed;
-  bottom: 120px;
+  bottom: 20px;
   left: 20px;
-  z-index: 10;
-  color: #fff;
+  width: calc(100% - 40px);
+  z-index: 1000;
+  font-family: 'Fira Code', monospace;
   font-size: 14px;
+  line-height: 1.5;
+  color: #fff;
 }
 
-.footer-default,
-.footer-dmca {
+.footer-content {
+  position: relative;
+  min-height: 120px; /* Фиксированная высота для предотвращения скачков */
+}
+
+.footer-section {
   position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
   transition: all 0.4s cubic-bezier(0.33, 1, 0.68, 1);
-  transform: translateY(0);
-  opacity: 1;
 }
 
-.footer-dmca {
+/* Стандартный вид */
+.default-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.dmca-view {
   opacity: 0;
   transform: translateY(10px);
   pointer-events: none;
 }
 
-.site-footer.active .footer-default {
+/* Активный вид (DMCA показан) */
+.site-footer.active .default-view {
   opacity: 0;
   transform: translateY(-10px);
 }
 
-.site-footer.active .footer-dmca {
+.site-footer.active .dmca-view {
   opacity: 1;
   transform: translateY(0);
   pointer-events: auto;
 }
 
-/* DMCA Button Styles */
-.dmca-btn {
+/* Стили текста */
+.site-footer p {
+  margin: 0 0 5px 0;
+  white-space: nowrap;
+}
+
+/* Стили кнопки */
+.dmca-toggle {
   display: inline-block;
   color: #0000FF;
   text-decoration: underline;
-  text-decoration-color: currentColor;
+  text-decoration-color: rgba(0, 102, 255, 0.5);
   text-underline-offset: 3px;
   margin-top: 8px;
   transition: all 0.3s ease;
   cursor: pointer;
 }
 
-.site-footer.active .dmca-btn {
+.site-footer.active .dmca-toggle {
   color: #FF0000;
+  text-decoration-color: rgba(255, 51, 85, 0.7);
 }
 
-.dmca-btn:hover {
+.dmca-toggle:hover {
   text-decoration-thickness: 2px;
 }
 
