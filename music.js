@@ -1,5 +1,5 @@
 const songs = [
-  { title: "-> Там, где небо (Мария Зайцева, 2022)", file: "music/song1.mp3" },
+  { title: "-> "Там, где небо" (Мария Зайцева, 2022)", file: "music/song1.mp3" },
   { title: "Название песни 2", file: "music/song2.mp3" },
   { title: "Название песни 3", file: "music/song3.mp3" }
 ];
@@ -67,12 +67,6 @@ function loadSong(index) {
   if (!isPlaying) {
     updateProgressDisplay(0);
   }
-}
-
-function resetTitleAnimation() {
-  nowPlaying.style.animation = 'none';
-  nowPlaying.offsetHeight;
-  nowPlaying.style.animation = 'fadeInUp 1s ease-out forwards, scrollTitle 20s linear infinite';
 }
 
 function playSong() {
