@@ -247,7 +247,7 @@ body {
 /* Плеер */
 .music-player {
   position: fixed;
-  bottom: 220px;
+  bottom: 200px;
   left: 20px;
   display: flex;
   flex-direction: column;
@@ -262,7 +262,7 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 20px;
-  padding-bottom: 15px;
+  padding-bottom: 25px;
 }
 
 /* Вертикальная линия прогресса */
@@ -312,7 +312,7 @@ body {
   height: 100%;
   animation: scrollTitle 20s linear infinite;
   padding-left: 30px;
-  padding-top: 15px;
+  padding-top: 25px;
 }
 
 .vertical-title {
