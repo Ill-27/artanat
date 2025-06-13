@@ -246,72 +246,32 @@ body {
 
 /* Плеер */
 .music-player {
-  position: absolute;
+  position: fixed;
   top: 100px;
   left: 20px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   gap: 15px;
   z-index: 999;
 }
 
-/* Кнопки */
-.controls-container {
+/* Контейнер для линии прогресса и названия */
+.progress-container {
   display: flex;
-  padding: 10px 20px;
-  border: 1px solid white;
-  border-radius: 0;
-}
-
-.player-controls {
-  display: flex;
-  gap: 15px;
-}
-
-.player-btn {
-  background: none;
-  border: 1px solid white;
-  width: 36px;
-  height: 36px;
-  padding: 6px;
-  cursor: pointer;
-  transition: all 0.2s;
-  border-radius: 50%;
-  display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  gap: 10px;
 }
 
-.player-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.player-btn.active::after {
-  content: "";
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  border-radius: 50%;
-  box-shadow: 0 0 8px white;
-  animation: pulse 1.5s infinite;
-}
-
-@keyframes pulse {
-  0% { opacity: 0.7; }
-  50% { opacity: 1; }
-  100% { opacity: 0.7; }
-}
-
-/* Линия прогресса */
+/* Вертикальная линия прогресса */
 .progress-track {
   position: relative;
-  height: 200px;
+  height: 150px;
   width: 1px;
   background: rgba(255, 255, 255, 0.3);
   cursor: pointer;
+  touch-action: none;
 }
 
 .progress-fill {
@@ -336,6 +296,76 @@ body {
   transition: bottom 0.1s linear;
 }
 
+/* Название песни (вертикальное) */
+.song-title-wrapper {
+  height: 200px;
+  width: 30px;
+  overflow: hidden;
+  position: relative;
+}
+
+.vertical-title-container {
+  writing-mode: vertical;
+  height: 100%;
+  animation: scrollTitle 20s linear infinite;
+  padding-left: 10px;
+}
+
+.vertical-title {
+  color: white;
+  font-size: 12px;
+  line-height: 1.4;
+  white-space: nowrap;
+  animation: fadeInUp 0s ease-out forwards;
+}
+
+/* Стили для кнопок */
+/* Стили для всех кнопок */
+.player-btn {
+  background: none;
+  border: 0px solid white;
+  width: 36px;
+  height: 36px;
+  padding: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Пульсация для активных кнопок */
+.player-btn.active {
+  position: relative;
+}
+
+.player-btn.active::after {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow: 0 0 8px white;
+  animation: pulse 1.5s infinite;
+}
+
+/* Иконка паузы (изначально скрыта) */
+#pause-icon {
+  display: none;
+}
+
+/* Анимация пульсации */
+@keyframes pulse {
+  0% { opacity: 0.7; }
+  50% { opacity: 1; }
+  100% { opacity: 0.7; }
+}
+
+/* Время */
 .time-label {
   position: absolute;
   font-size: 10px;
@@ -343,6 +373,7 @@ body {
   white-space: nowrap;
   pointer-events: none;
   left: 15px;
+  transition: bottom 0.1s linear;
 }
 
 .time-label.current {
@@ -354,28 +385,27 @@ body {
   top: -40px;
 }
 
-/* Название песни */
-.song-title-wrapper {
-  height: 100px;
-  width: 30px;
-  overflow: hidden;
-}
-
-.vertical-title-container {
-  writing-mode: vertical-rl;
-  height: 200%;
-  animation: scrollTitle 20s linear infinite;
-}
-
-.vertical-title {
-  color: white;
-  font-size: 12px;
-  line-height: 1.4;
-  white-space: nowrap;
-  padding-left: 5px;
-}
-
+/* Анимации */
 @keyframes scrollTitle {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(50%); }
+  0% { transform: translateY(100%); }
+  100% { transform: translateY(-100%); }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Для тач-устройств */
+@media (hover: none) {
+  .progress-thumb {
+    width: 14px;
+    height: 14px;
+  }
 }
