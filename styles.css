@@ -320,9 +320,10 @@ body {
 }
 
 /* Стили для кнопок */
+/* Стили для всех кнопок */
 .player-btn {
   background: none;
-  border: none;
+  border: 1px solid white;
   width: 36px;
   height: 36px;
   padding: 6px;
@@ -334,25 +335,12 @@ body {
   justify-content: center;
 }
 
-.player-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.player-btn:active {
-  transform: scale(0.95);
-}
-
-.player-btn svg {
-  width: 100%;
-  height: 100%;
-}
-
-/* Стиль для активного повтора */
-#repeat-btn.active {
+/* Пульсация для активных кнопок */
+.player-btn.active {
   position: relative;
 }
 
-#repeat-btn.active::after {
+.player-btn.active::after {
   content: "";
   position: absolute;
   top: -2px;
@@ -365,19 +353,16 @@ body {
   animation: pulse 1.5s infinite;
 }
 
+/* Иконка паузы (изначально скрыта) */
+#pause-icon {
+  display: none;
+}
+
+/* Анимация пульсации */
 @keyframes pulse {
   0% { opacity: 0.7; }
   50% { opacity: 1; }
   100% { opacity: 0.7; }
-}
-
-/* Переключение иконок play/pause */
-#play-btn.playing #play-icon {
-  display: none;
-}
-
-#play-btn.playing #pause-icon {
-  display: block;
 }
 
 /* Время */
