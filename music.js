@@ -2,7 +2,7 @@
 const songs = [
   {
     title: "Там, где небо - Мария Зайцева",
-    file: "music/Мария_Зайцева_Там_где_небо.mp3"
+    file: "music/maria-tam-gde-nebo.mp3"
   },
   {
     title: "Название песни 2",
