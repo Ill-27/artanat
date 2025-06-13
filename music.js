@@ -1,17 +1,17 @@
-// Список песен (добавьте свои треки)
+// Список песен
 const songs = [
   {
-    title: "Там, где небо - Мария Зайцева",
-    file: "music/maria-tam-gde-nebo.mp3"
+    title: "Там, где небо — Мария Зайцева",
+    file: "music/song1.mp3"
   },
   {
     title: "Название песни 2",
     file: "music/song2.mp3"
   },
-  // Добавьте остальные песни в том же формате
+  // Добавляй другие песни по структуре
 ];
 
-// Элементы плеера
+// Элементы управления
 const audioPlayer = document.getElementById('audio-player');
 const playBtn = document.getElementById('play-btn');
 const prevBtn = document.getElementById('prev-btn');
@@ -20,83 +20,84 @@ const repeatBtn = document.getElementById('repeat-btn');
 const volumeSlider = document.getElementById('volume-slider');
 const nowPlaying = document.getElementById('now-playing');
 
-// Переменные состояния
+// Состояние
 let currentSongIndex = 0;
 let isPlaying = false;
-let isRepeat = false;
+let isRepeating = false;
 
-// Инициализация плеера
-function initPlayer() {
-  // Загрузка случайной песни
-  loadRandomSong();
-  
-  // Обработчики событий
-  playBtn.addEventListener('click', togglePlay);
-  prevBtn.addEventListener('click', prevSong);
-  nextBtn.addEventListener('click', nextSong);
-  repeatBtn.addEventListener('click', toggleRepeat);
-  volumeSlider.addEventListener('input', setVolume);
-  
-  // События аудио
-  audioPlayer.addEventListener('ended', handleSongEnd);
-  audioPlayer.addEventListener('timeupdate', updateProgress);
-}
-
-// Загрузка случайной песни
-function loadRandomSong() {
-  currentSongIndex = Math.floor(Math.random() * songs.length);
-  const song = songs[currentSongIndex];
+// Загрузка песни (без воспроизведения!)
+function loadSong(index) {
+  const song = songs[index];
   audioPlayer.src = song.file;
   nowPlaying.textContent = song.title;
+  isPlaying = false;
+  playBtn.textContent = '▶'; // Обновим кнопку
 }
 
-// Воспроизведение/пауза
-function togglePlay() {
-  if (isPlaying) {
-    audioPlayer.pause();
-    playBtn.textContent = '▶';
-  } else {
-    audioPlayer.play()
-      .then(() => {
-        playBtn.textContent = '⏸';
-      })
-      .catch(e => console.error("Ошибка воспроизведения:", e));
+// Воспроизведение
+function playSong() {
+  audioPlayer.play().then(() => {
+    isPlaying = true;
+    playBtn.textContent = '⏸';
+  }).catch(err => {
+    console.error("Ошибка при попытке воспроизведения:", err);
+  });
+}
+
+// Пауза
+function pauseSong() {
+  audioPlayer.pause();
+  isPlaying = false;
+  playBtn.textContent = '▶';
+}
+
+// Кнопка Play/Pause
+playBtn.addEventListener('click', () => {
+  if (!audioPlayer.src) {
+    loadSong(currentSongIndex);
   }
-  isPlaying = !isPlaying;
-}
-
-// Следующая песня
-function nextSong() {
-  loadRandomSong();
-  if (isPlaying) audioPlayer.play();
-}
+  if (isPlaying) {
+    pauseSong();
+  } else {
+    playSong();
+  }
+});
 
 // Предыдущая песня
-function prevSong() {
-  loadRandomSong();
-  if (isPlaying) audioPlayer.play();
-}
+prevBtn.addEventListener('click', () => {
+  currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+  loadSong(currentSongIndex);
+});
+
+// Следующая песня
+nextBtn.addEventListener('click', () => {
+  currentSongIndex = (currentSongIndex + 1) % songs.length;
+  loadSong(currentSongIndex);
+});
 
 // Повтор
-function toggleRepeat() {
-  isRepeat = !isRepeat;
-  repeatBtn.style.color = isRepeat ? '#ff0' : '#fff';
-  audioPlayer.loop = isRepeat;
-}
+repeatBtn.addEventListener('click', () => {
+  isRepeating = !isRepeating;
+  repeatBtn.style.color = isRepeating ? 'lime' : '#ff0';
+});
+
+// Обработка конца песни
+audioPlayer.addEventListener('ended', () => {
+  if (isRepeating) {
+    playSong();
+  } else {
+    currentSongIndex = (currentSongIndex + 1) % songs.length;
+    loadSong(currentSongIndex);
+  }
+});
 
 // Громкость
-function setVolume() {
-  audioPlayer.volume = volumeSlider.value;
-}
+volumeSlider.addEventListener('input', () => {
+  audioPlayer.volume = parseFloat(volumeSlider.value);
+});
 
-// Окончание песни
-function handleSongEnd() {
-  if (!isRepeat) {
-    nextSong();
-  }
-}
-
-// Запуск плеера 
-document.addEventListener('click', function() {
-  audioPlayer.play().catch(e => console.log(e));
-}, { once: true });
+// Инициализация — просто загружаем песню, НО НЕ ИГРАЕМ!
+window.addEventListener('DOMContentLoaded', () => {
+  loadSong(currentSongIndex);
+  audioPlayer.volume = parseFloat(volumeSlider.value);
+});
