@@ -252,7 +252,7 @@ body {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 40px;
+  gap: 140px;
   z-index: 999;
 }
 
@@ -292,7 +292,7 @@ body {
 .vertical-title {
   color: white;
   font-size: 10px;
-  line-height: 1.6;
+  line-height: 1;
   white-space: nowrap;
 }
 
@@ -306,7 +306,7 @@ body {
   position: relative;
   height: 160px;
   width: 4px;
-  background: rgba(255,255,255,0.2);
+  background: #fff;
   border-radius: 2px;
   cursor: pointer;
 }
@@ -334,7 +334,7 @@ body {
 
 .time-label {
   position: absolute;
-  left: -20px;
+  left: -40px;
   font-size: 10px;
   color: white;
   white-space: nowrap;
