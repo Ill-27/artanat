@@ -1,5 +1,5 @@
 const songs = [
-  { title: "Там, где небо — Мария Зайцева", file: "music/song1.mp3" },
+  { title: "-> Там, где небо (Мария Зайцева, 2022)", file: "music/song1.mp3" },
   { title: "Название песни 2", file: "music/song2.mp3" },
   { title: "Название песни 3", file: "music/song3.mp3" }
 ];
