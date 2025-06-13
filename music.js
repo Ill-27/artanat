@@ -8,6 +8,7 @@ let shuffledQueue = [];
 let currentSongIndex = 0;
 let isPlaying = false;
 let isRepeating = false;
+let isDragging = false;
 
 const audioPlayer = document.getElementById('audio-player');
 const playBtn = document.getElementById('play-btn');
@@ -19,8 +20,12 @@ const nowPlaying = document.getElementById('now-playing');
 const progressTrack = document.getElementById('progress-track');
 const progressFill = document.getElementById('progress-fill');
 const progressThumb = document.getElementById('progress-thumb');
-const timeStart = document.getElementById('time-start');
-const timeEnd = document.getElementById('time-end');
+const timeCurrent = document.getElementById('time-start');
+const timeDuration = document.getElementById('time-end');
+
+// Инициализация времени
+timeCurrent.classList.add('current');
+timeDuration.classList.add('duration');
 
 function formatTime(seconds) {
   const min = Math.floor(seconds / 60);
@@ -46,11 +51,11 @@ function loadSong(index) {
   const song = songs[songIndex];
   audioPlayer.src = song.file;
   
-  // Обновляем название песни с анимацией
+  // Обновляем название песни с плавной анимацией
   nowPlaying.style.animation = 'none';
   nowPlaying.offsetHeight; // Trigger reflow
   nowPlaying.textContent = song.title;
-  nowPlaying.style.animation = 'fadeInUp 1s ease-out forwards, scrollTitle 15s linear infinite';
+  nowPlaying.style.animation = 'fadeInUp 1s ease-out forwards, scrollTitle 20s linear infinite';
   
   if (isPlaying) {
     playSong();
@@ -123,60 +128,59 @@ audioPlayer.addEventListener('ended', () => {
 });
 
 audioPlayer.addEventListener('timeupdate', () => {
-  if (audioPlayer.duration) {
-    const percent = audioPlayer.currentTime / audioPlayer.duration;
-    const fillHeight = percent * 100;
-    progressFill.style.height = `${fillHeight}%`;
-    progressThumb.style.bottom = `${fillHeight}%`;
-    timeStart.textContent = formatTime(audioPlayer.currentTime);
-    timeEnd.textContent = formatTime(audioPlayer.duration);
+  if (audioPlayer.duration && !isDragging) {
+    updateProgressDisplay(audioPlayer.currentTime / audioPlayer.duration);
   }
 });
 
-// Плавное управление ползунком без зажима
-let isDragging = false;
-
-progressTrack.addEventListener('mousedown', (e) => {
-  isDragging = true;
-  updateProgress(e.clientY);
-});
-
-progressTrack.addEventListener('mousemove', (e) => {
-  if (isDragging) {
-    updateProgress(e.clientY);
-  }
-});
-
-document.addEventListener('mouseup', () => {
-  isDragging = false;
-});
+// Плавное управление ползунком
+progressTrack.addEventListener('mousedown', startDrag);
+progressTrack.addEventListener('mousemove', handleDrag);
+document.addEventListener('mouseup', endDrag);
 
 progressTrack.addEventListener('touchstart', (e) => {
-  isDragging = true;
-  updateProgress(e.touches[0].clientY);
+  startDrag(e.touches[0]);
   e.preventDefault();
 }, { passive: false });
 
 progressTrack.addEventListener('touchmove', (e) => {
-  if (isDragging) {
-    updateProgress(e.touches[0].clientY);
-    e.preventDefault();
-  }
+  handleDrag(e.touches[0]);
+  e.preventDefault();
 }, { passive: false });
 
-document.addEventListener('touchend', () => {
-  isDragging = false;
-});
+document.addEventListener('touchend', endDrag);
 
-function updateProgress(clientY) {
+function startDrag(e) {
+  isDragging = true;
+  handleDrag(e);
+}
+
+function handleDrag(e) {
+  if (!isDragging) return;
+  
   const rect = progressTrack.getBoundingClientRect();
-  let offsetY = rect.bottom - clientY;
-  offsetY = Math.max(0, Math.min(rect.height, offsetY));
-  const percent = offsetY / rect.height;
+  const offsetY = rect.bottom - e.clientY;
+  const percent = Math.max(0, Math.min(1, offsetY / rect.height));
   
   audioPlayer.currentTime = percent * audioPlayer.duration;
-  progressFill.style.height = `${percent * 100}%`;
-  progressThumb.style.bottom = `${percent * 100}%`;
+  updateProgressDisplay(percent);
+}
+
+function endDrag() {
+  isDragging = false;
+}
+
+function updateProgressDisplay(percent) {
+  const fillHeight = percent * 100;
+  progressFill.style.height = `${fillHeight}%`;
+  progressThumb.style.bottom = `${fillHeight}%`;
+  
+  // Обновляем текущее время (движется вместе с ползунком)
+  timeCurrent.textContent = formatTime(audioPlayer.currentTime);
+  timeCurrent.style.bottom = `${fillHeight}%`;
+  
+  // Обновляем общее время
+  timeDuration.textContent = formatTime(audioPlayer.duration);
 }
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -185,6 +189,6 @@ window.addEventListener('DOMContentLoaded', () => {
   loadSong(currentSongIndex);
   
   // Инициализация времени
-  timeStart.textContent = '0:00';
-  timeEnd.textContent = '0:00';
+  timeCurrent.textContent = '0:00';
+  timeDuration.textContent = '0:00';
 });
