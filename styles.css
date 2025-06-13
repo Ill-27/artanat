@@ -247,7 +247,7 @@ body {
 /* Плеер */
 .music-player {
   position: fixed;
-  bottom: 200px;
+  bottom: 180px;
   left: 20px;
   display: flex;
   flex-direction: column;
