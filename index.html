@@ -93,24 +93,25 @@
   <span class="fullscreen-btn" id="fullscreen-toggle">↘</span>
 
   <!-- Плеер -->
-  <div class="music-player">
-  <div class="player-container">
+<div class="music-player">
+  <div class="progress-container">
+    <!-- Вертикальная линия прогресса -->
+    <div class="progress-track" id="progress-track">
+      <div id="progress-fill" class="progress-fill"></div>
+      <div id="progress-thumb" class="progress-thumb"></div>
+      <div id="time-start" class="time-label current">0:00</div>
+      <div id="time-end" class="time-label duration">0:00</div>
+    </div>
+
+    <!-- Вертикальное название песни под линией -->
     <div class="song-title-wrapper">
       <div class="vertical-title-container">
         <div id="now-playing" class="vertical-title"></div>
       </div>
     </div>
-
-    <div class="progress-container">
-      <div class="progress-track" id="progress-track">
-        <div id="progress-fill" class="progress-fill"></div>
-        <div id="progress-thumb" class="progress-thumb"></div>
-        <div id="time-start" class="time-label start">0:00</div>
-        <div id="time-end" class="time-label end">0:00</div>
-      </div>
-    </div>
   </div>
 
+  <!-- Блок с кнопками под всем -->
   <div class="controls-container">
     <div class="player-controls">
       <button id="prev-btn">⏮</button>
