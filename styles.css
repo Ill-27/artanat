@@ -8,7 +8,7 @@
 
 /* Стили для всего тела страницы */
 body {
-  background-color: #000;
+  background-color: #000; 
   color: #ff0;
   font-family: 'Fira Code', monospace;
   display: flex;
