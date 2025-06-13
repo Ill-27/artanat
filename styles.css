@@ -171,8 +171,8 @@ body {
 }
 .telegram-btn {
     position: fixed;
-    bottom: 160px;
-    left: 20px;
+    bottom: 200px;
+    right: 20px;
     cursor: pointer;
     font-size: 14px;
     padding: 3px 8px;
@@ -251,9 +251,109 @@ body {
   left: 20px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 10px;
+  gap: 15px;
   z-index: 999;
+}
+
+.player-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.song-title-wrapper {
+  position: relative;
+  height: 300px;
+  width: 30px;
+  overflow: hidden;
+}
+
+.vertical-title-container {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  height: 100%;
+  animation: scrollTitle 15s linear infinite;
+}
+
+.vertical-title {
+  color: white;
+  font-size: 12px;
+  line-height: 1.4;
+  white-space: nowrap;
+  animation: fadeInUp 1s ease-out forwards;
+}
+
+.progress-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.progress-track {
+  position: relative;
+  height: 300px;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+}
+
+.progress-fill {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: white;
+  height: 0%;
+}
+
+.progress-thumb {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 10px;
+  background: white;
+  border-radius: 50%;
+  bottom: 0;
+  cursor: grab;
+  touch-action: none;
+}
+
+.progress-thumb:active {
+  cursor: grabbing;
+}
+
+.time-label {
+  position: absolute;
+  font-size: 10px;
+  color: white;
+  white-space: nowrap;
+  pointer-events: none;
+  left: 15px;
+}
+
+.time-label.start {
+  bottom: 0;
+  transform: translateY(50%);
+}
+
+.time-label.end {
+  top: 0;
+  transform: translateY(-50%);
+}
+
+.controls-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  padding: 10px 20px;
+  border: 1px solid white;
+  border-radius: 0;
+  margin-top: 15px;
+  width: fit-content;
 }
 
 .player-controls {
@@ -271,6 +371,11 @@ body {
   cursor: pointer;
   transition: transform 0.2s;
   padding: 5px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .player-controls button:hover {
@@ -281,36 +386,9 @@ body {
   filter: drop-shadow(0 0 5px white);
 }
 
-.song-title-wrapper {
-  position: relative;
-  height: 30px;
-  width: 100%;
-  overflow: hidden;
-  text-align: center;
-  margin-top: 10px;
-}
-
-.vertical-title-container {
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
-  text-align: center;
-  height: 100%;
-  animation: scrollTitle 10s linear infinite;
-  animation-fill-mode: both;
-}
-
-.vertical-title {
-  color: white;
-  font-size: 10px;
-  line-height: 1;
-  white-space: nowrap;
-  opacity: 0;
-  animation: fadeInUp 1s ease-out forwards;
-}
-
 /* Анимации */
 @keyframes scrollTitle {
-  0% { transform: rotate(180deg) translateY(100%); }
+  0% { transform: rotate(180deg) translateY(0); }
   100% { transform: rotate(180deg) translateY(-100%); }
 }
 
@@ -323,56 +401,4 @@ body {
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-.progress-track {
-  position: relative;
-  height: 160px;
-  width: 1px;
-  background: rgba(255, 255, 255, 0.3);
-  cursor: pointer;
-  margin-top: 10px;
-}
-
-.progress-fill {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  background: white;
-  height: 0%;
-}
-
-.progress-thumb {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 8px;
-  height: 8px;
-  background: white;
-  border-radius: 50%;
-  bottom: 0;
-  pointer-events: none;
-}
-
-.time-label {
-  position: absolute;
-  font-size: 10px;
-  color: white;
-  white-space: nowrap;
-  pointer-events: none;
-}
-
-.time-label.start {
-  left: 15px;
-  bottom: 0;
-  transform: translateY(50%);
-}
-
-.progress-tooltip {
-  position: absolute;
-  left: 15px;
-  font-size: 10px;
-  color: white;
-  display: none;
-  pointer-events: none;
 }
