@@ -272,7 +272,7 @@ body {
 .vertical-title-container {
   writing-mode: vertical-rl;
   height: 100%;
-  animation: scrollTitle 15s linear infinite;
+  animation: scrollTitle 20s linear infinite;
 }
 
 .vertical-title {
@@ -296,6 +296,7 @@ body {
   width: 1px;
   background: rgba(255, 255, 255, 0.3);
   cursor: pointer;
+  touch-action: none;
 }
 
 .progress-fill {
@@ -325,16 +326,15 @@ body {
   white-space: nowrap;
   pointer-events: none;
   left: 15px;
+  transition: bottom 0.1s linear;
 }
 
-.time-label.start {
+.time-label.current {
   bottom: 0;
-  transform: translateY(50%);
 }
 
-.time-label.end {
-  top: -40px; /* Поднято на 40px выше */
-  transform: translateY(0);
+.time-label.duration {
+  top: -40px;
 }
 
 .controls-container {
@@ -382,7 +382,7 @@ body {
 
 /* Анимации */
 @keyframes scrollTitle {
-  0% { transform: translateY(0); }
+  0% { transform: translateY(100%); }
   100% { transform: translateY(-100%); }
 }
 
