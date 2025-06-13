@@ -304,11 +304,20 @@ body {
   position: relative;
 }
 
+/* Обновленный стиль для вертикального названия песни */
 .vertical-title-container {
   writing-mode: vertical-rl;
+  transform: rotate(180deg); /* Это перевернет текст */
   height: 100%;
   animation: scrollTitle 20s linear infinite;
   padding-left: 10px;
+  text-align: right; /* Выравнивание текста после переворота */
+}
+
+/* Обновленная анимация для перевернутого текста */
+@keyframes scrollTitle {
+  0% { transform: translateY(-100%) rotate(180deg); }
+  100% { transform: translateY(100%) rotate(180deg); }
 }
 
 .vertical-title {
