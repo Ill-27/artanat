@@ -94,28 +94,34 @@
 
   <!-- Плеер -->
   <div class="music-player">
-    <div class="player-controls">
-      <button id="prev-btn">⏮</button>
-      <button id="play-btn">▶</button>
-      <button id="next-btn">⏭</button>
-      <button id="repeat-btn">🔁</button>
-    </div>
-
+  <div class="player-container">
     <div class="song-title-wrapper">
       <div class="vertical-title-container">
         <div id="now-playing" class="vertical-title"></div>
       </div>
     </div>
 
-    <div class="progress-track" id="progress-track">
-      <div id="progress-fill" class="progress-fill"></div>
-      <div id="progress-thumb" class="progress-thumb"></div>
-      <div id="time-start" class="time-label start">0:00</div>
-      <div id="time-end" class="time-label end">0:00</div>
+    <div class="progress-container">
+      <div class="progress-track" id="progress-track">
+        <div id="progress-fill" class="progress-fill"></div>
+        <div id="progress-thumb" class="progress-thumb"></div>
+        <div id="time-start" class="time-label start">0:00</div>
+        <div id="time-end" class="time-label end">0:00</div>
+      </div>
     </div>
-
-    <audio id="audio-player"></audio>
   </div>
+
+  <div class="controls-container">
+    <div class="player-controls">
+      <button id="prev-btn">⏮</button>
+      <button id="play-btn">▶</button>
+      <button id="next-btn">⏭</button>
+      <button id="repeat-btn">🔁</button>
+    </div>
+  </div>
+
+  <audio id="audio-player"></audio>
+</div>
 
   <!-- Модальное окно -->
   <div class="modal-overlay" id="rules-modal" style="display: none;">
