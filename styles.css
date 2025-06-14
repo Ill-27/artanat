@@ -409,7 +409,7 @@ body {
 }
 
 .time-label.duration {
-  top: 0px;
+  top: 3px;
 }
 
 /* Для тач-устройств */
