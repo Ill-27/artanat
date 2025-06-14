@@ -311,9 +311,9 @@ body {
 
 /* Контейнер для вертикального названия песни */
 .song-title-wrapper {
-  height: 200px;
+  height: 400px;
   width: 30px;
-  bottom: 300px;
+  bottom: 350px;
   overflow: hidden;
   position: fixed;
 }
@@ -383,7 +383,7 @@ body {
   background: white;
   opacity: 0;
   box-shadow: 0 0 8px white;
-  animation: pulse 3s infinite;
+  animation: pulse 5s infinite;
 }
 
 /* Иконка паузы (изначально скрыта) */
