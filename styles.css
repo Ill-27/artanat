@@ -263,7 +263,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 10px;
+  gap: 0px;
   z-index: 999;
 }
 
@@ -322,8 +322,7 @@ body {
   transform: rotate(180deg);
   height: 100%;
   position: absolute;
-  padding-left: 10px;
-  left: 0;
+  right: 0;
   top: 0;
 }
 
@@ -342,10 +341,10 @@ body {
 /* Кейфреймы анимации */
 @keyframes moveUpDown {
   0%, 100% {
-    transform: translateY(0); /* Исходное положение */
+    transform: translateY(-10); /* Исходное положение */
   }
   50% {
-    transform: translateY(-10px); /* Сдвиг вверх на 10px */
+    transform: translateY(-30px); /* Сдвиг вверх на 10px */
   }
 }
 
