@@ -308,6 +308,7 @@ body {
   transition: bottom 0.1s linear;
 }
 
+/* Название песни (вертикальное) */
 .song-title-wrapper {
   height: 250px;
   width: 30px;
@@ -315,20 +316,7 @@ body {
   position: relative;
 }
 
-.scroll-container {
-  height: 250px;
-  overflow: hidden;
-  position: relative;
-
-  /* Маска для постепенного исчезновения текста сверху и снизу */
-  mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
-  mask-size: 100% 100%;
-  -webkit-mask-size: 100% 100%;
-  mask-repeat: no-repeat;
-  -webkit-mask-repeat: no-repeat;
-}
-
+/* Обновленный стиль для вертикального названия песни */
 .vertical-title-container {
   writing-mode: vertical-rl;
   transform: rotate(180deg);
@@ -338,6 +326,12 @@ body {
   position: absolute;
 }
 
+.scroll-container {
+  height: 250px; /* Высота окна просмотра */
+  overflow: hidden;
+  position: relative;
+}
+
 .vertical-title {
   color: white;
   font-size: 12px;
@@ -345,16 +339,8 @@ body {
   white-space: normal;
   display: inline-block;
 
-  animation: scrollTitle 12s ease-in-out infinite alternate;
-}
-
-@keyframes scrollTitle {
-  0% {
-    transform: translateY(0%);
-  }
-  100% {
-    transform: translateY(calc(-100% + 250px));
-  }
+  /* Анимация плавного движения вверх-вниз */
+  animation: scrollTitle 10s ease-in-out infinite alternate;
 }
 
 /* Стили для кнопок */
