@@ -282,7 +282,7 @@ body {
   height: 165px;
   width: 1px;
   left: 20px;
-  background: rgba(255, 255, 255, 0.3);
+  background: #fff;
   cursor: pointer;
   touch-action: none;
 }
@@ -347,14 +347,14 @@ body {
     transform: translateY(0); /* Исходное положение */
   }
   50% {
-    transform: translateY(15px); /* Сдвиг вверх */
+    transform: translateY(-15px); /* Сдвиг вверх */
   }
 }
 
 /* Стили для кнопок */
 .player-btn {
   background: none;
-  border: 0px solid white;
+  border: 1px solid white;
   width: 40px;
   height: 30px;
   padding: 3px 8px;
