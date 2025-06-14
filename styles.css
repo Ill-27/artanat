@@ -355,6 +355,7 @@ body {
 
 /* Стили для кнопок */
 .player-btn {
+  top: 40px;
   background: none;
   border: 1px solid white;
   width: 40px;
