@@ -169,14 +169,14 @@ document.getElementById('dmcaLink').addEventListener('click', function(e) {
         // Возвращаемся к исходному тексту
         defaultText.style.display = 'block';
         dmcaText.style.display = 'none';
-        dmcaLink.style.color = ''; // Возвращаем исходный цвет
+        dmcaLink.style.color = '#0000FF'; // Возвращаем исходный цвет
         dmcaLink.style.textDecoration = 'underline'; // Возвращаем подчеркивание
     } else {
         // Показываем текст DMCA
         defaultText.style.display = 'none';
         dmcaText.style.display = 'block';
-        dmcaLink.style.color = 'red'; // Меняем цвет на красный
-        dmcaLink.style.textDecoration = 'none'; // Убираем подчеркивание
+        dmcaLink.style.color = '#FF0000'; // Меняем цвет на красный
+        dmcaLink.style.textDecoration = 'underline'; // Убираем подчеркивание
     }
 });
 
