@@ -111,76 +111,25 @@ body {
   position: fixed;
   bottom: 20px;
   left: 20px;
-  width: calc(100% - 40px);
-  z-index: 1000;
-  font-family: 'Fira Code', monospace;
-  font-size: 14px;
-  line-height: 1.5;
-  color: #fff;
-}
-
-.footer-content {
-  position: relative;
-  min-height: 120px; /* Фиксированная высота для предотвращения скачков */
-}
-
-.footer-section {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
-  transition: all 0.4s cubic-bezier(0.33, 1, 0.68, 1);
+  z-index: 1000;
+  color: #fff;
+  text-shadow: none;
+  font-size: 14px;
 }
 
-/* Стандартный вид */
-.default-view {
-  opacity: 1;
-  transform: translateY(0);
+.site-footer p:not(:last-child) {
+  margin-bottom: 4px;
 }
 
-.dmca-view {
-  opacity: 0;
-  transform: translateY(10px);
-  pointer-events: none;
+#dmcaLink {
+    color: inherit; /* Наследует цвет от родителя */
+    text-decoration: underline; /* Подчеркивание по умолчанию */
+    transition: none; /* Убираем анимацию */
 }
 
-/* Активный вид (DMCA показан) */
-.site-footer.active .default-view {
-  opacity: 0;
-  transform: translateY(-10px);
-}
-
-.site-footer.active .dmca-view {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-}
-
-/* Стили текста */
-.site-footer p {
-  margin: 0 0 5px 0;
-  white-space: nowrap;
-}
-
-/* Стили кнопки */
-.dmca-toggle {
-  display: inline-block;
-  color: #0000FF;
-  text-decoration: underline;
-  text-decoration-color: rgba(0, 102, 255, 0.5);
-  text-underline-offset: 3px;
-  margin-top: 8px;
-  transition: all 0.3s ease;
-  cursor: pointer;
-}
-
-.site-footer.active .dmca-toggle {
-  color: #FF0000;
-  text-decoration-color: rgba(255, 51, 85, 0.7);
-}
-
-.dmca-toggle:hover {
-  text-decoration-thickness: 2px;
+.site-footer div p:not(:last-child) {
+    margin-bottom: 4px;
 }
 
 .refresh-icon {
