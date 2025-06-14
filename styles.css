@@ -399,11 +399,11 @@ body {
 /* Время */
 .time-label {
   position: absolute;
-  font-size: 10px;
+  font-size: 9px;
   color: white;
   white-space: nowrap;
   pointer-events: none;
-  left: 15px;
+  left: 12px;
   transition: bottom 0.1s linear;
 }
 
