@@ -282,8 +282,6 @@ body {
   height: 180px;
   width: 1px;
   left: 30px;
-  top: 0px;
-  bottom: 50px;
   background: #fff;
   cursor: pointer;
   touch-action: none;
@@ -291,7 +289,7 @@ body {
 
 .progress-fill {
   position: absolute;
-  bottom: 0;
+  bottom: 20px;
   width: 100%;
   background: white;
   height: 0%;
@@ -355,7 +353,6 @@ body {
 
 /* Стили для кнопок */
 .player-btn {
-  top: 20px;
   background: none;
   border: 1px solid white;
   width: 40px;
@@ -375,7 +372,6 @@ body {
 }
 
 .player-btn.active::after {
-  top: 20px;
   content: "";
   position: absolute;
   top: -2px;
@@ -408,7 +404,7 @@ body {
   color: white;
   white-space: nowrap;
   pointer-events: none;
-  right: 10px;
+  right: 15px;
   transition: bottom 0.1s linear;
 }
 
