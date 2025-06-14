@@ -279,7 +279,7 @@ body {
 /* Вертикальная линия прогресса */
 .progress-track {
   position: relative;
-  height: 170px;
+  height: 165px;
   width: 1px;
   background: rgba(255, 255, 255, 0.3);
   cursor: pointer;
@@ -321,8 +321,6 @@ body {
   writing-mode: vertical-rl;
   transform: rotate(180deg);
   height: 100%;
-  padding-left: 10px;
-  padding-top: 10px;
   position: absolute;
 }
 
