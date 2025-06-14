@@ -278,10 +278,10 @@ body {
 /* Вертикальная линия прогресса */
 .progress-track {
   position: fixed;
-  bottom: 450px;
-  height: 500px;
+  bottom: 420px;
+  height: 400px;
   width: 1px;
-  left: 30px;
+  left: 40px;
   background: #fff;
   cursor: pointer;
   touch-action: none;
@@ -312,7 +312,7 @@ body {
 .song-title-wrapper {
   height: 500px;
   width: 15px;
-  bottom: 500px;
+  bottom: 450px;
   overflow: hidden;
   position: fixed;
 }
@@ -404,7 +404,7 @@ body {
   color: white;
   white-space: nowrap;
   pointer-events: none;
-  left: 10px;
+  left: 15px;
   transition: bottom 0.1s linear;
 }
 
