@@ -258,7 +258,7 @@ body {
 /* Плеер */
 .music-player {
   position: fixed;
-  bottom: 170px;
+  bottom: 200px;
   left: 20px;
   display: flex;
   flex-direction: column;
@@ -273,7 +273,7 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 20px;
-  padding-bottom: 25px;
+  padding-bottom: 40px;
 }
 
 /* Вертикальная линия прогресса */
@@ -314,6 +314,7 @@ body {
   width: 30px;
   overflow: hidden;
   position: relative;
+  padding-top: 40px;
 }
 
 /* Обновленный стиль для вертикального названия песни */
@@ -322,7 +323,6 @@ body {
   transform: rotate(180deg);
   height: 100%;
   padding-left: 30px;
-  padding-top: 25px;
   position: absolute;
 }
 
@@ -338,10 +338,6 @@ body {
   line-height: 1.4;
   white-space: normal;
   display: inline-block;
-
-  /* Анимация плавного движения вверх-вниз */
-  animation: scrollTitle 10s ease-in-out infinite alternate;
-}
 
 /* Стили для кнопок */
 .player-btn {
@@ -405,7 +401,7 @@ body {
 }
 
 .time-label.duration {
-  top: 5px;
+  top: -3px;
 }
 
 /* Для тач-устройств */
