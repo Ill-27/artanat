@@ -281,7 +281,7 @@ body {
   bottom: 380px;
   height: 400px;
   width: 1px;
-  left: 50px;
+  left: 30px;
   background: #fff;
   cursor: pointer;
   touch-action: none;
@@ -313,7 +313,7 @@ body {
   height: 500px;
   width: 30px;
   bottom: 380px;
-  left: 25px;
+  left: 20px;
   overflow: hidden;
   position: fixed;
 }
@@ -399,11 +399,11 @@ body {
 /* Время */
 .time-label {
   position: absolute;
-  font-size: 8px;
+  font-size: 10px;
   color: white;
   white-space: nowrap;
   pointer-events: none;
-  right: 25px;
+  right: 15px;
   transition: bottom 0.1s linear;
 }
 
