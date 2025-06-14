@@ -346,7 +346,7 @@ body {
     transform: translateY(0); /* Исходное положение */
   }
   50% {
-    transform: translateY(-10px); /* Сдвиг вверх на 10px */
+    transform: translateY(10px); /* Сдвиг вверх на 10px */
   }
 }
 
