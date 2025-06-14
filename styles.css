@@ -308,37 +308,54 @@ body {
   transition: bottom 0.1s linear;
 }
 
-/* Название песни (вертикальное) */
+/* Контейнер для вертикального названия песни */
 .song-title-wrapper {
-  height: 250px;
-  width: 30px;
-  overflow: hidden;
-  position: relative;
+  height: 250px;       /* Фиксированная высота */
+  width: 30px;         /* Ширина, достаточная для вертикального текста */
+  overflow: hidden;    /* Скрываем всё, что выходит за границы */
+  position: relative;  /* Для позиционирования дочерних элементов */
 }
 
-/* Обновленный стиль для вертикального названия песни */
+/* Контейнер, разворачивающий текст вертикально */
 .vertical-title-container {
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
-  height: 100%;
-  position: absolute;
+  writing-mode: vertical-rl;  /* Вертикальная запись (справа налево) */
+  transform: rotate(180deg);  /* Переворачиваем текст для правильного отображения */
+  height: 100%;               /* Занимает всю высоту родителя */
+  position: absolute;         /* Для точного позиционирования */
+  left: 0;                    /* Выравнивание по левому краю */
+  top: 0;                     /* Выравнивание по верхнему краю */
 }
 
-.scroll-container {
-  height: 250px; /* Высота окна просмотра */
-  overflow: hidden;
-  position: relative;
-}
-
+/* Сам текст песни */
 .vertical-title {
-  color: white;
-  font-size: 12px;
-  line-height: 1.4;
-  white-space: normal;
-  display: inline-block;
+  color: white;               /* Цвет текста */
+  font-size: 12px;            /* Размер шрифта */
+  line-height: 1.4;           /* Межстрочный интервал */
+  white-space: normal;        /* Перенос строк */
+  display: inline-block;      /* Чтобы трансформации работали корректно */
+  
+  /* Плавная анимация скролла + лёгкое покачивание влево-вправо */
+  animation: scrollAndSway 12s ease-in-out infinite alternate;
+  animation-delay: 0.5s;      /* Небольшая задержка перед стартом */
+}
 
-  /* Анимация плавного движения вверх-вниз */
-  animation: scrollTitle 10s ease-in-out infinite alternate;
+/* Анимация: скролл вверх + покачивание */
+@keyframes scrollAndSway {
+  0% {
+    transform: translateY(0) translateX(0);  /* Начальное положение */
+  }
+  25% {
+    transform: translateY(-15%) translateX(5px);  /* Лёгкий сдвиг вправо */
+  }
+  50% {
+    transform: translateY(-30%) translateX(0);    /* Возврат в центр */
+  }
+  75% {
+    transform: translateY(-45%) translateX(-5px); /* Лёгкий сдвиг влево */
+  }
+  100% {
+    transform: translateY(-60%) translateX(0);   /* Конечное положение */
+  }
 }
 
 /* Стили для кнопок */
