@@ -258,7 +258,7 @@ body {
 /* Плеер */
 .music-player {
   position: fixed;
-  bottom: 190px;
+  bottom: 240px;
   left: 20px;
   display: flex;
   flex-direction: column;
@@ -353,7 +353,6 @@ body {
 
 /* Стили для кнопок */
 .player-btn {
-  bottom: 190px;
   background: none;
   border: 0px solid white;
   width: 40px;
