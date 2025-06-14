@@ -323,7 +323,7 @@ body {
   transform: rotate(180deg);
   height: 100%;
   position: absolute;
-  padding-left: 50px;
+  padding-left: 70px;
   padding-top: 0px;
   left: 0;
   top: 0;
@@ -347,7 +347,7 @@ body {
     transform: translateY(0); /* Исходное положение */
   }
   50% {
-    transform: translateY(50px); /* Сдвиг вверх */
+    transform: translateY(30px); /* Сдвиг вверх */
   }
 }
 
@@ -404,7 +404,7 @@ body {
   color: white;
   white-space: nowrap;
   pointer-events: none;
-  right: 35px;
+  right: 25px;
   transition: bottom 0.1s linear;
 }
 
