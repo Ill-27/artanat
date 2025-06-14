@@ -355,7 +355,7 @@ body {
 
 /* Стили для кнопок */
 .player-btn {
-  top: 40px;
+  top: 20px;
   background: none;
   border: 1px solid white;
   width: 40px;
@@ -375,6 +375,7 @@ body {
 }
 
 .player-btn.active::after {
+  top: 20px;
   content: "";
   position: absolute;
   top: -2px;
