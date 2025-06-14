@@ -160,13 +160,24 @@ window.onload = function() {
 // DMCA - самый эффективный вариант с анимацией цвета
 document.getElementById('dmcaLink').addEventListener('click', function(e) {
     e.preventDefault();
-    const footer = document.querySelector('.site-footer');
     
-    // Переключаем класс
-    footer.classList.toggle('dmca-active');
+    const defaultText = document.getElementById('defaultText');
+    const dmcaText = document.getElementById('dmcaText');
+    const dmcaLink = document.getElementById('dmcaLink');
     
-    // Добавляем анимацию
-    this.style.transition = 'color 0.3s ease, text-decoration-color 0.3s ease';
+    if (defaultText.style.display === 'none') {
+        // Возвращаемся к исходному тексту
+        defaultText.style.display = 'block';
+        dmcaText.style.display = 'none';
+        dmcaLink.style.color = ''; // Возвращаем исходный цвет
+        dmcaLink.style.textDecoration = 'underline'; // Возвращаем подчеркивание
+    } else {
+        // Показываем текст DMCA
+        defaultText.style.display = 'none';
+        dmcaText.style.display = 'block';
+        dmcaLink.style.color = 'red'; // Меняем цвет на красный
+        dmcaLink.style.textDecoration = 'none'; // Убираем подчеркивание
+    }
 });
 
 // Вращение логотипа
