@@ -279,7 +279,7 @@ body {
 /* Вертикальная линия прогресса */
 .progress-track {
   position: relative;
-  height: 170px;
+  height: 160px;
   width: 1px;
   background: rgba(255, 255, 255, 0.3);
   cursor: pointer;
@@ -341,7 +341,7 @@ body {
     transform: translateY(0);
   }
   100% {
-    transform: translateY(calc(-50% + 250px)); /* Поднимаем текст на высоту контейнера */
+    transform: translateY(calc(-100% + 250px)); /* Поднимаем текст на высоту контейнера */
   }
 }
 
@@ -407,7 +407,7 @@ body {
 }
 
 .time-label.duration {
-  top: -20px;
+  top: -10px;
 }
 
 /* Для тач-устройств */
