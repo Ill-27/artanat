@@ -1,7 +1,7 @@
 const songs = [
-  { title: "-> <i>Там, где небо</i> (Мария Зайцева, 2022)", file: "music/MARIA_Tam_Gde_Nebo.mp3" },
-  { title: "-> <i>Тернии</i> (polnalyubvi feat. pyrokinesis, 2025)", file: "music/Polnalyubvi_Ternii.mp3" },
-  { title: "-> <i>Кэцхен</i> (Канцлер Ги, 2008)", file: "music/Kancler_GI_Kechen.mp3" }
+  { title: "-> Там, где небо (Мария Зайцева, 2022)", file: "music/MARIA_Tam_Gde_Nebo.mp3" },
+  { title: "-> Тернии (polnalyubvi feat. pyrokinesis, 2025)", file: "music/Polnalyubvi_Ternii.mp3" },
+  { title: "-> Кэцхен (Канцлер Ги, 2008)", file: "music/Kancler_GI_Kechen.mp3" }
 ];
 
 let shuffledQueue = [];
