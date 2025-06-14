@@ -310,51 +310,41 @@ body {
 
 /* Контейнер для вертикального названия песни */
 .song-title-wrapper {
-  height: 250px;       /* Фиксированная высота */
-  width: 30px;         /* Ширина, достаточная для вертикального текста */
-  overflow: hidden;    /* Скрываем всё, что выходит за границы */
-  position: relative;  /* Для позиционирования дочерних элементов */
+  height: 250px;
+  width: 30px;
+  overflow: hidden;
+  position: relative;
 }
 
-/* Контейнер, разворачивающий текст вертикально */
+/* Вертикальный текст (перевёрнутый) */
 .vertical-title-container {
-  writing-mode: vertical-rl;  /* Вертикальная запись (справа налево) */
-  transform: rotate(180deg);  /* Переворачиваем текст для правильного отображения */
-  height: 100%;               /* Занимает всю высоту родителя */
-  position: absolute;         /* Для точного позиционирования */
-  left: 0;                    /* Выравнивание по левому краю */
-  top: 0;                     /* Выравнивание по верхнему краю */
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
 }
 
-/* Сам текст песни */
+/* Сам текст с анимацией движения вверх-вниз */
 .vertical-title {
-  color: white;               /* Цвет текста */
-  font-size: 12px;            /* Размер шрифта */
-  line-height: 1.4;           /* Межстрочный интервал */
-  white-space: normal;        /* Перенос строк */
-  display: inline-block;      /* Чтобы трансформации работали корректно */
+  color: white;
+  font-size: 12px;
+  line-height: 1.4;
+  white-space: normal;
+  display: inline-block;
   
-  /* Плавная анимация скролла + лёгкое покачивание влево-вправо */
-  animation: scrollAndSway 12s ease-in-out infinite alternate;
-  animation-delay: 0.5s;      /* Небольшая задержка перед стартом */
+  /* Анимация: плавное движение на 10px вверх-вниз */
+  animation: moveUpDown 3s ease-in-out infinite alternate;
 }
 
-/* Анимация: скролл вверх + покачивание */
-@keyframes scrollAndSway {
-  0% {
-    transform: translateY(0) translateX(0);  /* Начальное положение */
-  }
-  25% {
-    transform: translateY(-15%) translateX(5px);  /* Лёгкий сдвиг вправо */
+/* Кейфреймы анимации */
+@keyframes moveUpDown {
+  0%, 100% {
+    transform: translateY(0); /* Исходное положение */
   }
   50% {
-    transform: translateY(-30%) translateX(0);    /* Возврат в центр */
-  }
-  75% {
-    transform: translateY(-45%) translateX(-5px); /* Лёгкий сдвиг влево */
-  }
-  100% {
-    transform: translateY(-60%) translateX(0);   /* Конечное положение */
+    transform: translateY(-10px); /* Сдвиг вверх на 10px */
   }
 }
 
