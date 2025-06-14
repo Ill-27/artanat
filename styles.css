@@ -321,8 +321,8 @@ body {
   writing-mode: vertical-rl;
   transform: rotate(180deg);
   height: 100%;
-  padding-left: 30px;
-  padding-top: 30px;
+  padding-left: 10px;
+  padding-top: 10px;
   position: absolute;
 }
 
@@ -405,7 +405,7 @@ body {
 }
 
 .time-label.duration {
-  top: -5px;
+  top: -6px;
 }
 
 /* Для тач-устройств */
