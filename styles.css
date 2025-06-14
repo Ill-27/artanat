@@ -310,7 +310,7 @@ body {
 
 /* Название песни (вертикальное) */
 .song-title-wrapper {
-  height: 200px;
+  height: 300px;
   width: 30px;
   overflow: hidden;
   position: relative;
@@ -332,7 +332,7 @@ body {
   font-size: 12px;
   line-height: 1.4;
   white-space: nowrap;
-  animation: scrollTitle 10s linear infinite alternate;
+  animation: scrollTitle 5s linear infinite alternate;
   display: inline-block;
 }
 
@@ -393,11 +393,11 @@ body {
 /* Время */
 .time-label {
   position: absolute;
-  font-size: 9px;
+  font-size: 8px;
   color: white;
   white-space: nowrap;
   pointer-events: none;
-  right: 15px;
+  right: 5px;
   transition: bottom 0.1s linear;
 }
 
