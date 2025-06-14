@@ -258,7 +258,7 @@ body {
 /* Плеер */
 .music-player {
   position: fixed;
-  bottom: 200px;
+  bottom: 180px;
   left: 20px;
   display: flex;
   flex-direction: column;
@@ -322,7 +322,7 @@ body {
   transform: rotate(180deg);
   height: 100%;
   padding-left: 30px;
-  padding-top: 40px;
+  padding-top: 30px;
   position: absolute;
 }
 
@@ -405,7 +405,7 @@ body {
 }
 
 .time-label.duration {
-  top: -3px;
+  top: -5px;
 }
 
 /* Для тач-устройств */
