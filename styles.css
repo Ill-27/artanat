@@ -310,7 +310,7 @@ body {
 
 /* Контейнер для вертикального названия песни */
 .song-title-wrapper {
-  height: 250px;
+  height: 200px;
   width: 30px;
   overflow: hidden;
   position: relative;
@@ -346,7 +346,7 @@ body {
     transform: translateY(0); /* Исходное положение */
   }
   50% {
-    transform: translateY(20px); /* Сдвиг вверх */
+    transform: translateY(15px); /* Сдвиг вверх */
   }
 }
 
