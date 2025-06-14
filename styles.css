@@ -337,7 +337,7 @@ body {
   display: inline-block;
   
   /* Анимация: плавное движение на 10px вверх-вниз */
-  animation: moveUpDown 3s ease-in-out infinite alternate;
+  animation: moveUpDown 5s ease-in-out infinite alternate;
 }
 
 /* Кейфреймы анимации */
