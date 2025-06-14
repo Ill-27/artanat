@@ -326,26 +326,32 @@ body {
   position: absolute;
 }
 
+.scroll-container {
+  height: 250px; /* Высота окна просмотра */
+  overflow: hidden;
+  position: relative;
+}
+
 .vertical-title {
   color: white;
   font-size: 12px;
   line-height: 1.4;
-  white-space: nowrap;
-  animation: scrollTitle 10s linear infinite alternate;
+  white-space: normal;
   display: inline-block;
+
+  /* Анимация плавного движения вверх-вниз */
+  animation: scrollTitle 10s ease-in-out infinite alternate;
 }
 
 @keyframes scrollTitle {
   0% {
     transform: translateY(0);
   }
-  50% {
-    transform: translateY(calc(-100% + 250px)); /* Поднимаем текст вверх */
-  }
   100% {
-    transform: translateY(0); /* Возвращаем текст вниз */
+    transform: translateY(calc(-100% + 250px)); /* поднимается до конца, но не исчезает */
   }
 }
+
 
 /* Стили для кнопок */
 .player-btn {
