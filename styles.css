@@ -263,7 +263,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 40px;
+  gap: 15px;
   z-index: 999;
 }
 
@@ -272,7 +272,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 40px;
+  gap: 20px;
   padding-bottom: 40px;
 }
 
@@ -338,6 +338,10 @@ body {
   line-height: 1.4;
   white-space: normal;
   display: inline-block;
+
+  /* Анимация плавного движения вверх-вниз */
+  animation: scrollTitle 10s ease-in-out infinite alternate;
+}
 
 /* Стили для кнопок */
 .player-btn {
