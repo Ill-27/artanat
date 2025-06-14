@@ -273,13 +273,13 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 20px;
-  padding-bottom: 40px;
 }
 
 /* Вертикальная линия прогресса */
 .progress-track {
-  position: relative;
-  height: 180px;
+  position: fixed;
+  bottom: 450px;
+  height: 500px;
   width: 1px;
   left: 30px;
   background: #fff;
@@ -289,7 +289,6 @@ body {
 
 .progress-fill {
   position: absolute;
-  bottom: 20px;
   width: 100%;
   background: white;
   height: 0%;
@@ -311,9 +310,9 @@ body {
 
 /* Контейнер для вертикального названия песни */
 .song-title-wrapper {
-  height: 400px;
+  height: 500px;
   width: 15px;
-  bottom: 400px;
+  bottom: 500px;
   overflow: hidden;
   position: fixed;
 }
@@ -405,7 +404,7 @@ body {
   color: white;
   white-space: nowrap;
   pointer-events: none;
-  right: 15px;
+  left: 10px;
   transition: bottom 0.1s linear;
 }
 
