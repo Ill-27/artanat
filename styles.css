@@ -281,7 +281,7 @@ body {
   bottom: 380px;
   height: 400px;
   width: 1px;
-  left: 30px;
+  left: 40px;
   background: #fff;
   cursor: pointer;
   touch-action: none;
@@ -313,7 +313,7 @@ body {
   height: 500px;
   width: 30px;
   bottom: 380px;
-  left: 20px;
+  left: 10px;
   overflow: hidden;
   position: fixed;
 }
@@ -403,7 +403,7 @@ body {
   color: white;
   white-space: nowrap;
   pointer-events: none;
-  right: 15px;
+  left: 15px;
   transition: bottom 0.1s linear;
 }
 
