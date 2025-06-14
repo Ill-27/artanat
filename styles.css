@@ -278,10 +278,10 @@ body {
 /* Вертикальная линия прогресса */
 .progress-track {
   position: fixed;
-  bottom: 420px;
-  height: 400px;
+  bottom: 400px;
+  height: 350px;
   width: 1px;
-  left: 40px;
+  left: 60px;
   background: #fff;
   cursor: pointer;
   touch-action: none;
@@ -311,7 +311,7 @@ body {
 /* Контейнер для вертикального названия песни */
 .song-title-wrapper {
   height: 500px;
-  width: 15px;
+  width: 30px;
   bottom: 450px;
   overflow: hidden;
   position: fixed;
@@ -347,7 +347,7 @@ body {
     transform: translateY(0); /* Исходное положение */
   }
   50% {
-    transform: translateY(15px); /* Сдвиг вверх */
+    transform: translateY(50px); /* Сдвиг вверх */
   }
 }
 
@@ -400,11 +400,11 @@ body {
 /* Время */
 .time-label {
   position: absolute;
-  font-size: 10px;
+  font-size: 8px;
   color: white;
   white-space: nowrap;
   pointer-events: none;
-  left: 15px;
+  right: 40px;
   transition: bottom 0.1s linear;
 }
 
