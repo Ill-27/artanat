@@ -49,7 +49,7 @@ const CONFIG = {
     ],
     accessCodes: {
         "arterii2024": "gallery.html",
-        "salt": "salt-project.html"
+        "salt": "salt.html"
     },
     defaultResponse: "> Ошибка: в наших фондах такого нет."
 };
