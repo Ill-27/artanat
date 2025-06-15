@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Примерка кроссовок</title>
+    <script type="module" src="https://unpkg.com/@google/model-viewer@3.4.0/dist/model-viewer.min.js"></script>
+    <style>
+        body { margin: 0; padding: 0; overflow: hidden; }
+        model-viewer { width: 100%; height: 100vh; }
+        .model-selector { position: absolute; bottom: 20px; left: 0; right: 0; text-align: center; }
+        button { margin: 5px; padding: 8px 15px; background: #0088cc; color: white; border: none; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <model-viewer
+        id="viewer"
+        src="models/model1.glb"
+        ar
+        ar-modes="webxr scene-viewer quick-look"
+        camera-controls
+        auto-rotate
+        shadow-intensity="1">
+    </model-viewer>
+
+    <div class="model-selector">
+        <button onclick="changeModel('models/model1.glb')">Модель 1</button>
+        <button onclick="changeModel('models/model2.glb')">Модель 2</button>
+        <button onclick="window.Telegram.WebApp.close()">Закрыть</button>
+    </div>
+
+    <script>
+        function changeModel(modelUrl) {
+            document.getElementById('viewer').src = modelUrl;
+        }
+        
+        if (window.Telegram && window.Telegram.WebApp) {
+            Telegram.WebApp.expand();
+            Telegram.WebApp.enableClosingConfirmation();
+        }
+    </script>
+</body>
+</html>
