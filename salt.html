@@ -1,41 +1,189 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Примерка кроссовок</title>
-    <script type="module" src="https://unpkg.com/@google/model-viewer@3.4.0/dist/model-viewer.min.js"></script>
-    <style>
-        body { margin: 0; padding: 0; overflow: hidden; z-index: 1004; }
-        model-viewer { width: 100%; height: 100vh; }
-        .model-selector { position: absolute; bottom: 20px; left: 0; right: 0; text-align: center; }
-        button { margin: 5px; padding: 8px 15px; background: #0088cc; color: white; border: none; border-radius: 5px; }
-    </style>
-</head>
-<body>
-    <model-viewer
-        id="viewer"
-        src="models/model1.glb"
-        ar
-        ar-modes="webxr scene-viewer quick-look"
-        camera-controls
-        auto-rotate
-        shadow-intensity="1">
-    </model-viewer>
+// ar-viewer.js
+document.addEventListener('DOMContentLoaded', function() {
+  // Проверяем, не добавлен ли уже контейнер (на случай двойной загрузки скрипта)
+  if (document.getElementById('ar-3d-container')) return;
 
-    <div class="model-selector">
-        <button onclick="changeModel('models/model1.glb')">Модель 1</button>
-        <button onclick="changeModel('models/model2.glb')">Модель 2</button>
-        <button onclick="window.Telegram.WebApp.close()">Закрыть</button>
-    </div>
+  // Создаем контейнер для AR/3D
+  const arContainer = document.createElement('div');
+  arContainer.id = 'ar-3d-container';
+  Object.assign(arContainer.style, {
+    position: 'fixed',
+    top: '0',
+    left: '0',
+    width: '100%',
+    height: '100%',
+    zIndex: '99999',
+    pointerEvents: 'none',
+    display: 'none',
+    backgroundColor: 'rgba(0,0,0,0.9)',
+    backdropFilter: 'blur(5px)'
+  });
 
-    <script>
-        function changeModel(modelUrl) {
-            document.getElementById('viewer').src = modelUrl;
+  // Кнопка закрытия
+  const closeBtn = document.createElement('button');
+  closeBtn.innerHTML = '&times;';
+  Object.assign(closeBtn.style, {
+    position: 'absolute',
+    top: '15px',
+    right: '15px',
+    zIndex: '100000',
+    fontSize: '30px',
+    color: 'white',
+    background: 'transparent',
+    border: 'none',
+    cursor: 'pointer',
+    pointerEvents: 'auto',
+    width: '50px',
+    height: '50px',
+    borderRadius: '50%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    transition: 'all 0.3s'
+  });
+  
+  closeBtn.onmouseover = () => closeBtn.style.background = 'rgba(255,255,255,0.2)';
+  closeBtn.onmouseout = () => closeBtn.style.background = 'transparent';
+  closeBtn.onclick = closeARViewer;
+
+  arContainer.appendChild(closeBtn);
+  document.body.appendChild(arContainer);
+
+  // Функция закрытия просмотрщика
+  function closeARViewer() {
+    const arContainer = document.getElementById('ar-3d-container');
+    if (arContainer) {
+      arContainer.style.display = 'none';
+      document.body.style.overflow = 'auto';
+      
+      // Останавливаем все видео/анимации при закрытии
+      const models = arContainer.querySelectorAll('model-viewer, iframe');
+      models.forEach(model => {
+        if (model.tagName === 'IFRAME') {
+          model.src = '';
+        } else if (model.shadowRoot) {
+          const video = model.shadowRoot.querySelector('video');
+          if (video) video.pause();
         }
+      });
+    }
+  }
+
+  // Проверка поддержки WebXR
+  async function checkXRSupport() {
+    try {
+      if (navigator.xr) {
+        const arSupported = await navigator.xr.isSessionSupported('immersive-ar');
+        if (arSupported) return 'ar';
         
-        if (window.Telegram && window.Telegram.WebApp) {
-            Telegram.WebApp.expand();
-            Telegram.WebApp.enableClosingConfirmation();
-        }
-    </script>
-</body>
-</html>
+        const vrSupported = await navigator.xr.isSessionSupported('immersive-vr');
+        if (vrSupported) return 'vr';
+      }
+      return '3d';
+    } catch (e) {
+      console.error('XR check failed:', e);
+      return '3d';
+    }
+  }
+
+  // Загрузка модели
+  function loadModel(mode, modelUrl) {
+    const arContainer = document.getElementById('ar-3d-container');
+    if (!arContainer) return;
+
+    // Очищаем предыдущий контент
+    while (arContainer.children.length > 1) {
+      arContainer.removeChild(arContainer.lastChild);
+    }
+
+    if (mode === 'ar' || mode === 'vr') {
+      const modelViewer = document.createElement('model-viewer');
+      modelViewer.src = modelUrl;
+      modelViewer.alt = '3D модель';
+      modelViewer.ar = mode === 'ar';
+      modelViewer.arScale = 'auto';
+      modelViewer.cameraControls = true;
+      modelViewer.autoRotate = true;
+      modelViewer.style.width = '100%';
+      modelViewer.style.height = '100%';
+      modelViewer.style.pointerEvents = 'auto';
+      
+      // iOS специфичные настройки
+      if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+        modelViewer.quickLookBrowsers = 'safari chrome';
+        modelViewer.iosSrc = modelUrl.endsWith('.usdz') ? modelUrl : 
+          modelUrl.replace('.glb', '.usdz').replace('.gltf', '.usdz');
+      }
+      
+      arContainer.appendChild(modelViewer);
+    } else {
+      const modelViewer = document.createElement('model-viewer');
+      modelViewer.src = modelUrl;
+      modelViewer.alt = '3D модель';
+      modelViewer.cameraControls = true;
+      modelViewer.autoRotate = true;
+      modelViewer.style.width = '100%';
+      modelViewer.style.height = '100%';
+      modelViewer.style.pointerEvents = 'auto';
+      arContainer.appendChild(modelViewer);
+    }
+  }
+
+  // Глобальная функция для открытия AR/3D
+  window.openAR3D = async function(modelUrl) {
+    if (!modelUrl) {
+      console.error('No model URL provided');
+      return;
+    }
+
+    // Проверяем формат файла
+    const validFormats = ['.glb', '.gltf', '.usdz'];
+    if (!validFormats.some(format => modelUrl.toLowerCase().endsWith(format))) {
+      console.error('Invalid 3D model format. Supported formats: .glb, .gltf, .usdz');
+      return;
+    }
+
+    const arContainer = document.getElementById('ar-3d-container');
+    if (!arContainer) return;
+
+    document.body.style.overflow = 'hidden';
+    arContainer.style.display = 'block';
+
+    try {
+      const mode = await checkXRSupport();
+      loadModel(mode, modelUrl);
+    } catch (error) {
+      console.error('Error loading AR/3D:', error);
+      loadModel('3d', modelUrl); // Fallback на обычный 3D
+    }
+  };
+
+  // Добавляем команду в терминал
+  addTerminalCommand();
+  
+  function addTerminalCommand() {
+    const terminalOutput = document.getElementById('terminal-output');
+    if (!terminalOutput) return;
+
+    // Проверяем, не добавлена ли уже команда
+    if (document.querySelector('.command[data-ar-command]')) return;
+
+    const arCommand = document.createElement('div');
+    arCommand.className = 'command';
+    arCommand.dataset.arCommand = 'true';
+    arCommand.innerHTML = `
+      <span class="prompt">></span>
+      <span class="command-text">view_3d</span> - Открыть 3D/AR просмотрщик
+    `;
+    arCommand.onclick = function() {
+      // Здесь можно указать URL модели по умолчанию
+      // или оставить для вызова из других скриптов
+      if (window.defaultModelUrl) {
+        openAR3D(window.defaultModelUrl);
+      } else {
+        console.info('Используйте openAR3D(url) с URL вашей модели');
+      }
+    };
+    terminalOutput.appendChild(arCommand);
+  }
+});
