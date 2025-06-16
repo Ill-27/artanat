@@ -10,19 +10,22 @@
   <script nomodule src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"></script>
 
   <style>
-    body {
+    html, body {
       margin: 0;
-      background: black;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      padding: 0;
+      background: transparent;
       height: 100%;
-      width: 100%
+      width: 100%;
     }
+
     model-viewer {
-      width: 300vw;
-      height: 300vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
       background-color: transparent;
+      z-index: 9999; /* выше других элементов */
     }
   </style>
 </head>
@@ -38,10 +41,11 @@
   camera-controls
   touch-action="pan-y"
   autoplay
+  auto-rotate
   shadow-intensity="1"
   exposure="1"
-  auto-rotate
   environment-image="neutral"
+  style="--poster-color: transparent;"
 ></model-viewer>
 
 </body>
