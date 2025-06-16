@@ -1,105 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>3D Viewer + AR</title>
-  <style>
-    body, html {
-      margin: 0;
-      overflow: hidden;
-      background: #000;
-    }
-    canvas {
-      display: block;
-    }
-    #ar-button {
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      padding: 12px 20px;
-      background: #fff;
-      border: none;
-      border-radius: 10px;
-      font-size: 16px;
-      cursor: pointer;
-      z-index: 10;
-    }
-  </style>
+    <title>Примерка кроссовок</title>
+    <script type="module" src="https://unpkg.com/@google/model-viewer@3.4.0/dist/model-viewer.min.js"></script>
+    <style>
+        body { margin: 0; padding: 0; overflow: hidden; }
+        model-viewer { width: 100%; height: 100vh; }
+        .model-selector { position: absolute; bottom: 20px; left: 0; right: 0; text-align: center; }
+        button { margin: 5px; padding: 8px 15px; background: #0088cc; color: white; border: none; border-radius: 5px; }
+    </style>
 </head>
 <body>
-  <button id="ar-button">👓 Открыть в AR</button>
-  <script type="module">
-    import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js';
-    import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/loaders/GLTFLoader.js';
-    import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/controls/OrbitControls.js';
+    <model-viewer
+        id="viewer"
+        src="models/model1.glb"
+        ar
+        ar-modes="webxr scene-viewer quick-look"
+        camera-controls
+        auto-rotate
+        shadow-intensity="1">
+    </model-viewer>
 
-    // Основные объекты сцены
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 0.1, 100);
-    camera.position.set(0, 1, 3);
+    <div class="model-selector">
+        <button onclick="changeModel('models/model1.glb')">Модель 1</button>
+        <button onclick="changeModel('models/model3.glb')">Модель 2</button>
+        <button onclick="window.Telegram.WebApp.close()">Закрыть</button>
+    </div>
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.shadowMap.enabled = true;
-    document.body.appendChild(renderer.domElement);
-
-    // Свет
-    const light = new THREE.HemisphereLight(0xffffff, 0x444444, 1.2);
-    scene.add(light);
-
-    const dirLight = new THREE.DirectionalLight(0xffffff, 1);
-    dirLight.position.set(3, 10, 10);
-    dirLight.castShadow = true;
-    scene.add(dirLight);
-
-    // Контролы
-    const controls = new OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
-    controls.enableZoom = true;
-    controls.autoRotate = false;
-
-    // Загрузка модели
-    const loader = new GLTFLoader();
-    loader.load('model.glb', (gltf) => {
-      const model = gltf.scene;
-      model.traverse((child) => {
-        if (child.isMesh) {
-          child.castShadow = true;
-          child.receiveShadow = true;
+    <script>
+        function changeModel(modelUrl) {
+            document.getElementById('viewer').src = modelUrl;
         }
-      });
-      scene.add(model);
-    }, undefined, (error) => {
-      console.error('Ошибка загрузки модели:', error);
-    });
-
-    // Рендеринг
-    function animate() {
-      requestAnimationFrame(animate);
-      controls.update();
-      renderer.render(scene, camera);
-    }
-    animate();
-
-    // Обработка изменения размера окна
-    window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth/window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    });
-
-    // Кнопка AR
-    const arButton = document.getElementById('ar-button');
-    arButton.addEventListener('click', () => {
-      const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-      const link = document.createElement('a');
-      link.rel = 'ar';
-      link.href = isIOS ? 'model.usdz' : 'model.glb';
-      link.setAttribute('download', '');
-      link.click();
-    });
-  </script>
+        
+        if (window.Telegram && window.Telegram.WebApp) {
+            Telegram.WebApp.expand();
+            Telegram.WebApp.enableClosingConfirmation();
+        }
+    </script>
 </body>
 </html>
