@@ -49,7 +49,7 @@ const CONFIG = {
     ],
     accessCodes: {
         "arterii2024": "gallery.html",
-        "salt": "pages/model-example.html"
+        "salt": "model.html"
     },
     defaultResponse: "> Ошибка: в наших фондах такого нет."
 };
