@@ -1,189 +1,209 @@
-// ar-viewer.js
-document.addEventListener('DOMContentLoaded', function() {
-  // Проверяем, не добавлен ли уже контейнер (на случай двойной загрузки скрипта)
-  if (document.getElementById('ar-3d-container')) return;
+// salt.js - 3D/AR просмотрщик для ARTANAT
 
-  // Создаем контейнер для AR/3D
-  const arContainer = document.createElement('div');
-  arContainer.id = 'ar-3d-container';
-  Object.assign(arContainer.style, {
-    position: 'fixed',
-    top: '0',
-    left: '0',
-    width: '100%',
-    height: '100%',
-    zIndex: '99999',
-    pointerEvents: 'none',
-    display: 'none',
-    backgroundColor: 'rgba(0,0,0,0.9)',
-    backdropFilter: 'blur(5px)'
-  });
-
-  // Кнопка закрытия
-  const closeBtn = document.createElement('button');
-  closeBtn.innerHTML = '&times;';
-  Object.assign(closeBtn.style, {
-    position: 'absolute',
-    top: '15px',
-    right: '15px',
-    zIndex: '100000',
-    fontSize: '30px',
-    color: 'white',
-    background: 'transparent',
-    border: 'none',
-    cursor: 'pointer',
-    pointerEvents: 'auto',
-    width: '50px',
-    height: '50px',
-    borderRadius: '50%',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    transition: 'all 0.3s'
-  });
-  
-  closeBtn.onmouseover = () => closeBtn.style.background = 'rgba(255,255,255,0.2)';
-  closeBtn.onmouseout = () => closeBtn.style.background = 'transparent';
-  closeBtn.onclick = closeARViewer;
-
-  arContainer.appendChild(closeBtn);
-  document.body.appendChild(arContainer);
-
-  // Функция закрытия просмотрщика
-  function closeARViewer() {
-    const arContainer = document.getElementById('ar-3d-container');
-    if (arContainer) {
-      arContainer.style.display = 'none';
-      document.body.style.overflow = 'auto';
-      
-      // Останавливаем все видео/анимации при закрытии
-      const models = arContainer.querySelectorAll('model-viewer, iframe');
-      models.forEach(model => {
-        if (model.tagName === 'IFRAME') {
-          model.src = '';
-        } else if (model.shadowRoot) {
-          const video = model.shadowRoot.querySelector('video');
-          if (video) video.pause();
-        }
-      });
+// Конфигурация моделей (добавляйте новые модели по этому образцу)
+const MODEL_DATABASE = {
+    "salt автор1": {
+        glb: "https://raw.githubusercontent.com/username/repo/main/models/salt.glb",
+        title: "Кристалл соли",
+        description: "Автор: автор1 | Минеральная структура в 3D",
+        category: "minerals"
+    },
+    "crystal автор2": {
+        glb: "https://raw.githubusercontent.com/username/repo/main/models/crystal.glb",
+        title: "Алмазный кристалл",
+        description: "Автор: автор2 | Кристаллическая решетка",
+        category: "minerals"
     }
-  }
+    // Добавляйте новые модели в формате: "название автор": { ... }
+};
 
-  // Проверка поддержки WebXR
-  async function checkXRSupport() {
-    try {
-      if (navigator.xr) {
-        const arSupported = await navigator.xr.isSessionSupported('immersive-ar');
-        if (arSupported) return 'ar';
-        
-        const vrSupported = await navigator.xr.isSessionSupported('immersive-vr');
-        if (vrSupported) return 'vr';
-      }
-      return '3d';
-    } catch (e) {
-      console.error('XR check failed:', e);
-      return '3d';
-    }
-  }
-
-  // Загрузка модели
-  function loadModel(mode, modelUrl) {
-    const arContainer = document.getElementById('ar-3d-container');
-    if (!arContainer) return;
-
-    // Очищаем предыдущий контент
-    while (arContainer.children.length > 1) {
-      arContainer.removeChild(arContainer.lastChild);
-    }
-
-    if (mode === 'ar' || mode === 'vr') {
-      const modelViewer = document.createElement('model-viewer');
-      modelViewer.src = modelUrl;
-      modelViewer.alt = '3D модель';
-      modelViewer.ar = mode === 'ar';
-      modelViewer.arScale = 'auto';
-      modelViewer.cameraControls = true;
-      modelViewer.autoRotate = true;
-      modelViewer.style.width = '100%';
-      modelViewer.style.height = '100%';
-      modelViewer.style.pointerEvents = 'auto';
-      
-      // iOS специфичные настройки
-      if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-        modelViewer.quickLookBrowsers = 'safari chrome';
-        modelViewer.iosSrc = modelUrl.endsWith('.usdz') ? modelUrl : 
-          modelUrl.replace('.glb', '.usdz').replace('.gltf', '.usdz');
-      }
-      
-      arContainer.appendChild(modelViewer);
-    } else {
-      const modelViewer = document.createElement('model-viewer');
-      modelViewer.src = modelUrl;
-      modelViewer.alt = '3D модель';
-      modelViewer.cameraControls = true;
-      modelViewer.autoRotate = true;
-      modelViewer.style.width = '100%';
-      modelViewer.style.height = '100%';
-      modelViewer.style.pointerEvents = 'auto';
-      arContainer.appendChild(modelViewer);
-    }
-  }
-
-  // Глобальная функция для открытия AR/3D
-  window.openAR3D = async function(modelUrl) {
-    if (!modelUrl) {
-      console.error('No model URL provided');
-      return;
-    }
-
-    // Проверяем формат файла
-    const validFormats = ['.glb', '.gltf', '.usdz'];
-    if (!validFormats.some(format => modelUrl.toLowerCase().endsWith(format))) {
-      console.error('Invalid 3D model format. Supported formats: .glb, .gltf, .usdz');
-      return;
-    }
-
-    const arContainer = document.getElementById('ar-3d-container');
-    if (!arContainer) return;
-
-    document.body.style.overflow = 'hidden';
-    arContainer.style.display = 'block';
-
-    try {
-      const mode = await checkXRSupport();
-      loadModel(mode, modelUrl);
-    } catch (error) {
-      console.error('Error loading AR/3D:', error);
-      loadModel('3d', modelUrl); // Fallback на обычный 3D
-    }
-  };
-
-  // Добавляем команду в терминал
-  addTerminalCommand();
-  
-  function addTerminalCommand() {
-    const terminalOutput = document.getElementById('terminal-output');
-    if (!terminalOutput) return;
-
-    // Проверяем, не добавлена ли уже команда
-    if (document.querySelector('.command[data-ar-command]')) return;
-
-    const arCommand = document.createElement('div');
-    arCommand.className = 'command';
-    arCommand.dataset.arCommand = 'true';
-    arCommand.innerHTML = `
-      <span class="prompt">></span>
-      <span class="command-text">view_3d</span> - Открыть 3D/AR просмотрщик
+// Инициализация 3D просмотрщика
+function init3DViewer() {
+    // Создаем контейнер
+    const container = document.createElement('div');
+    container.id = '3d-viewer-container';
+    container.style.cssText = `
+        position: fixed; top: 0; left: 0; 
+        width: 100%; height: 100%; 
+        z-index: 9999; background: #000;
+        display: none; flex-direction: column;
     `;
-    arCommand.onclick = function() {
-      // Здесь можно указать URL модели по умолчанию
-      // или оставить для вызова из других скриптов
-      if (window.defaultModelUrl) {
-        openAR3D(window.defaultModelUrl);
-      } else {
-        console.info('Используйте openAR3D(url) с URL вашей модели');
-      }
+    
+    // Панель информации
+    const infoPanel = document.createElement('div');
+    infoPanel.style.cssText = `
+        padding: 15px; background: rgba(0,0,0,0.7);
+        display: flex; justify-content: space-between;
+        align-items: center; color: white;
+        position: relative; z-index: 10000;
+    `;
+    
+    const textContainer = document.createElement('div');
+    
+    const title = document.createElement('h2');
+    title.id = 'model-title';
+    title.style.margin = '0 0 5px 0';
+    title.style.fontSize = '18px';
+    
+    const desc = document.createElement('p');
+    desc.id = 'model-desc';
+    desc.style.margin = '0';
+    desc.style.fontSize = '14px';
+    desc.style.opacity = '0.8';
+    
+    textContainer.appendChild(title);
+    textContainer.appendChild(desc);
+    
+    // Кнопка закрытия
+    const closeBtn = document.createElement('button');
+    closeBtn.innerHTML = '&times; Закрыть';
+    closeBtn.onclick = closeViewer;
+    closeBtn.style.cssText = `
+        padding: 8px 15px; background: rgba(255,0,0,0.3);
+        border: 1px solid #ff4444; color: white; 
+        cursor: pointer; border-radius: 4px;
+        font-family: 'Fira Code', monospace;
+    `;
+    
+    infoPanel.appendChild(textContainer);
+    infoPanel.appendChild(closeBtn);
+    container.appendChild(infoPanel);
+    
+    // Контейнер для модели
+    const modelContainer = document.createElement('div');
+    modelContainer.style.flex = '1';
+    modelContainer.style.position = 'relative';
+    container.appendChild(modelContainer);
+    
+    document.body.appendChild(container);
+    
+    // Обработчик клавиши ESC
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeViewer();
+    });
+}
+
+// Показывает модель
+function showModel(modelData) {
+    const container = document.getElementById('3d-viewer-container');
+    const modelContainer = container.querySelector('div:last-child');
+    
+    // Очищаем предыдущую модель
+    modelContainer.innerHTML = '';
+    
+    // Устанавливаем информацию
+    document.getElementById('model-title').textContent = modelData.title;
+    document.getElementById('model-desc').textContent = modelData.description;
+    
+    // Создаем model-viewer
+    const modelViewer = document.createElement('model-viewer');
+    modelViewer.style.width = '100%';
+    modelViewer.style.height = '100%';
+    modelViewer.src = modelData.glb;
+    modelViewer.alt = modelData.title;
+    modelViewer.ar = true;
+    modelViewer.arScale = 'auto';
+    modelViewer.cameraControls = true;
+    modelViewer.autoRotate = true;
+    modelViewer.style.backgroundColor = '#000';
+    
+    // Для iOS
+    if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+        modelViewer.iosSrc = modelData.glb.replace('.glb', '.usdz');
+        modelViewer.quickLookBrowsers = 'safari chrome';
+    }
+    
+    // Прелоадер
+    const progress = document.createElement('div');
+    progress.style.cssText = `
+        position: absolute; top: 50%; left: 50%;
+        transform: translate(-50%, -50%); color: white;
+        font-family: 'Fira Code', monospace;
+    `;
+    progress.textContent = 'Загрузка модели...';
+    modelContainer.appendChild(progress);
+    
+    modelViewer.addEventListener('progress', (e) => {
+        const percent = Math.round(e.detail.totalProgress * 100);
+        progress.textContent = `Загрузка: ${percent}%`;
+        if (percent === 100) setTimeout(() => progress.remove(), 500);
+    });
+    
+    modelContainer.appendChild(modelViewer);
+    container.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+// Закрывает просмотрщик
+function closeViewer() {
+    const container = document.getElementById('3d-viewer-container');
+    if (!container) return;
+    
+    container.style.display = 'none';
+    document.body.style.overflow = 'auto';
+    
+    // Освобождаем ресурсы
+    const modelViewer = container.querySelector('model-viewer');
+    if (modelViewer) {
+        modelViewer.src = '';
+        if (modelViewer.shadowRoot) {
+            const video = modelViewer.shadowRoot.querySelector('video');
+            if (video) video.pause();
+        }
+    }
+}
+
+// Модифицируем обработчик ввода
+function setup3DViewer() {
+    const originalSetupInput = window.setupInput;
+    
+    window.setupInput = function() {
+        originalSetupInput();
+        
+        const input = document.getElementById('command-input');
+        const output = document.getElementById('terminal-output');
+        
+        input.addEventListener('keypress', async function(e) {
+            if (e.key === 'Enter') {
+                const query = input.value.trim().toLowerCase();
+                
+                // Проверяем, есть ли модель с таким запросом
+                if (MODEL_DATABASE[query]) {
+                    const response = document.createElement('div');
+                    output.appendChild(response);
+                    await typeText(response, `> Загрузка "${MODEL_DATABASE[query].title}"...`);
+                    
+                    // Показываем модальное окно перед открытием 3D
+                    const modal = document.getElementById('rules-modal');
+                    const checkbox = document.getElementById('agree-checkbox');
+                    const continueBtn = document.getElementById('continue-button');
+                    
+                    // Сбрасываем состояние
+                    checkbox.checked = false;
+                    continueBtn.disabled = true;
+                    
+                    // Обновляем обработчик
+                    continueBtn.onclick = function() {
+                        if (checkbox.checked) {
+                            modal.style.display = 'none';
+                            document.body.style.overflow = 'auto';
+                            showModel(MODEL_DATABASE[query]);
+                        }
+                    };
+                    
+                    modal.style.display = 'flex';
+                    document.body.style.overflow = 'hidden';
+                    
+                    input.value = '';
+                    return;
+                }
+            }
+        });
     };
-    terminalOutput.appendChild(arCommand);
-  }
+}
+
+// Инициализация при загрузке
+document.addEventListener('DOMContentLoaded', function() {
+    init3DViewer();
+    setup3DViewer();
 });
