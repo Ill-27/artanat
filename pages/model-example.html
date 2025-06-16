@@ -11,14 +11,14 @@
   <style>
     body {
       margin: 0;
-      background: #000;
+      background: transparent;
       color: white;
       font-family: sans-serif;
     }
     model-viewer {
       width: 100%;
       height: 100vh;
-      background-color: #000;
+      background-color: transparent;
     }
     .back {
       position: absolute;
@@ -55,8 +55,8 @@
     const viewer = document.getElementById("viewer");
 
     // Пути к файлам
-    const modelGLB = "models/model1.glb";   // замените на ваш путь
-    const modelUSDZ = "models/model1.usdz"; // замените на ваш путь
+    const modelGLB = "models/Lanki_art_1.glb";   // замените на ваш путь
+    const modelUSDZ = "models/Lanki_art_1.usdz"; // замените на ваш путь
 
     // Проверка, устройство от Apple или нет
     const isApple = /iPhone|iPad|iPod/i.test(navigator.userAgent);
