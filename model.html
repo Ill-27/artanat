@@ -1,105 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>3D Viewer + AR</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>3D Модель | ARTANAT</title>
+
+  <!-- model-viewer -->
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <script nomodule src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"></script>
+
   <style>
-    body, html {
+    body {
       margin: 0;
-      overflow: hidden;
-      background: #000;
+      background: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
     }
-    canvas {
-      display: block;
-    }
-    #ar-button {
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      padding: 12px 20px;
-      background: #fff;
-      border: none;
-      border-radius: 10px;
-      font-size: 16px;
-      cursor: pointer;
-      z-index: 10;
+    model-viewer {
+      width: 100%;
+      height: 100vh;
+      background-color: #000;
     }
   </style>
 </head>
 <body>
-  <button id="ar-button">👓 Открыть в AR</button>
-  <script type="module">
-    import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js';
-    import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/loaders/GLTFLoader.js';
-    import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/controls/OrbitControls.js';
 
-    // Основные объекты сцены
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 0.1, 100);
-    camera.position.set(0, 1, 3);
+<!-- Модель с AR -->
+<model-viewer
+  src="model.glb"
+  ios-src="model.usdz"
+  alt="3D модель"
+  ar
+  ar-modes="scene-viewer quick-look webxr"
+  camera-controls
+  touch-action="pan-y"
+  autoplay
+  shadow-intensity="1"
+  exposure="1"
+  auto-rotate
+  environment-image="neutral"
+></model-viewer>
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.shadowMap.enabled = true;
-    document.body.appendChild(renderer.domElement);
-
-    // Свет
-    const light = new THREE.HemisphereLight(0xffffff, 0x444444, 1.2);
-    scene.add(light);
-
-    const dirLight = new THREE.DirectionalLight(0xffffff, 1);
-    dirLight.position.set(3, 10, 10);
-    dirLight.castShadow = true;
-    scene.add(dirLight);
-
-    // Контролы
-    const controls = new OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
-    controls.enableZoom = true;
-    controls.autoRotate = false;
-
-    // Загрузка модели
-    const loader = new GLTFLoader();
-    loader.load('model.glb', (gltf) => {
-      const model = gltf.scene;
-      model.traverse((child) => {
-        if (child.isMesh) {
-          child.castShadow = true;
-          child.receiveShadow = true;
-        }
-      });
-      scene.add(model);
-    }, undefined, (error) => {
-      console.error('Ошибка загрузки модели:', error);
-    });
-
-    // Рендеринг
-    function animate() {
-      requestAnimationFrame(animate);
-      controls.update();
-      renderer.render(scene, camera);
-    }
-    animate();
-
-    // Обработка изменения размера окна
-    window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth/window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    });
-
-    // Кнопка AR
-    const arButton = document.getElementById('ar-button');
-    arButton.addEventListener('click', () => {
-      const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-      const link = document.createElement('a');
-      link.rel = 'ar';
-      link.href = isIOS ? 'model.usdz' : 'model.glb';
-      link.setAttribute('download', '');
-      link.click();
-    });
-  </script>
 </body>
 </html>
