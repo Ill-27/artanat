@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const texts = [
         'Artanat', 'artanat.ru', 
         this.generateId(),
-        'v.2.1.6.25'
+        'v.3.1.6.25'
       ];
       
       const columnWidth = 80 / watermarkConfig.columns;
